@@ -5,6 +5,10 @@
 clubhouse.py
 
 API for Clubhouse (v297 / 0.1.27)
+Developed for education purposes only.
+
+Please know what you're doing!
+Modifying a bit of header could result a permanent block on your account.
 """
 
 import time
@@ -18,10 +22,11 @@ API_BUILD_VERSION = "0.1.27"
 # User information
 API_USER_ID = "CHANGEME"
 API_USER_TOKEN = "CHANGEME"
-API_USER_DEVICE = "CHANGEME"
+API_USER_DEVICE = "CHANGEME" # str(__import__("uuid").uuid4())
 API_USER_AGENT = "clubhouse/297 (iPhone; iOS 13.5.1; Scale/3.00)"
 
-# VOICE_PROTOCOL
+
+# Some useful information for commmunication
 PUBNUB_PUB_KEY = "pub-c-6878d382-5ae6-4494-9099-f930f938868b"
 PUBNUB_SUB_KEY = "sub-c-a4abea84-9ca3-11ea-8e71-f2b83ac9263d"
 
@@ -37,7 +42,7 @@ AMPLITUDE_KEY = "9098a21a950e7cb0933fb5b30affe5be"
 HEADERS = {
     "Authorization": f"Token {API_USER_TOKEN}",
     "CH-Languages": "en-JP,ja-JP",
-    "CH-UserID": f"{API_USER_ID}",
+    "CH-UserID": "(null)",
     "CH-Locale": "en_JP",
     "Accept": "application/json",
     "Accept-Language": "en-JP;q=1, ja-JP;q=0.9",
@@ -48,8 +53,46 @@ HEADERS = {
     "User-Agent": f"{API_USER_AGENT}",
     "Connection": "close",
     "Content-Type": "application/json; charset=utf-8",
-    "Cookie": "__cfduid=def2c5e4b7f2e3ba18ab49625408b043d1613200581",
+    "Cookie": "__cfduid=def2c5e4b7f2e3ba18ab49625408b043d1613200581", # CHANGEME
 }
+
+# Check for authentication
+if API_USER_ID != "CHANGEME":
+    HEADERS['CH-UserID'] = f"{API_USER_ID}"
+    HEADERS['Authorization'] = f"{API_USER_TOKEN}"
+
+
+def start_phone_number_auth(phone_number):
+    """ (str) -> dict
+
+    Begin phone number authentication.
+
+    Phone number examples:
+        +821012341337
+        +818043211234
+        ...
+    """
+    data = {
+        "phone_number": phone_number
+    }
+    req = requests.post(f"https://{API_HOST}/api/start_phone_number_auth", headers=HEADERS, json=data)
+    return req.json()
+
+
+def complete_phone_number_auth(phone_number, verification_code):
+    """ (str, str) -> dict
+
+    Complete phone number authentication.
+    This should return `auth_token`, `access_token`, `refresh_token`, is_waitlisted, ...
+
+    Please note that output may be different depending on the status of the authenticated user
+    """
+    data = {
+        "phone_number": phone_number,
+        "verification_code": verification_code
+    }
+    req = requests.post(f"https://{API_HOST}/api/complete_phone_number_auth", headers=HEADERS, json=data)
+    return req.json()
 
 
 def join_channel(channel, attribution_source="feed"):
