@@ -204,6 +204,33 @@ def get_suggested_speakers(channel):
     return req.json()
 
 
+def create_channel(topic="", user_ids=[], is_private=False, is_social_mode=False):
+    """ (str, list, bool, bool) -> dict
+
+    Create a new channel. Type of the room can be changed.
+    """
+    data = {
+        "is_social_mode": is_social_mode,
+        "is_private": is_private,
+        "club_id": None,
+        "user_ids": user_ids,
+        "event_id": None,
+        "topic": topic
+    }
+    req = requests.post(f"https://{API_HOST}/api/create_channel", headers=HEADERS, json=data)
+    return req.json()
+
+
+def get_create_channel_targets():
+    """ dict
+
+    Not sure what this does.
+    """
+    data = {}
+    req = requests.post(f"https://{API_HOST}/api/get_create_channel_targets", headers=HEADERS, json=data)
+    return req.json()
+
+
 if __name__ == "__main__":
     CURR_CHANNEL = "CHANGEME"
     print(join_channel(CURR_CHANNEL))
