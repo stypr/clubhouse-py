@@ -192,9 +192,21 @@ def accept_speaker_invite(channel, user_id):
     return req.json()
 
 
+def get_suggested_speakers(channel):
+    """ (str) -> dict
+
+    Get suggested speakers from the given channel
+    """
+    data = {
+        "channel": channel
+    }
+    req = requests.post(f"https://{API_HOST}/api/get_suggested_speakers", headers=HEADERS, json=data)
+    return req.json()
+
+
 if __name__ == "__main__":
-    channel = "CHANGEME"
-    print(join_channel(channel))
+    CURR_CHANNEL = "CHANGEME"
+    print(join_channel(CURR_CHANNEL))
     time.sleep(4)
-    print(leave_channel(channel))
+    print(leave_channel(CURR_CHANNEL))
     print("Clubhouse API worked successfully")
