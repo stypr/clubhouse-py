@@ -1,8 +1,12 @@
 ## Clubhouse API for python
 
-For reference & education purposes only. Ships without any warranty.
+For reference and education purposes only. 
 
-Currently, audio-related features (agora.io / pubnub) are not implemented.
+Note that the software comes without any kinds of warranty.
+
+This piece of code was originally developed for the sake of interoperability, but was never used.
+
+Currently, audio-related features (agora.io / pubnub) are not yet implemented.
 
 Please note that you may get a permanent ban for invalid API requests. Clubhouse's rate limit and security mechanisms are quite strict.
 
