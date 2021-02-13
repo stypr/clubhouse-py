@@ -150,12 +150,24 @@ def get_profile_self(return_blocked_ids=False, timezone_identifier="Asia/Tokyo",
     return req.json()
 
 
-def get_channels():
+def get_profile_following(user_id):
+    """ (str) -> dict
+
+    Get list of users
+    """
+    data = {
+        "user_id": user_id
+    }
+    req = requests.post(f"https://{API_HOST}/api/get_following", headers=HEADERS, json=data)
+    return req.json()
+
+
+def get_all_topics():
     """ dict
 
-    Get list of channels, based on the server's channel selection algorithm
+    Get list of topics, based on the server's channel selection algorithm
     """
-    req = requests.get(f"https://{API_HOST}/api/get_channels", headers=HEADERS)
+    req = requests.get(f"https://{API_HOST}/api/get_all_topics", headers=HEADERS)
     return req.json()
 
 
