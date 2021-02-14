@@ -1,16 +1,13 @@
 ## Clubhouse API for python
 
-WARNING: Make sure to take a look at the source code before starting.
+___FOR REFERENCE AND EDUCATION PURPOSES ONLY. DOES NOT PROVIDE ANY KINDS OF WARRANTY.___
 
-For reference and education purposes only. 
-
-Note that the software comes without any kinds of warranty.
-
-This piece of code was originally developed for the sake of interoperability, but was never used.
+`clubhouse-py` is originally developed for the sake of interoperability.
 
 Currently, audio-related features (agora.io / pubnub) are not yet implemented.
 
-Please note that you may get a permanent ban for invalid API requests. Clubhouse's rate limit and security mechanisms are quite strict.
+Please note that you may get a permanent ban for sending invalid API requests. Server's ratelimit and security mechanisms are quite strict.
+
 
 ## Supported features
 
@@ -58,11 +55,11 @@ Please note that you may get a permanent ban for invalid API requests. Clubhouse
 
 ## Reference
 
-There are also some useful references for you.
-
 You may also add more endpoints and features based on the following repositories.
 
-Please note that these repositories were not used to develop this repository. Most of things were tested and handcrafted from scratch.
+Please note that these repositories were not used to develop this repository.
+
+Most of things were tested and handcrafted from scratch.
 
 * https://github.com/zhuowei/ClubhouseAPI
 * https://github.com/Seia-Soto/clubhouse-api
