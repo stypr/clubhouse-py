@@ -1,5 +1,7 @@
 ## Clubhouse API for python
 
+WARNING: Make sure to take a look at the source code before starting.
+
 For reference and education purposes only. 
 
 Note that the software comes without any kinds of warranty.
