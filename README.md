@@ -16,7 +16,10 @@ Please note that you may get a permanent ban for invalid API requests. Clubhouse
 
 There are also some useful references for you.
 
-You can add more endpoints and features based on the following repositories
+You may also add more endpoints and features based on the following repositories.
+
+Please note that these repositories were not used to develop this repository. Most of things were tested and handcrafted from scratch.
+
 * https://github.com/zhuowei/ClubhouseAPI
 * https://github.com/Seia-Soto/clubhouse-api
 
