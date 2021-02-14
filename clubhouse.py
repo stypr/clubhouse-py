@@ -23,7 +23,7 @@ class Clubhouse:
     """
 
     # App/API Information
-    API_HOST = "https://www.clubhouseapi.com/api"
+    API_URL = "https://www.clubhouseapi.com/api"
     API_BUILD_ID = "297"
     API_BUILD_VERSION = "0.1.27"
     API_UA = "clubhouse/297 (iPhone; iOS 13.5.1; Scale/3.00)"
@@ -110,7 +110,7 @@ class Clubhouse:
         data = {
             "phone_number": phone_number
         }
-        req = requests.post(f"{self.API_HOST}/start_phone_number_auth", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/start_phone_number_auth", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -128,7 +128,7 @@ class Clubhouse:
             "phone_number": phone_number,
             "verification_code": verification_code
         }
-        req = requests.post(f"{self.API_HOST}/complete_phone_number_auth", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/complete_phone_number_auth", headers=self.HEADERS, json=data)
         # find out how userId is taken
         return req.json()
 
@@ -143,7 +143,7 @@ class Clubhouse:
         {'has_update': False, 'success': True}
         """
         query = f"is_testflight={int(is_testflight)}"
-        req = requests.get(f"{self.API_HOST}/check_for_update?{query}", headers=self.HEADERS)
+        req = requests.get(f"{self.API_URL}/check_for_update?{query}", headers=self.HEADERS)
         return req.json()
 
 
@@ -157,7 +157,7 @@ class Clubhouse:
         data = {
             "email": email
         }
-        req = requests.post(f"{self.API_HOST}/add_email", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/add_email", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -165,21 +165,28 @@ class Clubhouse:
     def update_photo(self, photo_filename):
         """ (Clubhouse, str) -> dict
 
-        Update photo.
+        Update photo. Please make sure to upload a JPG format.
         """
-        raise NotImplementedError('Not ready')
+        files = {
+            "file": ("image.jpg", open(photo_filename, "rb"), "image/jpeg"),
+        }
+        tmp = self.HEADERS['Content-Type']
+        self.HEADERS.pop("Content-Type")
+        req = requests.post(f"{self.API_URL}/update_photo", headers=self.HEADERS, files=files)
+        self.HEADERS['Content-Type'] = tmp
+        return req.json()
 
 
     @require_authentication
     def unfollow(self, user_id):
         """ (Clubhouse, int) -> dict
 
-        Unfollow a user
+        Unfollow a user.
         """
         data = {
             "user_id": int(user_id)
         }
-        req = requests.post(f"{self.API_HOST}/unfollow", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/unfollow", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -196,7 +203,7 @@ class Clubhouse:
             "user_id": int(user_id),
             "source": source
         }
-        req = requests.post(f"{self.API_HOST}/follow", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/follow", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -210,7 +217,7 @@ class Clubhouse:
             "club_id": int(club_id),
             "source_topic_id": source_topic_id
         }
-        req = requests.post(f"{self.API_HOST}/follow_club", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/follow_club", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -224,7 +231,7 @@ class Clubhouse:
             "club_id": int(club_id),
             "source_topic_id": source_topic_id
         }
-        req = requests.post(f"{self.API_HOST}/unfollow_club", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/unfollow_club", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -239,7 +246,7 @@ class Clubhouse:
             "user_id": int(user_id),
             "notification_type": int(notification_type)
         }
-        req = requests.post(f"{self.API_HOST}/update_follow_notifications", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/update_follow_notifications", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -252,7 +259,7 @@ class Clubhouse:
         data = {
             "user_id": int(user_id),
         }
-        req = requests.post(f"{self.API_HOST}/get_suggested_follows_similar", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/get_suggested_follows_similar", headers=self.HEADERS, json=data)
         return req.json()
 
     @require_authentication
@@ -263,7 +270,7 @@ class Clubhouse:
         """
         _is_filtered = "true" if is_filtered else "false"
         query = f"is_filtered={_is_filtered}&page_size={page_size}&page={page}"
-        req = requests.get(f"{self.API_HOST}/get_events?{query}", headers=self.HEADERS)
+        req = requests.get(f"{self.API_URL}/get_events?{query}", headers=self.HEADERS)
         return req.json()
 
 
@@ -277,7 +284,7 @@ class Clubhouse:
             "club_id": int(club_id),
             "source_topic_id": source_topic_id
         }
-        req = requests.post(f"{self.API_HOST}/get_club", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/get_club", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -294,7 +301,7 @@ class Clubhouse:
             page_size,
             page
         )
-        req = requests.get(f"{self.API_HOST}/get_club_members?{query}", headers=self.HEADERS)
+        req = requests.get(f"{self.API_URL}/get_club_members?{query}", headers=self.HEADERS)
         return req.json()
 
 
@@ -310,7 +317,7 @@ class Clubhouse:
             "attribution_source": attribution_source,
             "attribution_details": "eyJpc19leHBsb3JlIjpmYWxzZSwicmFuayI6MX0=",
         }
-        req = requests.post(f"{self.API_HOST}/join_channel", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/join_channel", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -324,7 +331,7 @@ class Clubhouse:
             "channel": channel,
             "channel_id": None
         }
-        req = requests.post(f"{self.API_HOST}/leave_channel", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/leave_channel", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -337,7 +344,7 @@ class Clubhouse:
         data = {
             "user_id": int(user_id)
         }
-        req = requests.post(f"{self.API_HOST}/get_profile", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/get_profile", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -353,7 +360,7 @@ class Clubhouse:
             "timezone_identifier": timezone_identifier,
             "return_following_ids": return_following_ids
         }
-        req = requests.post(f"{self.API_HOST}/me", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/me", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -366,7 +373,7 @@ class Clubhouse:
         data = {
             "user_id": int(user_id)
         }
-        req = requests.post(f"{self.API_HOST}/get_following", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/get_following", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -376,7 +383,7 @@ class Clubhouse:
 
         Get list of topics, based on the server's channel selection algorithm
         """
-        req = requests.get(f"{self.API_HOST}/get_all_topics", headers=self.HEADERS)
+        req = requests.get(f"{self.API_URL}/get_all_topics", headers=self.HEADERS)
         return req.json()
 
 
@@ -386,7 +393,7 @@ class Clubhouse:
 
         Get list of channels, based on the server's channel selection algorithm
         """
-        req = requests.get(f"{self.API_HOST}/get_channels", headers=self.HEADERS)
+        req = requests.get(f"{self.API_URL}/get_channels", headers=self.HEADERS)
         return req.json()
 
 
@@ -400,7 +407,7 @@ class Clubhouse:
             "channel": channel,
             "chanel_id": None
         }
-        req = requests.post(f"{self.API_HOST}/active_ping", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/active_ping", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -415,7 +422,7 @@ class Clubhouse:
             "raise_hands": raise_hands,
             "unraise_hands": unraise_hands
         }
-        req = requests.post(f"{self.API_HOST}/audience_reply", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/audience_reply", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -432,7 +439,7 @@ class Clubhouse:
         data = {
             "skintone": skintone
         }
-        req = requests.post(f"{self.API_HOST}/update_skintone", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/update_skintone", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -443,7 +450,7 @@ class Clubhouse:
         Get my notifications.
         """
         query = f"page_size={page_size}&page={page}"
-        req = requests.get(f"{self.API_HOST}/get_notifications?{query}", headers=self.HEADERS)
+        req = requests.get(f"{self.API_URL}/get_notifications?{query}", headers=self.HEADERS)
         return req.json()
 
 
@@ -453,7 +460,7 @@ class Clubhouse:
 
         List all online friends.
         """
-        req = requests.post(f"{self.API_HOST}/get_online_friends", headers=self.HEADERS, json={})
+        req = requests.post(f"{self.API_URL}/get_online_friends", headers=self.HEADERS, json={})
         return req.json()
 
 
@@ -468,7 +475,7 @@ class Clubhouse:
             "channel": channel,
             "user_id": int(user_id)
         }
-        req = requests.post(f"{self.API_HOST}/accept_speaker_invite", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/accept_speaker_invite", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -481,7 +488,7 @@ class Clubhouse:
         data = {
             "channel": channel
         }
-        req = requests.post(f"{self.API_HOST}/get_suggested_speakers", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/get_suggested_speakers", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -499,7 +506,7 @@ class Clubhouse:
             "event_id": None,
             "topic": topic
         }
-        req = requests.post(f"{self.API_HOST}/create_channel", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/create_channel", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -510,7 +517,7 @@ class Clubhouse:
         Not sure what this does.
         """
         data = {}
-        req = requests.post(f"{self.API_HOST}/get_create_channel_targets", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/get_create_channel_targets", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -525,7 +532,7 @@ class Clubhouse:
             "upload_contacts": upload_contacts,
             "contacts": contacts
         }
-        req = requests.post(f"{self.API_HOST}/get_suggested_invites", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/get_suggested_invites", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -541,7 +548,7 @@ class Clubhouse:
             "followers_only": followers_only,
             "query": query
         }
-        req = requests.post(f"{self.API_HOST}/search_users", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/search_users", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -557,7 +564,7 @@ class Clubhouse:
             "followers_only": followers_only,
             "query": query
         }
-        req = requests.post(f"{self.API_HOST}/search_clubs", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/search_clubs", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -572,7 +579,7 @@ class Clubhouse:
             page_size,
             page
         )
-        req = requests.get(f"{self.API_HOST}/get_clubs_for_topic?{query}", headers=self.HEADERS)
+        req = requests.get(f"{self.API_URL}/get_clubs_for_topic?{query}", headers=self.HEADERS)
         return req.json()
 
 
@@ -587,7 +594,7 @@ class Clubhouse:
             page_size,
             page
         )
-        req = requests.get(f"{self.API_HOST}/get_users_for_topic?{query}", headers=self.HEADERS)
+        req = requests.get(f"{self.API_URL}/get_users_for_topic?{query}", headers=self.HEADERS)
         return req.json()
 
 
@@ -602,7 +609,7 @@ class Clubhouse:
             "channel": channel,
             "user_id": int(user_id)
         }
-        req = requests.post(f"{self.API_HOST}/invite_to_existing_channel", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_URL}/invite_to_existing_channel", headers=self.HEADERS, json=data)
         return req.json()
 
 
