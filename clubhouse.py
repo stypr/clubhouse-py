@@ -12,7 +12,8 @@ Modifying a bit of header could result a permanent block on your account.
 """
 
 import uuid
-import time
+import random
+import secrets
 import functools
 import requests
 
@@ -22,15 +23,10 @@ class Clubhouse:
     """
 
     # App/API Information
-    API_HOST = "www.clubhouseapi.com"
+    API_HOST = "https://www.clubhouseapi.com/api"
     API_BUILD_ID = "297"
     API_BUILD_VERSION = "0.1.27"
     API_UA = "clubhouse/297 (iPhone; iOS 13.5.1; Scale/3.00)"
-
-    # User information
-    API_USER_ID = None
-    API_USER_TOKEN = None
-    API_USER_DEVICE = None # str(__import__("uuid").uuid4())
 
     # Some useful information for commmunication
     PUBNUB_PUB_KEY = "pub-c-6878d382-5ae6-4494-9099-f930f938868b"
@@ -40,7 +36,7 @@ class Clubhouse:
     TWITTER_SECRET = "ylFImLBFaOE362uwr4jut8S8gXGWh93S1TUKbkfh7jDIPse02o"
 
     AGORA_KEY = "938de3e8055e42b281bb8c6f69c21f78"
-    SENTRY_KEY = "https://5374a416cd2d4009a781b49d1bd9ef44@o325556.ingest.sentry.io/5245095"
+    SENTRY_KEY = "5374a416cd2d4009a781b49d1bd9ef44@o325556.ingest.sentry.io/5245095"
     INSTABUG_KEY = "4e53155da9b00728caa5249f2e35d6b3"
     AMPLITUDE_KEY = "9098a21a950e7cb0933fb5b30affe5be"
 
@@ -56,16 +52,15 @@ class Clubhouse:
         "User-Agent": f"{API_UA}",
         "Connection": "close",
         "Content-Type": "application/json; charset=utf-8",
-        "Cookie": "__cfduid=def2c5e4b7f2e3ba18ab49625408b043d1613200581"
+        "Cookie": f"__cfduid={secrets.token_hex(21)}{random.randint(1, 9)}"
     }
-
 
     def require_authentication(func):
         """ Simple decorator to check for the authentication """
         @functools.wraps(func)
         def wrap(self, *args, **kwargs):
             if not (self.HEADERS.get("CH-UserID") and
-                    self.HEADERS.get("CH-DeviceID") and
+                    self.HEADERS.get("CH-DeviceId") and
                     self.HEADERS.get("Authorization")):
                 raise Exception('Not Authenticated')
             return func(self, *args, **kwargs)
@@ -80,13 +75,17 @@ class Clubhouse:
         self.HEADERS['CH-UserID'] = user_id if user_id else "(null)"
         if user_token:
             self.HEADERS['Authorization'] = f"Token {user_token}"
-        self.HEADERS['CH-DeviceId'] = user_device if user_device else str(uuid.uuid4())
+        self.HEADERS['CH-DeviceId'] = user_device.upper() if user_device else str(uuid.uuid4()).upper()
 
     def __str__(self):
         """ (Clubhouse) -> str
 
         """
-        return f"Clubhouse(user_id={self.HEADERS.get('CH-UserID')}, user_token={self.HEADERS.get('Authorization')}, user_device={self.HEADERS.get('CH-DeviceId')})"
+        return "Clubhouse(user_Id={}, user_token={}, user_device={}".format(
+            self.HEADERS.get('CH-UserID'),
+            self.HEADERS.get('Authorization'),
+            self.HEADERS.get('CH-DeviceId')
+        )
 
     def start_phone_number_auth(self, phone_number):
         """ (Clubhouse, str) -> dict
@@ -103,7 +102,7 @@ class Clubhouse:
         data = {
             "phone_number": phone_number
         }
-        req = requests.post(f"https://{self.API_HOST}/api/start_phone_number_auth", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/start_phone_number_auth", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -121,7 +120,7 @@ class Clubhouse:
             "phone_number": phone_number,
             "verification_code": verification_code
         }
-        req = requests.post(f"https://{self.API_HOST}/api/complete_phone_number_auth", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/complete_phone_number_auth", headers=self.HEADERS, json=data)
         # find out how userId is taken
         return req.json()
 
@@ -138,7 +137,7 @@ class Clubhouse:
             "attribution_source": attribution_source,
             "attribution_details": "eyJpc19leHBsb3JlIjpmYWxzZSwicmFuayI6MX0=",
         }
-        req = requests.post(f"https://{self.API_HOST}/api/join_channel", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/join_channel", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -152,7 +151,7 @@ class Clubhouse:
             "channel": channel,
             "channel_id": None
         }
-        req = requests.post(f"https://{self.API_HOST}/api/leave_channel", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/leave_channel", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -165,7 +164,7 @@ class Clubhouse:
         data = {
             "user_id": user_id
         }
-        req = requests.post(f"https://{self.API_HOST}/api/get_profile", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/get_profile", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -181,7 +180,7 @@ class Clubhouse:
             "timezone_identifier": timezone_identifier,
             "return_following_ids": return_following_ids
         }
-        req = requests.post(f"https://{self.API_HOST}/api/me", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/me", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -194,7 +193,7 @@ class Clubhouse:
         data = {
             "user_id": user_id
         }
-        req = requests.post(f"https://{self.API_HOST}/api/get_following", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/get_following", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -204,7 +203,7 @@ class Clubhouse:
 
         Get list of topics, based on the server's channel selection algorithm
         """
-        req = requests.get(f"https://{self.API_HOST}/api/get_all_topics", headers=self.HEADERS)
+        req = requests.get(f"{self.API_HOST}/get_all_topics", headers=self.HEADERS)
         return req.json()
 
 
@@ -214,7 +213,7 @@ class Clubhouse:
 
         Get list of channels, based on the server's channel selection algorithm
         """
-        req = requests.get(f"https://{self.API_HOST}/api/get_channels", headers=self.HEADERS)
+        req = requests.get(f"{self.API_HOST}/get_channels", headers=self.HEADERS)
         return req.json()
 
 
@@ -228,7 +227,7 @@ class Clubhouse:
             "channel": channel,
             "chanel_id": None
         }
-        req = requests.post(f"https://{self.API_HOST}/api/active_ping", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/active_ping", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -243,7 +242,7 @@ class Clubhouse:
             "raise_hands": raise_hands,
             "unraise_hands": unraise_hands
         }
-        req = requests.post(f"https://{self.API_HOST}/api/audience_reply", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/audience_reply", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -260,7 +259,7 @@ class Clubhouse:
         data = {
             "skintone": skintone
         }
-        req = requests.post(f"https://{self.API_HOST}/api/update_skintone", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/update_skintone", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -271,7 +270,7 @@ class Clubhouse:
         Get my notifications.
         """
         query = f"page_size={page_size}&page={page}"
-        req = requests.get(f"https://{self.API_HOST}/api/get_notifications?{query}", headers=self.HEADERS)
+        req = requests.get(f"{self.API_HOST}/get_notifications?{query}", headers=self.HEADERS)
         return req.json()
 
 
@@ -281,7 +280,7 @@ class Clubhouse:
 
         Get online friends.
         """
-        req = requests.post(f"https://{self.API_HOST}/api/get_online_friends", headers=self.HEADERS, json={})
+        req = requests.post(f"{self.API_HOST}/get_online_friends", headers=self.HEADERS, json={})
         return req.json()
 
 
@@ -296,7 +295,7 @@ class Clubhouse:
             "channel": channel,
             "user_id": int(user_id)
         }
-        req = requests.post(f"https://{self.API_HOST}/api/accept_speaker_invite", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/accept_speaker_invite", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -309,7 +308,7 @@ class Clubhouse:
         data = {
             "channel": channel
         }
-        req = requests.post(f"https://{self.API_HOST}/api/get_suggested_speakers", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/get_suggested_speakers", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -327,7 +326,7 @@ class Clubhouse:
             "event_id": None,
             "topic": topic
         }
-        req = requests.post(f"https://{self.API_HOST}/api/create_channel", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/create_channel", headers=self.HEADERS, json=data)
         return req.json()
 
 
@@ -338,23 +337,49 @@ class Clubhouse:
         Not sure what this does.
         """
         data = {}
-        req = requests.post(f"https://{self.API_HOST}/api/get_create_channel_targets", headers=self.HEADERS, json=data)
+        req = requests.post(f"{self.API_HOST}/get_create_channel_targets", headers=self.HEADERS, json=data)
         return req.json()
 
 
 if __name__ == "__main__":
+    # 1. Confirm that the CLubhouse class is working properly.
+    '''
     CLUBHOUSE = Clubhouse()
-
     print(CLUBHOUSE)
     exit(0)
-    print(CLUBHOUSE.get_channels())
-    CURR_CHANNEL = "CHANGEME"
-    print(CLUBHOUSE.join_channel(CURR_CHANNEL))
-    time.sleep(4)
-    print(CLUBHOUSE.leave_channel(CURR_CHANNEL))
-    print("Clubhouse API worked successfully")
+    '''
 
-    # Check for authentication
-    # if self.API_USER_ID != "CHANGEME":
-    # self.HEADERS['CH-UserID'] = f"{API_USER_ID}"
-    # self.HEADERS['Authorization'] = f"{API_USER_TOKEN}"
+    # Copy uuid from step (1).
+    # 2. Authenticate user by using phone number
+    USER_DEVICE = "8c4190fe-34c1-485c-9ec0-c0f552049f85"
+    USER_PHONE = "+818012341234"
+    VERIFY_CODE = "1234"
+    '''
+    CLUBHOUSE = Clubhouse(user_device=USER_DEVICE)
+    # 2-1. Request for SMS
+    print(CLUBHOUSE.start_phone_number_auth(phone_number=USER_PHONE)
+    # 2-2. Get response from SMS
+    print(CLUBHOUSE.complete_phone_number_auth(phone_number=USER_PHONE, verification_code=VERIFY_CODE))
+    # 2-3. Get `user_id` and `auth_token` from the response..
+    exit(0)
+    '''
+
+    # 3. Try to login as a normal user and get list of channels.
+    '''
+    USER_ID = str(13371337)
+    USER_TOKEN = "CHANGE_ME"
+    CLUBHOUSE = Clubhouse(user_device=USER_DEVICE, user_id=USER_ID, user_token=USER_TOKEN)
+    print(CLUBHOUSE.get_channels())
+    '''
+
+    # 4. Join Channel. continue to be active.
+    '''
+    import time
+    MY_CHANNEL = "ABCD12345"
+    print(CLUBHOUSE.join_channel(MY_CHANNEL))
+    time.sleep(3)
+    # 4-1. You need to continuously ping yourself to keep yourself in the channel
+    print(CLUBHOUSE.active_ping(MY_CHANNEL))
+    time.sleep(2)
+    print(CLUBHOUSE.leave_channel(MY_CHANNEL))
+    '''
