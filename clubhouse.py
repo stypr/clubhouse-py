@@ -64,27 +64,29 @@ class Clubhouse:
         """ Simple decorator to check for the authentication """
         @functools.wraps(func)
         def wrap(self, *args, **kwargs):
-            if self.API_USER_ID is None or self.API_USER_TOKEN is None:
+            if not (self.HEADERS.get("CH-UserID") and
+                    self.HEADERS.get("CH-DeviceID") and
+                    self.HEADERS.get("Authorization")):
                 raise Exception('Not Authenticated')
             return func(self, *args, **kwargs)
         return wrap
 
 
     def __init__(self, user_id='', user_token='', user_device=''):
-        """ (Clubhouse, str, str, str)
+        """ (Clubhouse, str, str, str) -> NoneType
 
         Set default information
         """
-        # TODO: change design..
-        self.API_USER_ID = user_id if user_id else None
-        self.API_USER_TOKEN = user_token if user_token else None
-        self.API_USER_DEVICE = user_device if user_device else uuid.uuid4()
+        self.HEADERS['CH-UserID'] = user_id if user_id else "(null)"
+        if user_token:
+            self.HEADERS['Authorization'] = f"Token {user_token}"
+        self.HEADERS['CH-DeviceId'] = user_device if user_device else str(uuid.uuid4())
 
-        # Update code
-        self.HEADERS['CH-UserID'] = "(null)" if self.API_USER_ID is None else self.API_USER_ID
-        self.HEADERS['Authorization'] = f"Token {self.API_USER_TOKEN}",
-        self.HEADERS['CH-DeviceId'] = self.API_USER_DEVICE
+    def __str__(self):
+        """ (Clubhouse) -> str
 
+        """
+        return f"Clubhouse(user_id={self.HEADERS.get('CH-UserID')}, user_token={self.HEADERS.get('Authorization')}, user_device={self.HEADERS.get('CH-DeviceId')})"
 
     def start_phone_number_auth(self, phone_number):
         """ (Clubhouse, str) -> dict
@@ -96,7 +98,7 @@ class Clubhouse:
             +818043211234
             ...
         """
-        if self.API_USER_ID is not None:
+        if self.HEADERS.get("Authorization"):
             raise Exception('Already Authenticatied')
         data = {
             "phone_number": phone_number
@@ -113,7 +115,7 @@ class Clubhouse:
 
         Please note that output may be different depending on the status of the authenticated user
         """
-        if self.API_USER_ID is not None:
+        if self.HEADERS.get("Authorization"):
             raise Exception('Already Authenticatied')
         data = {
             "phone_number": phone_number,
@@ -343,6 +345,8 @@ class Clubhouse:
 if __name__ == "__main__":
     CLUBHOUSE = Clubhouse()
 
+    print(CLUBHOUSE)
+    exit(0)
     print(CLUBHOUSE.get_channels())
     CURR_CHANNEL = "CHANGEME"
     print(CLUBHOUSE.join_channel(CURR_CHANNEL))
