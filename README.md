@@ -8,7 +8,7 @@ Currently, audio-related features (agora.io / pubnub) are not yet implemented.
 
 Please note that you may get a permanent ban for sending invalid API requests. Server's ratelimit and security mechanisms are quite strict.
 
-## Example Video
+## Demo
 
 Please note that the SDK may be a bit unstable for using the standalone client.
 
