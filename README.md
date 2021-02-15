@@ -59,6 +59,7 @@ Please note that you may get a permanent ban for sending invalid API requests. S
 * def get_following(self, user_id):
 * def get_all_topics(self):
 * def get_channels(self):
+* def get_channel(self, channel, channel_id=None):
 * def active_ping(self, channel):
 * def audience_reply(self, channel, raise_hands=True, unraise_hands=False):
 * def update_skintone(self, skintone=1):
@@ -66,6 +67,7 @@ Please note that you may get a permanent ban for sending invalid API requests. S
 * def get_actionable_notifications(self):
 * def get_online_friends(self):
 * def accept_speaker_invite(self, channel, user_id):
+* def uninvite_speaker(self, channel, user_id):
 * def get_suggested_speakers(self, channel):
 * def create_channel(self, topic="", user_ids=(), is_private=False, is_social_mode=False):
 * def get_create_channel_targets(self):

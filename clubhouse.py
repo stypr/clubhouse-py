@@ -807,6 +807,13 @@ if __name__ == "__main__":
             user_device=USER_DEVICE
         )
 
+        # Initialize Agora
+        if IS_AGORA:
+            rtc = agorartc.createRtcEngineBridge()
+            eventHandler = agorartc.RtcEngineEventHandlerBase()
+            rtc.initEventHandler(eventHandler)
+            rtc.initialize(CLUBHOUSE.AGORA_KEY, None, agorartc.AREA_CODE_GLOB & 0xFFFFFFFF)
+
         @set_interval(10)
         def start_ping_alive(channel):
             """ (str) -> bool
@@ -900,12 +907,7 @@ if __name__ == "__main__":
             _ping = start_ping_alive(channel_name)
 
             # If Agora is installed, You're allowed to communicate with others by using Mic
-            rtc = None
             if IS_AGORA:
-                rtc = agorartc.createRtcEngineBridge()
-                eventHandler = agorartc.RtcEngineEventHandlerBase()
-                rtc.initEventHandler(eventHandler)
-                rtc.initialize(CLUBHOUSE.AGORA_KEY, None, agorartc.AREA_CODE_GLOB & 0xFFFFFFFF)
                 token = channel_info['token']
                 rtc.joinChannel(token, channel_name, "", int(USER_ID))
             else:
@@ -936,16 +938,22 @@ if __name__ == "__main__":
                 _perm.set()
             if IS_AGORA:
                 rtc.leaveChannel()
+
             CLUBHOUSE.leave_channel(channel_name)
             input()
     else:
+
         # If not authenticated, Get yourself authenticated first.
         CLUBHOUSE = Clubhouse()
         USER_PHONE_NUM = input("[*] Enter your phone number (+818043217654): ")
         res = CLUBHOUSE.start_phone_number_auth(USER_PHONE_NUM)
+
+        # If success is returned, server asks for the SMS verification code.
         if res['success']:
             USER_VERIFY_CODE = input("[*] Enter the SMS verification code: ")
             res = CLUBHOUSE.complete_phone_number_auth(USER_PHONE_NUM, USER_VERIFY_CODE)
+
+            # On success, save the config file and restart the code.
             if res['success']:
                 USER_ID = res['user_profile']['user_id']
                 USER_TOKEN = res['auth_token']
@@ -956,4 +964,3 @@ if __name__ == "__main__":
                 print(f"[-] Error occured during authentication. ({res})")
         else:
             print(f"[-] Error occured during authentication. ({res['error_message']})")
-
