@@ -22,13 +22,17 @@ eventHandler = agorartc.RtcEngineEventHandlerBase()
 rtc.initEventHandler(eventHandler)
 rtc.initialize("938de3e8055e42b281bb8c6f69c21f78", None, agorartc.AREA_CODE_GLOB & 0xFFFFFFFF)
 
-# Gather `channel_name`, `token`, `rtm_token`, `user_id` from join_channel API
+# Gather `channel_name`, `token`, `user_id` from join_channel API
 token = ""
-rtm_token = ""
-my_user_id = 12341234
-rtc.joinChannel(token, "channel_name", "", my_user_id)
+channel_name = "A123B456"
+user_id = 1234123400
+rtc.joinChannel(token, channel_name, "", my_user_id)
+# This will enable voice chat.
+input("Press [enter] to quit voice chat.")
 rtc.leaveChannel()
 ```
+
+ with send/recv packets.
 
 ## Supported features
 
