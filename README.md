@@ -8,33 +8,20 @@ Currently, audio-related features (agora.io / pubnub) are not yet implemented.
 
 Please note that you may get a permanent ban for sending invalid API requests. Server's ratelimit and security mechanisms are quite strict.
 
-## Voice Communication
+## Requirements
 
-The following sample code can be used for the voice communication while being in the channel.
+* Windows or OSX
+* Python 3.7 or higher
 
-```python
-import agorartc
-import time
+## Installation
 
-# Token
-rtc = agorartc.createRtcEngineBridge()
-eventHandler = agorartc.RtcEngineEventHandlerBase()
-rtc.initEventHandler(eventHandler)
-rtc.initialize("938de3e8055e42b281bb8c6f69c21f78", None, agorartc.AREA_CODE_GLOB & 0xFFFFFFFF)
+1. You need to install dependencies first.
 
-# Gather `channel_name`, `token`, `user_id` from join_channel API
-token = ""
-channel_name = "A123B456"
-user_id = 1234123400
-rtc.joinChannel(token, channel_name, "", my_user_id)
-# This will enable voice chat.
-input("Press [enter] to quit voice chat.")
-rtc.leaveChannel()
+```bash
+# pip3 install -r requirements.txt
 ```
 
-This code seems to work very reliably on Windows, however it does not seem to be pretty stable in OSX (as of 2021/Feb/15)
-
-For detailed information, Please refer to [agora.io's official Python SDK](https://github.com/AgoraIO-Community/Agora-Python-SDK).
+2. You need to install Agora SDK for voice communication. Refer to [Agora-Python-SDK#installation](https://github.com/AgoraIO-Community/Agora-Python-SDK#installation).
 
 ## Supported features
 
