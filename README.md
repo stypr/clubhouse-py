@@ -32,7 +32,9 @@ input("Press [enter] to quit voice chat.")
 rtc.leaveChannel()
 ```
 
- with send/recv packets.
+This code seems to work very reliably on Windows, however it does not seem to be pretty stable in OSX (as of 2021/Feb/15)
+
+For detailed information, Please refer to [agora.io's official Python SDK](https://github.com/AgoraIO-Community/Agora-Python-SDK).
 
 ## Supported features
 
