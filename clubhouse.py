@@ -788,9 +788,10 @@ def read_config(filename='setting.ini'):
         return dict(config['Account'])
     return dict()
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     # Importing required modules
+    import time
     import keyboard
     from rich.console import Console
     from rich.table import Table
@@ -859,6 +860,16 @@ if __name__ == "__main__":
                     IS_VOICECHAT = False
             return True
 
+        def raise_hands(channel_name):
+            """ (str) -> bool
+
+            Raise hands
+            """
+            if not IS_VOICECHAT:
+                CLUBHOUSE.audience_reply(channel_name, True, False)
+                _perm = check_for_voice_permission(channel_name)
+                print("[.] You've raised your hand. Wait for the moderator to give you permissions.")
+
         while True:
             # List out channels
             console = Console()
@@ -920,24 +931,15 @@ if __name__ == "__main__":
             else:
                 print("[!] Agora SDK is not installed. You may not enter the conversation.")
 
-            print("[*] Press [Enter] to quit chatting.")
             if not IS_VOICECHAT:
-                print("[*] Press [H] to raise your hands for voice chat.")
+                print("[*] Press [Ctrl+Shift+H] to raise your hands for the speaker permission.")
 
             # Read key bindings
             # Sorry for the bad quality
             _perm = None
-            while True:
-                try:
-                    if keyboard.is_pressed('h'):
-                        if not IS_VOICECHAT:
-                            print("[.] You've raised your hand. Wait for the moderator to give you permissions.")
-                            CLUBHOUSE.audience_reply(channel_name, True, False)
-                            _perm = check_for_voice_permission(channel_name)
-                    if keyboard.is_pressed('enter'):
-                        break
-                except Exception:
-                    break
+            keyboard.add_hotkey("ctrl+shift+h", raise_hands, args=(channel_name,))
+            input("[*] Press [Enter] to quit conversation.\n")
+            keyboard.unhook_all()
 
             # Safely leave the channel upon quit
             _ping.set()
@@ -946,7 +948,7 @@ if __name__ == "__main__":
             if IS_AGORA:
                 rtc.leaveChannel()
             CLUBHOUSE.leave_channel(channel_name)
-            input()
+
     else:
         # If not authenticated, Get yourself authenticated first.
         CLUBHOUSE = Clubhouse()
@@ -971,3 +973,4 @@ if __name__ == "__main__":
                 print(f"[-] Error occured during authentication. ({res})")
         else:
             print(f"[-] Error occured during authentication. ({res['error_message']})")
+
