@@ -1,12 +1,16 @@
 ## Clubhouse API for python
 
-___FOR REFERENCE AND EDUCATION PURPOSES ONLY. DOES NOT PROVIDE ANY KINDS OF WARRANTY.___
+___FOR REFERENCE AND EDUCATION PURPOSES ONLY. THIS DOES NOT COME WITH ANY KINDS OF WARRANTY.___
 
 `clubhouse-py` is originally developed for the sake of interoperability.
 
 Currently, audio-related features (agora.io / pubnub) are not yet implemented.
 
 Please note that you may get a permanent ban for sending invalid API requests. Server's ratelimit and security mechanisms are quite strict.
+
+## Example Video
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/1L6bEoNKego/0.jpg)](https://www.youtube.com/watch?v=1L6bEoNKego)
 
 ## Requirements
 
