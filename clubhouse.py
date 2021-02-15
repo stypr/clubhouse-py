@@ -742,6 +742,7 @@ class Clubhouse:
 ###      Standalone CLI Client (Example Code) starts from here.   ###
 ### This is a dummy client. the code is bad, this is just for PoC ###
 
+
 def set_interval(interval):
     """ (int) -> decorator
 
@@ -780,7 +781,7 @@ def write_config(user_id, user_token, user_device, filename='setting.ini'):
 def read_config(filename='setting.ini'):
     """ (str) -> dict of str
 
-    Read Config
+    Read Config.
     """
     config = configparser.ConfigParser()
     config.read(filename)
@@ -791,7 +792,6 @@ def read_config(filename='setting.ini'):
 
 if __name__ == "__main__":
     # Importing required modules
-    import time
     import keyboard
     from rich.console import Console
     from rich.table import Table
@@ -808,7 +808,8 @@ if __name__ == "__main__":
     USER_TOKEN = USER_CONFIG.get('user_token')
     USER_DEVICE = USER_CONFIG.get('user_device')
 
-    IS_VOICECHAT = False # Sorry Mate I didn't realise this was going to be added
+    # Sorry Mate I didn't realise this was going to be added for testing
+    IS_VOICECHAT = False
 
     if USER_ID and USER_TOKEN and USER_DEVICE:
         # If authenticated, list channels
@@ -825,7 +826,7 @@ if __name__ == "__main__":
             rtc.initEventHandler(eventHandler)
             rtc.initialize(CLUBHOUSE.AGORA_KEY, None, agorartc.AREA_CODE_GLOB & 0xFFFFFFFF)
 
-        @set_interval(10)
+        @set_interval(60)
         def start_ping_alive(channel):
             """ (str) -> bool
 
@@ -849,21 +850,21 @@ if __name__ == "__main__":
                         if _user['user_id'] != USER_ID:
                             user_id = _user['user_id']
                             break
+
                     # Check if the moderator allowed your request.
-                    # print(f"Trying... {channel}, {user_id}")
                     res_inv = CLUBHOUSE.accept_speaker_invite(channel, user_id)
                     if res_inv['success']:
-                        print("[-] Now you have a speaker permission. Please re-join this channel to activate ")
+                        print("[-] Now you have a speaker permision. Please re-join this channel to activate ")
                         IS_VOICECHAT = True
                 else:
                     # room is destoryed or something
                     IS_VOICECHAT = False
             return True
 
-        def raise_hands(channel_name):
+        def request_speaker_permission(channel_name):
             """ (str) -> bool
 
-            Raise hands
+            Raise hands for permissions.
             """
             if not IS_VOICECHAT:
                 CLUBHOUSE.audience_reply(channel_name, True, False)
@@ -916,7 +917,7 @@ if __name__ == "__main__":
                     )
                 # Check if the user is the speaker
                 if _users[_idx]['user_id'] == int(USER_ID):
-                    IS_VOICECHAT = True if _users[_idx]['is_speaker'] else False
+                    IS_VOICECHAT = bool(_users[_idx]['is_speaker'])
 
             console.print(table)
 
@@ -937,7 +938,7 @@ if __name__ == "__main__":
             # Read key bindings
             # Sorry for the bad quality
             _perm = None
-            keyboard.add_hotkey("ctrl+shift+h", raise_hands, args=(channel_name,))
+            keyboard.add_hotkey("ctrl+shift+h", request_speaker_permission, args=(channel_name,))
             input("[*] Press [Enter] to quit conversation.\n")
             keyboard.unhook_all()
 
@@ -973,4 +974,3 @@ if __name__ == "__main__":
                 print(f"[-] Error occured during authentication. ({res})")
         else:
             print(f"[-] Error occured during authentication. ({res['error_message']})")
-
