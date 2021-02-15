@@ -69,6 +69,7 @@ class Clubhouse:
 
     def __init__(self, user_id='', user_token='', user_device=''):
         """ (Clubhouse, str, str, str) -> NoneType
+
         Set authenticated information
         """
         self.HEADERS['CH-UserID'] = user_id if user_id else "(null)"
@@ -78,7 +79,9 @@ class Clubhouse:
 
     def __str__(self):
         """ (Clubhouse) -> str
+
         Get information about the given class.
+
         >>> clubhouse = Clubhouse()
         >>> str(clubhouse)
         Clubhouse(user_id=(null), user_token=None, user_device=31525f52-6b67-40de-83c0-8f9fe0f6f409)
@@ -91,8 +94,10 @@ class Clubhouse:
 
     def start_phone_number_auth(self, phone_number):
         """ (Clubhouse, str) -> dict
+
         Begin phone number authentication.
         Some examples for the phone number.
+
         >>> clubhouse = Clubhouse()
         >>> clubhouse.start_phone_number_auth("+821012341337")
         ...
@@ -109,6 +114,7 @@ class Clubhouse:
 
     def complete_phone_number_auth(self, phone_number, verification_code):
         """ (Clubhouse, str, str) -> dict
+
         Complete phone number authentication.
         This should return `auth_token`, `access_token`, `refresh_token`, is_waitlisted, ...
         Please note that output may be different depending on the status of the authenticated user
@@ -124,7 +130,9 @@ class Clubhouse:
 
     def check_for_update(self, is_testflight=False):
         """ (Clubhouse, bool) -> dict
+
         Check for app updates.
+
         >>> clubhouse = Clubhouse()
         >>> clubhouse.check_for_update(False)
         {'has_update': False, 'success': True}
@@ -136,6 +144,7 @@ class Clubhouse:
     @require_authentication
     def add_email(self, email):
         """ (Clubhouse, str) -> dict
+
         Request for email verification.
         You only need to do this once.
         """
@@ -148,6 +157,7 @@ class Clubhouse:
     @require_authentication
     def update_photo(self, photo_filename):
         """ (Clubhouse, str) -> dict
+
         Update photo. Please make sure to upload a JPG format.
         """
         files = {
@@ -162,6 +172,7 @@ class Clubhouse:
     @require_authentication
     def unfollow(self, user_id):
         """ (Clubhouse, int) -> dict
+
         Unfollow a user.
         """
         data = {
@@ -173,6 +184,7 @@ class Clubhouse:
     @require_authentication
     def follow(self, user_id, user_ids=None, source=4, source_topic_id=None):
         """ (Clubhouse, int, list, int, int) -> dict
+
         Follow a user.
         Different value for `source` may require different parameters to be set
         """
@@ -188,6 +200,7 @@ class Clubhouse:
     @require_authentication
     def follow_club(self, club_id, source_topic_id=None):
         """ (Clubhouse, int, int) -> dict
+
         Follow a club
         """
         data = {
@@ -200,6 +213,7 @@ class Clubhouse:
     @require_authentication
     def unfollow_club(self, club_id, source_topic_id=None):
         """ (Clubhouse, int, int) -> dict
+
         Unfollow a club
         """
         data = {
@@ -212,6 +226,7 @@ class Clubhouse:
     @require_authentication
     def update_follow_notifications(self, user_id, notification_type=2):
         """ (Clubhouse, str, int) -> dict
+
         Update notification frequency for the given user.
         1 = Always notify, 2 = Sometimes, 3 = Never
         """
@@ -225,6 +240,7 @@ class Clubhouse:
     @require_authentication
     def get_suggested_follows_similar(self, user_id):
         """ (Clubhouse, int) -> dict
+
         Get similar users based on the given user.
         """
         data = {
@@ -236,6 +252,7 @@ class Clubhouse:
     @require_authentication
     def get_suggested_follows_friends_only(self, club_id=None, upload_contacts=True, contacts=()):
         """ (Clubhouse, int, int, list of dict) -> dict
+
         Get users based on the phone number.
         Only seems to be used upon signup.
         """
@@ -250,6 +267,7 @@ class Clubhouse:
     @require_authentication
     def get_suggested_follows_all(self, in_onboarding=True, page_size=50, page=1):
         """ (Clubhouse, bool, int, int) -> dict
+
         Get all suggested follows.
         """
         query = "in_onboarding={}&page_size={}&page={}".format(
@@ -263,6 +281,7 @@ class Clubhouse:
     @require_authentication
     def get_events(self, is_filtered=True, page_size=25, page=1):
         """ (Clubhouse, bool, int, int) -> dict
+
         Get list of upcoming events with details.
         """
         _is_filtered = "true" if is_filtered else "false"
@@ -277,6 +296,7 @@ class Clubhouse:
     @require_authentication
     def get_club(self, club_id, source_topic_id=None):
         """ (Clubhouse, int, int) -> dict
+
         Get the information about the given club_id.
         """
         data = {
@@ -289,6 +309,7 @@ class Clubhouse:
     @require_authentication
     def get_club_members(self, club_id, return_followers=False, return_members=True, page_size=50, page=1):
         """ (Clubhouse, int, bool, bool, int, int) -> dict
+
         Get list of members on the given club_id.
         """
         query = "club_id={}&return_followers={}&return_members={}&page_size={}&page={}".format(
@@ -304,6 +325,7 @@ class Clubhouse:
     @require_authentication
     def get_settings(self):
         """ (Clubhouse) -> dict
+
         Receive user's settings.
         /update_notifications
         """
@@ -313,6 +335,7 @@ class Clubhouse:
     @require_authentication
     def get_welcome_channel(self):
         """ (Clubhouse) -> dict
+
         Seems to be called upon sign up. Does not seem to return much data.
         """
         req = requests.get(f"{self.API_URL}/get_welcome_channel", headers=self.HEADERS)
@@ -321,6 +344,7 @@ class Clubhouse:
     @require_authentication
     def join_channel(self, channel, attribution_source="feed"):
         """ (Clubhouse, str, str) -> dict
+
         Join the given channel
         """
         # Join channel
@@ -335,6 +359,7 @@ class Clubhouse:
     @require_authentication
     def leave_channel(self, channel):
         """ (Clubhouse, str) -> dict
+
         Leave the given channel
         """
         data = {
@@ -347,6 +372,7 @@ class Clubhouse:
     @require_authentication
     def get_profile(self, user_id):
         """ (Clubhouse, str) -> dict
+
         Lookup someone else's profile. It is OK to one's own profile with this method.
         """
         data = {
@@ -358,6 +384,7 @@ class Clubhouse:
     @require_authentication
     def get_profile_self(self, return_blocked_ids=False, timezone_identifier="Asia/Tokyo", return_following_ids=False):
         """ (Clubhouse, bool, str, bool) -> dict
+
         Get my information
         """
         data = {
@@ -371,6 +398,7 @@ class Clubhouse:
     @require_authentication
     def get_following(self, user_id):
         """ (Clubhouse, str) -> dict
+
         Get list of users who are following the given user_id
         """
         data = {
@@ -382,6 +410,7 @@ class Clubhouse:
     @require_authentication
     def get_all_topics(self):
         """ (Clubhouse) -> dict
+
         Get list of topics, based on the server's channel selection algorithm
         """
         req = requests.get(f"{self.API_URL}/get_all_topics", headers=self.HEADERS)
@@ -390,14 +419,29 @@ class Clubhouse:
     @require_authentication
     def get_channels(self):
         """ (Clubhouse) -> dict
+
         Get list of channels, based on the server's channel selection algorithm
         """
         req = requests.get(f"{self.API_URL}/get_channels", headers=self.HEADERS)
         return req.json()
 
     @require_authentication
+    def get_channel(self, channel, channel_id=None):
+        """ (Clubhouse, str, int) -> dict
+
+        Get information of the given channel
+        """
+        data = {
+            "channel": channel,
+            "channel_id": channel_id
+        }
+        req = requests.post(f"{self.API_URL}/get_channel", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
     def active_ping(self, channel):
         """ (Clubhouse, str) -> dict
+
         Keeping the user active while being in a chatroom
         """
         data = {
@@ -410,6 +454,7 @@ class Clubhouse:
     @require_authentication
     def audience_reply(self, channel, raise_hands=True, unraise_hands=False):
         """ (Clubhouse, str, bool, bool) -> bool
+
         Request for raise_hands.
         """
         data = {
@@ -423,6 +468,7 @@ class Clubhouse:
     @require_authentication
     def update_skintone(self, skintone=1):
         """ (Clubhouse, int) -> dict
+
         Updating skinetone for raising hands, etc.
         """
         skintone = int(skintone)
@@ -438,6 +484,7 @@ class Clubhouse:
     @require_authentication
     def get_notifications(self, page_size=20, page=1):
         """ (Clubhouse, int, int) -> dict
+
         Get my notifications.
         """
         query = f"page_size={page_size}&page={page}"
@@ -447,6 +494,7 @@ class Clubhouse:
     @require_authentication
     def get_actionable_notifications(self):
         """ (Clubhouse, int, int) -> dict
+
         Get notifications. This may return some notifications that require some actions
         """
         req = requests.get(f"{self.API_URL}/get_actionable_notifications", headers=self.HEADERS)
@@ -455,6 +503,7 @@ class Clubhouse:
     @require_authentication
     def get_online_friends(self):
         """ (Clubhouse) -> dict
+
         List all online friends.
         """
         req = requests.post(f"{self.API_URL}/get_online_friends", headers=self.HEADERS, json={})
@@ -463,6 +512,7 @@ class Clubhouse:
     @require_authentication
     def accept_speaker_invite(self, channel, user_id):
         """ (Clubhouse, str, int) -> dict
+
         Accept speaker's invitation, based on the (channel, invited_moderator)
         `raise_hands` needs to be called first, prior to the invitation.
         """
@@ -474,8 +524,22 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
+    def uninvite_speaker(self, channel, user_id):
+        """ (Clubhouse, str, int) -> dict
+
+        Move speaker to audience
+        """
+        data = {
+            "channel": channel,
+            "user_id": int(user_id)
+        }
+        req = requests.post(f"{self.API_URL}/uninvite_speaker", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
     def get_suggested_speakers(self, channel):
         """ (Clubhouse, str) -> dict
+
         Get suggested speakers from the given channel
         """
         data = {
@@ -487,6 +551,7 @@ class Clubhouse:
     @require_authentication
     def create_channel(self, topic="", user_ids=(), is_private=False, is_social_mode=False):
         """ (Clubhouse, str, list, bool, bool) -> dict
+
         Create a new channel. Type of the room can be changed.
         """
         data = {
@@ -503,6 +568,7 @@ class Clubhouse:
     @require_authentication
     def get_create_channel_targets(self):
         """ (Clubhouse) -> dict
+
         Not sure what this does. Triggered during channel creation
         """
         data = {}
@@ -512,6 +578,7 @@ class Clubhouse:
     @require_authentication
     def get_suggested_invites(self, club_id=None, upload_contacts=True, contacts=()):
         """ (Clubhouse, int, bool, list of dict) -> dict
+
         Get invitations and user lists based on phone number.
         contacts: [{"name": "Test Name", "phone_number": "+821043219876"}, ...]
         """
@@ -526,6 +593,7 @@ class Clubhouse:
     @require_authentication
     def get_suggested_club_invites(self, upload_contacts=True, contacts=()):
         """ (Clubhouse, int, bool, list of dict) -> dict
+
         Get user lists based on phone number. For inviting clubs.
         contacts: [{"name": "Test Name", "phone_number": "+821043219876"}, ...]
         """
@@ -539,6 +607,7 @@ class Clubhouse:
     @require_authentication
     def invite_to_app(self, name, phone_number, message=None):
         """ (Clubhouse, str, str, str) -> dict
+
         Invite users to app. but this only works when you have a leftover invitation.
         """
         data = {
@@ -552,6 +621,7 @@ class Clubhouse:
     @require_authentication
     def invite_from_waitlist(self, user_id):
         """ (Clubhouse, str, str, str) -> dict
+
         Invite someone from the waitlist.
         This is much more reliable than inviting someone by invite_to_app
         """
@@ -564,6 +634,7 @@ class Clubhouse:
     @require_authentication
     def search_users(self, query, followers_only=False, following_only=False, cofollows_only=False):
         """ (Clubhouse, str, bool, bool, bool) -> dict
+
         Search users based on the given query.
         """
         data = {
@@ -578,6 +649,7 @@ class Clubhouse:
     @require_authentication
     def search_clubs(self, query, followers_only=False, following_only=False, cofollows_only=False):
         """ (Clubhouse, str, bool, bool, bool) -> dict
+
         Search clubs based on the given query.
         """
         data = {
@@ -592,6 +664,7 @@ class Clubhouse:
     @require_authentication
     def get_clubs_for_topic(self, topic_id, page_size=25, page=1):
         """ (Clubhouse, int, int, int) -> dict
+
         Get list of clubs based on the given topic id.
         """
         query = "topic_id={}&page_size={}&page={}".format(
@@ -605,6 +678,7 @@ class Clubhouse:
     @require_authentication
     def get_users_for_topic(self, topic_id, page_size=25, page=1):
         """ (Clubhouse, int, int, int) -> dict
+
         Get list of users based on the given topic id.
         """
         query = "topic_id={}&page_size={}&page={}".format(
@@ -618,6 +692,7 @@ class Clubhouse:
     @require_authentication
     def invite_to_existing_channel(self, channel, user_id):
         """ (Clubhouse, str, int) -> dict
+
         Invite someone to a currently joined channel.
         It will send a ping notification to the given user_id.
         """
@@ -631,6 +706,7 @@ class Clubhouse:
     @require_authentication
     def update_username(self, username):
         """ (Clubhouse, str) -> dict
+
         Change username
         """
         data = {
@@ -642,6 +718,7 @@ class Clubhouse:
     @require_authentication
     def refresh_token(self, refresh_token):
         """ (Clubhouse, str) -> dict
+
         Refresh the JWT token. returns both access and refresh token.
         """
         data = {
@@ -650,8 +727,9 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/refresh_token", headers=self.HEADERS, json=data)
         return req.json()
 
-###       CLI Example Code starts from here.       ###
-### It may or may not work. Correct it by yourself ###
+
+###                CLI Example Code starts from here.             ###
+### This is a dummy client. the code is bad, this is just for PoC ###
 
 def set_interval(interval):
     """ (int) -> decorator
@@ -719,6 +797,8 @@ if __name__ == "__main__":
     USER_TOKEN = USER_CONFIG.get('user_token')
     USER_DEVICE = USER_CONFIG.get('user_device')
 
+    IS_VOICECHAT = False # Sorry Mate I didn't realise this was going to be added
+
     if USER_ID and USER_TOKEN and USER_DEVICE:
         # If authenticated, list channels
         CLUBHOUSE = Clubhouse(
@@ -727,13 +807,39 @@ if __name__ == "__main__":
             user_device=USER_DEVICE
         )
 
-        @set_interval(60)
+        @set_interval(10)
         def start_ping_alive(channel):
-            """ (str) -> obol
+            """ (str) -> bool
 
             Begin ping alive every 60 seconds.
             """
             CLUBHOUSE.active_ping(channel)
+            return True
+
+        @set_interval(20)
+        def check_for_voice_permission(channel):
+            """ (str) -> bool
+
+            Function that runs when you've requested for a voice permission.
+            """
+            global IS_VOICECHAT
+            if not IS_VOICECHAT:
+                # Get some random users from the channel.
+                channel_info = CLUBHOUSE.get_channel(channel)
+                if channel_info['success']:
+                    for _user in channel_info['users']:
+                        if _user['user_id'] != USER_ID:
+                            user_id = _user['user_id']
+                            break
+                    # Check if the moderator allowed your request.
+                    # print(f"Trying... {channel}, {user_id}")
+                    res = CLUBHOUSE.accept_speaker_invite(channel, user_id)
+                    if res['success']:
+                        print("[-] Now you have a speaker permission. Please re-join this channel to activate ")
+                        IS_VOICECHAT = True
+                else:
+                    # room is destoryed or something
+                    IS_VOICECHAT = False
             return True
 
         while True:
@@ -761,7 +867,36 @@ if __name__ == "__main__":
                 print(f"[-] Error while joining the channel ({channel_info['error_message']})")
                 continue
 
+            # Check if the user
+            console = Console()
+            table = Table(show_header=True, header_style="bold magenta")
+            table.add_column("user_id", style="cyan", justify="right")
+            table.add_column("username")
+            table.add_column("name")
+            table.add_column("is_speaker")
+            table.add_column("is_moderator")
+            _users = channel_info['users']
+            for _idx in range(len(_users)):
+                # Only display top 20
+                if _idx < 20:
+                    table.add_row(
+                        str(_users[_idx]['user_id']),
+                        str(_users[_idx]['name']),
+                        str(_users[_idx]['username']),
+                        str(_users[_idx]['is_speaker']),
+                        str(_users[_idx]['is_moderator']),
+                    )
+                # Check if the user is the speaker
+                if _users[_idx]['user_id'] == int(USER_ID):
+                    if _users[_idx]['is_speaker']:
+                        IS_VOICECHAT = True
+                    else:
+                        IS_VOICECHAT = False
+
+            console.print(table)
+
             # Start async ping alive every 60 seconds.
+            CLUBHOUSE.active_ping(channel_name)
             _ping = start_ping_alive(channel_name)
 
             # If Agora is installed, You're allowed to communicate with others by using Mic
@@ -777,18 +912,32 @@ if __name__ == "__main__":
                 print("[!] Agora SDK is not installed. You may not enter the conversation.")
 
             print("[*] Press [Enter] to quit chatting.")
+            if not IS_VOICECHAT:
+                print("[*] Press [H] to raise your hands for voice chat.")
+
+            # Read key bindings
+            # Sorry for the bad quality
+            _perm = None
             while True:
                 try:
+                    if keyboard.is_pressed('h'):
+                        if not IS_VOICECHAT:
+                            print("[.] You've raised your hand. Wait for the moderator to give you permissions.")
+                            CLUBHOUSE.audience_reply(channel_name, True, False)
+                            _perm = check_for_voice_permission(channel_name)
                     if keyboard.is_pressed('enter'):
                         break
                 except Exception:
                     break
 
-            # On quit, Safely leave the channel
+            # Safely leave the channel upon quit
             _ping.set()
+            if _perm:
+                _perm.set()
             if IS_AGORA:
                 rtc.leaveChannel()
             CLUBHOUSE.leave_channel(channel_name)
+            input()
     else:
         # If not authenticated, Get yourself authenticated first.
         CLUBHOUSE = Clubhouse()
@@ -807,3 +956,4 @@ if __name__ == "__main__":
                 print(f"[-] Error occured during authentication. ({res})")
         else:
             print(f"[-] Error occured during authentication. ({res['error_message']})")
+
