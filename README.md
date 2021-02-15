@@ -8,6 +8,27 @@ Currently, audio-related features (agora.io / pubnub) are not yet implemented.
 
 Please note that you may get a permanent ban for sending invalid API requests. Server's ratelimit and security mechanisms are quite strict.
 
+## Voice Communication
+
+The following sample code can be used for the voice communication while being in the channel.
+
+```python
+import agorartc
+import time
+
+# Token
+rtc = agorartc.createRtcEngineBridge()
+eventHandler = agorartc.RtcEngineEventHandlerBase()
+rtc.initEventHandler(eventHandler)
+rtc.initialize("938de3e8055e42b281bb8c6f69c21f78", None, agorartc.AREA_CODE_GLOB & 0xFFFFFFFF)
+
+# Gather `channel_name`, `token`, `rtm_token`, `user_id` from join_channel API
+token = ""
+rtm_token = ""
+my_user_id = 12341234
+rtc.joinChannel(rtm_token, "channel_name", "", my_user_id)
+rtc.leaveChannel()
+```
 
 ## Supported features
 
