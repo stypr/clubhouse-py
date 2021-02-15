@@ -26,7 +26,7 @@ rtc.initialize("938de3e8055e42b281bb8c6f69c21f78", None, agorartc.AREA_CODE_GLOB
 token = ""
 rtm_token = ""
 my_user_id = 12341234
-rtc.joinChannel(rtm_token, "channel_name", "", my_user_id)
+rtc.joinChannel(token, "channel_name", "", my_user_id)
 rtc.leaveChannel()
 ```
 
