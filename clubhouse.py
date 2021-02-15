@@ -854,7 +854,7 @@ if __name__ == "__main__":
                     # Check if the moderator allowed your request.
                     res_inv = CLUBHOUSE.accept_speaker_invite(channel, user_id)
                     if res_inv['success']:
-                        print("[-] Now you have a speaker permision. Please re-join this channel to activate ")
+                        print("[-] Now you have a speaker permission. Please re-join this channel to activate a permission.")
                         IS_VOICECHAT = True
                 else:
                     # room is destoryed or something
@@ -869,7 +869,7 @@ if __name__ == "__main__":
             if not IS_VOICECHAT:
                 CLUBHOUSE.audience_reply(channel_name, True, False)
                 _perm = check_for_voice_permission(channel_name)
-                print("[.] You've raised your hand. Wait for the moderator to give you permissions.")
+                print("[.] You've raised your hand. Wait for the moderator to give you the permission.")
 
         while True:
             # List out channels
