@@ -327,7 +327,6 @@ class Clubhouse:
         """ (Clubhouse) -> dict
 
         Receive user's settings.
-        /update_notifications
         """
         req = requests.get(f"{self.API_URL}/get_settings", headers=self.HEADERS)
         return req.json()
@@ -727,8 +726,20 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/refresh_token", headers=self.HEADERS, json=data)
         return req.json()
 
+    @require_authentication
+    def update_bio(self, bio):
+        """ (Clubhouse, str) -> dict
 
-###                CLI Example Code starts from here.             ###
+        Update bio on your profile
+        """
+        data = {
+            "bio": bio
+        }
+        req = requests.post(f"{self.API_URL}/update_bio", headers=self.HEADERS, json=data)
+        return req.json()
+
+
+###      Standalone CLI Client (Example Code) starts from here.   ###
 ### This is a dummy client. the code is bad, this is just for PoC ###
 
 def set_interval(interval):
@@ -743,7 +754,6 @@ def set_interval(interval):
             def loop():
                 while not stopped.wait(interval):
                     func(*args, **kwargs)
-
             thread = threading.Thread(target=loop)
             thread.daemon = True
             thread.start()
@@ -818,7 +828,7 @@ if __name__ == "__main__":
         def start_ping_alive(channel):
             """ (str) -> bool
 
-            Begin ping alive every 60 seconds.
+            Begin ping alive every 10 seconds.
             """
             CLUBHOUSE.active_ping(channel)
             return True
@@ -832,16 +842,16 @@ if __name__ == "__main__":
             global IS_VOICECHAT
             if not IS_VOICECHAT:
                 # Get some random users from the channel.
-                channel_info = CLUBHOUSE.get_channel(channel)
-                if channel_info['success']:
-                    for _user in channel_info['users']:
+                _channel_info = CLUBHOUSE.get_channel(channel)
+                if _channel_info['success']:
+                    for _user in _channel_info['users']:
                         if _user['user_id'] != USER_ID:
                             user_id = _user['user_id']
                             break
                     # Check if the moderator allowed your request.
                     # print(f"Trying... {channel}, {user_id}")
-                    res = CLUBHOUSE.accept_speaker_invite(channel, user_id)
-                    if res['success']:
+                    res_inv = CLUBHOUSE.accept_speaker_invite(channel, user_id)
+                    if res_inv['success']:
                         print("[-] Now you have a speaker permission. Please re-join this channel to activate ")
                         IS_VOICECHAT = True
                 else:
@@ -895,10 +905,7 @@ if __name__ == "__main__":
                     )
                 # Check if the user is the speaker
                 if _users[_idx]['user_id'] == int(USER_ID):
-                    if _users[_idx]['is_speaker']:
-                        IS_VOICECHAT = True
-                    else:
-                        IS_VOICECHAT = False
+                    IS_VOICECHAT = True if _users[_idx]['is_speaker'] else False
 
             console.print(table)
 
@@ -938,27 +945,27 @@ if __name__ == "__main__":
                 _perm.set()
             if IS_AGORA:
                 rtc.leaveChannel()
-
             CLUBHOUSE.leave_channel(channel_name)
             input()
     else:
-
         # If not authenticated, Get yourself authenticated first.
         CLUBHOUSE = Clubhouse()
         USER_PHONE_NUM = input("[*] Enter your phone number (+818043217654): ")
         res = CLUBHOUSE.start_phone_number_auth(USER_PHONE_NUM)
-
-        # If success is returned, server asks for the SMS verification code.
         if res['success']:
             USER_VERIFY_CODE = input("[*] Enter the SMS verification code: ")
             res = CLUBHOUSE.complete_phone_number_auth(USER_PHONE_NUM, USER_VERIFY_CODE)
-
-            # On success, save the config file and restart the code.
             if res['success']:
                 USER_ID = res['user_profile']['user_id']
                 USER_TOKEN = res['auth_token']
                 USER_DEVICE = CLUBHOUSE.HEADERS.get("CH-DeviceId")
                 write_config(USER_ID, USER_TOKEN, USER_DEVICE)
+
+                if res['is_waitlisted']:
+                    print("[!] You're still on the waitlist. Find your friends")
+                if not res['is_onboarding']:
+                    print("[!] Welcome to Clubhouse! You should better use a real device before using the application.")
+
                 print("[/] Restart application to start Clubhouse!")
             else:
                 print(f"[-] Error occured during authentication. ({res})")

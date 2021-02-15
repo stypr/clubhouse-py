@@ -10,6 +10,8 @@ Please note that you may get a permanent ban for sending invalid API requests. S
 
 ## Example Video
 
+Please note that the SDK may be a bit unstable for using the standalone client.
+
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/1L6bEoNKego/0.jpg)](https://www.youtube.com/watch?v=1L6bEoNKego)
 
 ## Requirements
@@ -26,6 +28,25 @@ Please note that you may get a permanent ban for sending invalid API requests. S
 ```
 
 2. You need to install Agora SDK for voice communication. Refer to [Agora-Python-SDK#installation](https://github.com/AgoraIO-Community/Agora-Python-SDK#installation).
+
+## Usage
+
+* For calling APIs from other script
+
+```
+from clubhouse import Clubhouse
+
+...
+
+if __name__ == "__main__":
+    clubhouse = Clubhouse()
+```
+
+* For running a standalone test client
+
+```bash
+# python3 clubhouse.py
+```
 
 ## Supported features
 
@@ -82,6 +103,7 @@ Please note that you may get a permanent ban for sending invalid API requests. S
 * def invite_to_existing_channel(self, channel, user_id):
 * def update_username(self, username):
 * def refresh_token(self, refresh_token):
+* def update_bio(self, bio):
 
 ## Reference
 
