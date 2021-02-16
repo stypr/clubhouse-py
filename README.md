@@ -4,7 +4,7 @@ ___FOR REFERENCE AND EDUCATION PURPOSES ONLY. THIS DOES NOT COME WITH ANY KINDS 
 
 `clubhouse-py` is originally developed for the sake of interoperability.
 
-Currently, audio-related features (agora.io / pubnub) are not yet implemented.
+Standalone client is also created with very basic features, including but not limited to the audio-chat.
 
 Please note that you may get a permanent ban for sending invalid API requests. Server's ratelimit and security mechanisms are quite strict.
 
@@ -42,10 +42,10 @@ if __name__ == "__main__":
     clubhouse = Clubhouse()
 ```
 
-* For running a standalone test client
+* For running a standalone client
 
 ```sh
-$ python3 clubhouse.py
+$ python3 cli.py
 ```
 
 ## Supported features
@@ -171,14 +171,14 @@ $ python3 clubhouse.py
 
 ### PubNub
 
-This one is the notification part of the Clubhouse while being in a chatroom.
-You may utilize the keys provided in the sourcecode to implement that notification feature.
+PubNub is used for the notification while being in a conversation.
+This has not been implemented yet. However, you may utilize the PubSub keys provided in the sourcecode to implement this.
 
 ## Reference
 
 You may also add more endpoints and features based on the following repositories.
 
-Please note that these repositories were not used to develop this repository.
+Please note that these repositories were partially referenced to create this project.
 
 Most of things were tested and handcrafted from scratch.
 
