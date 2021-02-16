@@ -129,55 +129,49 @@ $ python3 clubhouse.py
 * def invite_to_existing_channel(self, channel, user_id):
 * def update_username(self, username):
 * def update_name(self, name):
-* def update_displayname(self, name):
 * def update_twitter_username(self, username, twitter_token, twitter_secret):
 * def update_instagram_username(self, code):
+* def update_displayname(self, name):
 * def refresh_token(self, refresh_token):
 * def update_bio(self, bio):
 * def record_action_trails(self, action_trails=()):
+* def add_user_topic(self, club_id, topic_id):
+* def remove_user_topic(self, club_id, topic_id):
+* def report_incident(self, user_id, channel, incident_type, incident_description, email):
+* def reject_welcome_channel(self):
+* def update_channel_flags(self, channel, visibility, flag_title, unflag_title):
+* def ignore_actionable_notification(self, actionable_notification_id):
+* def invite_to_new_channel(self, user_id, channel):
+* def accept_new_channel_invite(self, channel_invite_id):
+* def reject_new_channel_invite(self, channel_invite_id):
+* def cancel_new_channel_invite(self, channel_invite_id):
+* def add_club_admin(self, club_id, user_id):
+* def remove_club_admin(self, club_id, user_id):
+* def remove_club_member(self, club_id, user_id):
+* def accept_club_member_invite(self, club_id, source_topic_id=None):
+* def add_club_member(self, club_id, user_id, name, phone_number, message, reason):
+* def get_club_nominations(self, club_id, source_topic_id):
+* def approve_club_nomination(self, club_id, source_topic_id, invite_nomination_id):
+* def reject_club_nomination(self, club_id, source_topic_id, invite_nomination_id):
+* def add_club_topic(self, club_id, topic_id):
+* def remove_club_topic(self, club_id, topic_id):
+* def get_events_to_start(self):
+* def update_is_follow_allowed(self, club_id, is_follow_allowed=True):
+* def update_is_membership_private(self, club_id, is_membership_private):
+* def update_is_community(self, club_id, is_community):
+* def update_club_description(self, club_id, description):
 
 ## Unsupported features
 
 ### Endpoints
 
-There are still some remaining endpoints, however these endpoints does not seem to be very important for building an unofficial build.
-
-I'll try to add the remaining endpoints in my free time.
-
-* add_user_topic
-* remove_user_topic
-* report_incident
-* invite_to_existing_channel
-* reject_welcome_channel
-* get_create_channel_targets
-* update_channel_flags
-* ignore_actionable_notification
-* invite_to_new_channel
-* accept_new_channel_invite
-* reject_new_channel_invite
-* cancel_new_channel_invite
-* add_club_admin
-* add_club_member
-* remove_club_admin
-* remove_club_member
-* accept_club_member_invite
-* get_club_nominations
-* approve_club_nomination
-* reject_club_nomination
-* update_is_follow_allowed
-* update_is_membership_private
-* update_is_community
-* update_club_description
-* update_club_rules
-* update_club_topics
-* add_club_topic
-* remove_club_topic
-* get_events_for_user
-* get_events_to_start
+* def update_club_rules(self):
+* def update_club_topics(self):
+* def get_events_for_user(self):
 
 ### PubNub
 
-This one is the notification part while being in a chatroom.
+This one is the notification part of the Clubhouse while being in a chatroom.
 You may utilize the keys provided in the sourcecode to implement that notification feature.
 
 ## Reference

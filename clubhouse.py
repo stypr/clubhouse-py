@@ -1,5 +1,7 @@
 #!/usr/bin/python -u
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+# pylint: disable=line-too-long,too-many-arguments,too-many-lines
+# pylint: disable=no-self-argument,not-callable
 
 """
 clubhouse.py
@@ -65,6 +67,13 @@ class Clubhouse:
             return func(self, *args, **kwargs)
         return wrap
 
+    def unstable_endpoint(func):
+        """ Simple decorator to check for the authentication """
+        @functools.wraps(func)
+        def wrap(self, *args, **kwargs):
+            print("[!] This endpoint is NEVER TESTED and MAY BE UNSTABLE. BE CAREFUL!")
+            return func(self, *args, **kwargs)
+        return wrap
 
     def __init__(self, user_id='', user_token='', user_device=''):
         """ (Clubhouse, str, str, str) -> NoneType
@@ -106,10 +115,10 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/start_phone_number_auth", headers=self.HEADERS, json=data)
         return req.json()
 
+    @unstable_endpoint
     def call_phone_number_auth(self, phone_number):
         """ (Clubhouse, str) -> dict
         Call the person and send verification message.
-        Note: THIS CODE MAY NOT BE STABLE (Static Analysis)
         """
         if self.HEADERS.get("Authorization"):
             raise Exception('Already Authenticatied')
@@ -119,10 +128,10 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/call_phone_number_auth", headers=self.HEADERS, json=data)
         return req.json()
 
+    @unstable_endpoint
     def resend_phone_number_auth(self, phone_number):
         """ (Clubhouse, str) -> dict
         Resend the verification message
-        Note: THIS CODE MAY NOT BE STABLE (Static Analysis)
         """
         if self.HEADERS.get("Authorization"):
             raise Exception('Already Authenticatied')
@@ -1018,11 +1027,11 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/update_name", headers=self.HEADERS, json=data)
         return req.json()
 
+    @unstable_endpoint
     @require_authentication
     def update_twitter_username(self, username, twitter_token, twitter_secret):
         """ (Clubhouse, str, str, str) -> dict
         Change Twitter username based on Twitter Token.
-        Note: THIS CODE MAY NOT BE STABLE (Static Analysis)
         """
         data = {
             "username": username,
@@ -1032,11 +1041,11 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/update_twitter_username", headers=self.HEADERS, json=data)
         return req.json()
 
+    @unstable_endpoint
     @require_authentication
     def update_instagram_username(self, code):
         """ (Clubhouse, str) -> dict
         Change Twitter username based on Instagram token.
-        Note: THIS CODE MAY NOT BE STABLE (Static Analysis)
         """
         data = {
             "code": code
@@ -1089,7 +1098,358 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/update_bio", headers=self.HEADERS, json=data)
         return req.json()
 
-###      Standalone CLI Client (Example Code) starts from here.   ###
+    @unstable_endpoint
+    @require_authentication
+    def add_user_topic(self, club_id, topic_id):
+        """ (Clubhouse, int, int) -> dict
+        Add user topic
+        """
+        data = {
+            "club_id": club_id,
+            "topic_id": topic_id
+        }
+        req = requests.post(f"{self.API_URL}/add_user_topic", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def remove_user_topic(self, club_id, topic_id):
+        """ (Clubhouse, int, int) -> dict
+        Remove user topic
+        """
+        data = {
+            "club_id": club_id,
+            "topic_id": topic_id
+        }
+        req = requests.post(f"{self.API_URL}/remove_user_topic", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def report_incident(self, user_id, channel, incident_type, incident_description, email):
+        """ (Clubhouse, int, str, unknown, str, str) -> dict
+
+        Report incident
+
+        There seemed to be a field for attachment, need to trace this later
+        """
+        data = {
+            "user_id": int(user_id),
+            "channel": channel,
+            "incident_type": incident_type,
+            "incident_description": incident_description,
+            "email": email
+        }
+        req = requests.post(f"{self.API_URL}/report_incident", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def reject_welcome_channel(self):
+        """ (Clubhouse) -> dict
+        Unknown
+        """
+        req = requests.get(f"{self.API_URL}/reject_welcome_channel", headers=self.HEADERS)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def update_channel_flags(self, channel, visibility, flag_title, unflag_title):
+        """ (Clubhouse, str, bool, unknown, unknown) -> dict
+        Unknown
+        """
+        data = {
+            "channel": channel,
+            "visibility": visibility,
+            "flag_title": flag_title,
+            "unflag_title": unflag_title,
+        }
+        req = requests.post(f"{self.API_URL}/update_channel_flags", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def ignore_actionable_notification(self, actionable_notification_id):
+        """ (Clubhouse, int) -> dict
+        Ignore the actionable notification.
+        """
+        data = {
+            "actionable_notification_id": actionable_notification_id
+        }
+        req = requests.post(f"{self.API_URL}/ignore_actionable_notification", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def invite_to_new_channel(self, user_id, channel):
+        """ (Clubhouse, int, str) -> dict
+        Invite someone to the channel
+        """
+        data = {
+            "user_id": int(user_id),
+            "channel": channel
+        }
+        req = requests.post(f"{self.API_URL}/invite_to_new_channel", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def accept_new_channel_invite(self, channel_invite_id):
+        """ (Clubhouse, int) -> dict
+        Accept Channel Invitation
+        """
+        data = {
+            "channel_invite_id": channel_invite_id
+        }
+        req = requests.post(f"{self.API_URL}/accept_new_channel_invite", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def reject_new_channel_invite(self, channel_invite_id):
+        """ (Clubhouse, int) -> dict
+        Reject Channel Invitation
+        """
+        data = {
+            "channel_invite_id": channel_invite_id
+        }
+        req = requests.post(f"{self.API_URL}/reject_new_channel_invite", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def cancel_new_channel_invite(self, channel_invite_id):
+        """ (Clubhouse, int) -> dict
+        Cancel Channel Invitation
+        """
+        data = {
+            "channel_invite_id": channel_invite_id
+        }
+        req = requests.post(f"{self.API_URL}/cancel_new_channel_invite", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def add_club_admin(self, club_id, user_id):
+        """ (Clubhouse, int, int) -> dict
+        Add Club Admin. Requires privilege.
+        """
+        data = {
+            "club_id": int(club_id),
+            "user_id": int(user_id)
+        }
+        req = requests.post(f"{self.API_URL}/add_club_admin", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def remove_club_admin(self, club_id, user_id):
+        """ (Clubhouse, int, int) -> dict
+        Remove Club admin. Requires privilege.
+        """
+        data = {
+            "club_id": int(club_id),
+            "user_id": int(user_id)
+        }
+        req = requests.post(f"{self.API_URL}/remove_club_admin", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def remove_club_member(self, club_id, user_id):
+        """ (Clubhouse, int, int) -> dict
+        Remove Club member. Requires privilege.
+        """
+        data = {
+            "club_id": int(club_id),
+            "user_id": int(user_id)
+        }
+        req = requests.post(f"{self.API_URL}/remove_club_member", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def accept_club_member_invite(self, club_id, source_topic_id=None):
+        """ (Clubhouse, int, int) -> dict
+        Accept Club member invite.
+        """
+        data = {
+            "club_id": int(club_id),
+            "source_topic_id": source_topic_id
+        }
+        req = requests.post(f"{self.API_URL}/accept_club_member_invite", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def add_club_member(self, club_id, user_id, name, phone_number, message, reason):
+        """ (Clubhouse, int, int, str, str, str, unknown) -> dict
+        Add club member
+        """
+        data = {
+            "club_id": int(club_id),
+            "user_id": int(user_id),
+            "name": name,
+            "phone_number": phone_number,
+            "message": message,
+            "reason": reason
+        }
+        req = requests.post(f"{self.API_URL}/add_club_member", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def get_club_nominations(self, club_id, source_topic_id):
+        """ (Club, int, int) -> dict
+        Get club nomination list
+        """
+        data = {
+            "club_id": int(club_id),
+            "source_topic_id": source_topic_id
+        }
+        req = requests.post(f"{self.API_URL}/get_club_nominations", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def approve_club_nomination(self, club_id, source_topic_id, invite_nomination_id):
+        """ (Club, int, int) -> dict
+        Approve club nomination
+        """
+        data = {
+            "club_id": int(club_id),
+            "source_topic_id": source_topic_id,
+            "invite_nomination_id": invite_nomination_id
+        }
+        req = requests.post(f"{self.API_URL}/approve_club_nomination", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def reject_club_nomination(self, club_id, source_topic_id, invite_nomination_id):
+        """ (Club, int, int) -> dict
+        Reject club nomination
+        """
+        data = {
+            "club_id": int(club_id),
+            "source_topic_id": source_topic_id,
+            "invite_nomination_id": invite_nomination_id
+        }
+        req = requests.post(f"{self.API_URL}/approve_club_nomination", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def add_club_topic(self, club_id, topic_id):
+        """ (Club, int, int) -> dict
+        Add club topic
+        """
+        data = {
+            "club_id": int(club_id),
+            "topic_id": int(topic_id)
+        }
+        req = requests.post(f"{self.API_URL}/add_club_topic", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def remove_club_topic(self, club_id, topic_id):
+        """ (Club, int, int) -> dict
+        Remove club topic
+        """
+        data = {
+            "club_id": int(club_id),
+            "topic_id": int(topic_id)
+        }
+        req = requests.post(f"{self.API_URL}/remove_club_topic", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def get_events_to_start(self):
+        """ (Clubhouse) -> dict
+        Get events to start
+        """
+        req = requests.get(f"{self.API_URL}/get_events_to_start", headers=self.HEADERS)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def update_is_follow_allowed(self, club_id, is_follow_allowed=True):
+        """ (Clubhouse, int, bool) -> dict
+        Update follow button of the given Club
+        """
+        data = {
+            "club_id": int(club_id),
+            "is_follow_allowed": is_follow_allowed
+        }
+        req = requests.post(f"{self.API_URL}/update_is_follow_allowed", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def update_is_membership_private(self, club_id, is_membership_private):
+        """ (Clubhouse, int, bool) -> dict
+        Update membership status of the given Club
+        """
+        data = {
+            "club_id": int(club_id),
+            "is_membership_private": is_membership_private
+        }
+        req = requests.post(f"{self.API_URL}/update_is_membership_private", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def update_is_community(self, club_id, is_community):
+        """ (Clubhouse, int, bool) -> dict
+        Update community stat of the given Club
+        """
+        data = {
+            "club_id": int(club_id),
+            "is_community": is_community
+        }
+        req = requests.post(f"{self.API_URL}/update_is_community", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def update_club_description(self, club_id, description):
+        """ (Clubhouse, int, str) -> dict
+        Update description of the given Club
+        """
+        data = {
+            "club_id": int(club_id),
+            "description": description
+        }
+        req = requests.post(f"{self.API_URL}/update_club_description", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @unstable_endpoint
+    @require_authentication
+    def update_club_rules(self):
+        """ (Clubhouse) -> dict
+        Not implemented method
+        """
+        raise NotImplementedError("Not Implemented!")
+
+    @unstable_endpoint
+    @require_authentication
+    def update_club_topics(self):
+        """ (Clubhouse) -> dict
+        Not implemented method
+        """
+        raise NotImplementedError("Not Implemented!")
+
+    @unstable_endpoint
+    @require_authentication
+    def get_events_for_user(self):
+        """ (Clubhouse) -> dict
+        Not implemented method
+        """
+        raise NotImplementedError("Not Implemented!")
+
+###     Standalone CLI Client (Example Code) starts from here.    ###
 ### This is a dummy client. the code is bad, this is just for PoC ###
 
 def set_interval(interval):
@@ -1109,7 +1469,6 @@ def set_interval(interval):
             return stopped
         return wrap
     return decorator
-
 
 def write_config(user_id, user_token, user_device, filename='setting.ini'):
     """ (str, str, str, str) -> bool.
@@ -1134,7 +1493,6 @@ def read_config(filename='setting.ini'):
     if "Account" in config:
         return dict(config['Account'])
     return dict()
-
 
 if __name__ == "__main__":
     # Importing required modules
