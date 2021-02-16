@@ -832,6 +832,19 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
+    def mute_speaker(self, channel, user_id):
+        """ (Clubhouse, str, int) -> dict
+
+        Mute speaker. Requires moderator privilege
+        """
+        data = {
+            "channel": channel,
+            "user_id": int(user_id)
+        }
+        req = requests.post(f"{self.API_URL}/mute_speaker", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
     def get_suggested_speakers(self, channel):
         """ (Clubhouse, str) -> dict
 

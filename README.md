@@ -109,6 +109,7 @@ $ python3 clubhouse.py
 * def accept_speaker_invite(self, channel, user_id):
 * def invite_speaker(self, channel, user_id):
 * def uninvite_speaker(self, channel, user_id):
+* def mute_speaker(self, channel, user_id):
 * def get_suggested_speakers(self, channel):
 * def create_channel(self, topic="", user_ids=(), is_private=False, is_social_mode=False):
 * def get_create_channel_targets(self):
@@ -143,7 +144,6 @@ There are still some remaining (legacy|unreachable) endpoints, however these end
 * add_user_topic
 * remove_user_topic
 * report_incident
-* mute_speaker
 * reject_speaker_invite
 * invite_to_existing_channel
 * reject_welcome_channel
