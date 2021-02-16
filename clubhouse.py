@@ -142,6 +142,24 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
+    def get_release_notes(self):
+        """ (Clubhouse) -> dict
+
+        Get release notes.
+        """
+        req = requests.post(f"{self.API_URL}/get_release_notes", headers=self.HEADERS)
+        return req.json()
+
+    @require_authentication
+    def check_waitlist_status(self):
+        """ (Clubhouse) -> dict
+
+        Check whether you're still on a waitlist or not.
+        """
+        req = requests.post(f"{self.API_URL}/check_waitlist_status", headers=self.HEADERS)
+        return req.json()
+
+    @require_authentication
     def add_email(self, email):
         """ (Clubhouse, str) -> dict
 
@@ -170,18 +188,6 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
-    def unfollow(self, user_id):
-        """ (Clubhouse, int) -> dict
-
-        Unfollow a user.
-        """
-        data = {
-            "user_id": int(user_id)
-        }
-        req = requests.post(f"{self.API_URL}/unfollow", headers=self.HEADERS, json=data)
-        return req.json()
-
-    @require_authentication
     def follow(self, user_id, user_ids=None, source=4, source_topic_id=None):
         """ (Clubhouse, int, list, int, int) -> dict
 
@@ -195,6 +201,58 @@ class Clubhouse:
             "source": source
         }
         req = requests.post(f"{self.API_URL}/follow", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def unfollow(self, user_id):
+        """ (Clubhouse, int) -> dict
+
+        Unfollow a user.
+        """
+        data = {
+            "user_id": int(user_id)
+        }
+        req = requests.post(f"{self.API_URL}/unfollow", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def block(self, user_id):
+        """ (Clubhouse, int) -> dict
+
+        Block a user.
+        """
+        data = {
+            "user_id": int(user_id)
+        }
+        req = requests.post(f"{self.API_URL}/block", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def unblock(self, user_id):
+        """ (Clubhouse, int) -> dict
+
+        Unfollow a user.
+        """
+        data = {
+            "user_id": int(user_id)
+        }
+        req = requests.post(f"{self.API_URL}/unblock", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def follow_multiple(self, user_ids, user_id=None, source=7, source_topic_id=None):
+        """ (Clubhouse, list, int, int, int) -> dict
+
+        Follow multiple users at once.
+        Different value for `source` may require different parameters to be set
+        """
+        data = {
+            "source_topic_id": source_topic_id,
+            "user_ids": user_ids,
+            "user_id": user_id,
+            "source": source
+        }
+        req = requests.post(f"{self.API_URL}/follow_multiple", headers=self.HEADERS, json=data)
         return req.json()
 
     @require_authentication
@@ -279,6 +337,94 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
+    def ignore_suggested_follow(self, user_id):
+        """ (Clubhouse, str) -> dict
+
+        Remove user_id from the suggested follow list.
+        """
+        data = {
+            "user_id": int(user_id)
+        }
+        req = requests.post(f"{self.API_URL}/user_id", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def get_event(self, event_id, user_ids=None, club_id=None, is_member_only=False, event_hashid=None, description=None, time_start_epoch=None, name=None):
+        """ (Clubhouse, str, list, int, bool, int, str, int, str) -> dict
+
+        Get details about the event
+        """
+        data = {
+            "user_ids": user_ids,
+            "club_id": club_id,
+            "is_member_only": is_member_only,
+            "event_id": event_id,
+            "event_hashid": event_hashid,
+            "description": description,
+            "time_start_epoch": time_start_epoch,
+            "name": name
+        }
+        req = requests.post(f"{self.API_URL}/get_event", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def create_event(self, name, time_start_epoch, description, event_id=None, user_ids=(), club_id=None, is_member_only=False, event_hashid=None):
+        """ (Clubhouse, str, int, str, int, list, int, bool, int) -> dict
+
+        Create a new event
+        """
+        data = {
+            "user_ids": user_ids,
+            "club_id": club_id,
+            "is_member_only": is_member_only,
+            "event_id": event_id,
+            "event_hashid": event_hashid,
+            "description": description,
+            "time_start_epoch": time_start_epoch,
+            "name": name
+        }
+        req = requests.post(f"{self.API_URL}/edit_event", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def edit_event(self, name, time_start_epoch, description, event_id=None, user_ids=(), club_id=None, is_member_only=False, event_hashid=None):
+        """ (Clubhouse, str, int, str, int, list, int, bool, int) -> dict
+
+        Edit an event.
+        """
+        data = {
+            "user_ids": user_ids,
+            "club_id": club_id,
+            "is_member_only": is_member_only,
+            "event_id": event_id,
+            "event_hashid": event_hashid,
+            "description": description,
+            "time_start_epoch": time_start_epoch,
+            "name": name
+        }
+        req = requests.post(f"{self.API_URL}/edit_event", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def delete_event(self, event_id, user_ids=None, club_id=None, is_member_only=False, event_hashid=None, description=None, time_start_epoch=None, name=None):
+        """ (Clubhouse, str, list, int, bool, int, str, int, str) -> dict
+
+        Delete event.
+        """
+        data = {
+            "user_ids": user_ids,
+            "club_id": club_id,
+            "is_member_only": is_member_only,
+            "event_id": event_id,
+            "event_hashid": event_hashid,
+            "description": description,
+            "time_start_epoch": time_start_epoch,
+            "name": name
+        }
+        req = requests.post(f"{self.API_URL}/delete_event", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
     def get_events(self, is_filtered=True, page_size=25, page=1):
         """ (Clubhouse, bool, int, int) -> dict
 
@@ -341,6 +487,20 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
+    def hide_channel(self, channel, hide=True):
+        """ (Clubhouse, str, bool) -> dict
+
+        Hide/unhide the channel from the channel list.
+        """
+        # Join channel
+        data = {
+            "channel": channel,
+            "hide": hide
+        }
+        req = requests.post(f"{self.API_URL}/hide_channel", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
     def join_channel(self, channel, attribution_source="feed"):
         """ (Clubhouse, str, str) -> dict
 
@@ -369,6 +529,73 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
+    def make_channel_public(self, channel, channel_id=None):
+        """ (Clubhouse, str, int) -> dict
+
+        Make the current channel open to public.
+        Everyone can join the channel.
+        """
+        data = {
+            "channel": channel,
+            "channel_id": channel_id
+        }
+        req = requests.post(f"{self.API_URL}/make_channel_public", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def make_channel_social(self, channel, channel_id=None):
+        """ (Clubhouse, str, int) -> dict
+
+        Make the current channel open to public.
+        Only people who user follows can join the channel.
+        """
+        data = {
+            "channel": channel,
+            "channel_id": channel_id
+        }
+        req = requests.post(f"{self.API_URL}/make_channel_social", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def end_channel(self, channel, channel_id=None):
+        """ (Clubhouse, str, int) -> dict
+
+        Kick everyone and close the channel. Requires moderator privilege.
+        """
+        data = {
+            "channel": channel,
+            "channel_id": channel_id
+        }
+        req = requests.post(f"{self.API_URL}/end_channel", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def make_moderator(self, channel, user_id):
+        """ (Clubhouse, str, int) -> dict
+
+        Make the given user moderator. Requires moderator privilege.
+        """
+        data = {
+            "channel": channel,
+            "user_id": int(user_id)
+        }
+        req = requests.post(f"{self.API_URL}/make_moderator", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def block_from_channel(self, channel, user_id):
+        """ (Clubhouse, str, int) -> dict
+
+        Remove the user from the channel. The user will not be able to re-join.
+        """
+        data = {
+            "channel": channel,
+            "user_id": int(user_id)
+        }
+        req = requests.post(f"{self.API_URL}/block_from_channel", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
     def get_profile(self, user_id):
         """ (Clubhouse, str) -> dict
 
@@ -381,7 +608,7 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
-    def get_profile_self(self, return_blocked_ids=False, timezone_identifier="Asia/Tokyo", return_following_ids=False):
+    def me(self, return_blocked_ids=False, timezone_identifier="Asia/Tokyo", return_following_ids=False):
         """ (Clubhouse, bool, str, bool) -> dict
 
         Get my information
@@ -395,15 +622,45 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
-    def get_following(self, user_id):
-        """ (Clubhouse, str) -> dict
+    def get_following(self, user_id, page_size=50, page=1):
+        """ (Clubhouse, str, int, int) -> dict
 
-        Get list of users who are following the given user_id
+        Get following users type2
         """
-        data = {
-            "user_id": int(user_id)
-        }
-        req = requests.post(f"{self.API_URL}/get_following", headers=self.HEADERS, json=data)
+        query = "user_id={}&page_size={}&page={}".format(
+            user_id,
+            page_size,
+            page
+        )
+        req = requests.get(f"{self.API_URL}/get_following?{query}", headers=self.HEADERS)
+        return req.json()
+
+    @require_authentication
+    def get_followers(self, user_id, page_size=50, page=1):
+        """ (Clubhouse, str, int, int) -> dict
+
+        Get followers of the given user_id.
+        """
+        query = "user_id={}&page_size={}&page={}".format(
+            user_id,
+            page_size,
+            page
+        )
+        req = requests.get(f"{self.API_URL}/get_followers?{query}", headers=self.HEADERS)
+        return req.json()
+
+    @require_authentication
+    def get_mutual_follows(self, user_id, page_size=50, page=1):
+        """ (Clubhouse, str, int, int) -> dict
+
+        Get mutual followers between the current user and the given user_id.
+        """
+        query = "user_id={}&page_size={}&page={}".format(
+            user_id,
+            page_size,
+            page
+        )
+        req = requests.get(f"{self.API_URL}/get_mutual_follows?{query}", headers=self.HEADERS)
         return req.json()
 
     @require_authentication
@@ -465,6 +722,32 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
+    def change_handraise_settings(self, channel, is_enabled=True, handraise_permission=1):
+        """ (Clubhouse, bool, int) -> dict
+
+        Change handraise settings. Requires moderator privilege
+
+        handraise_permission
+            1: Everyone
+            2: Followed by the speakers
+
+        is_enabled
+            True: Enable handraise
+            False: Disable handraise
+        """
+        handraise_permission = int(handraise_permission)
+        if not 1 <= handraise_permission <= 2:
+            return False
+
+        data = {
+            "channel": channel,
+            "is_enabled": is_enabled,
+            "handraise_permission": handraise_permission
+        }
+        req = requests.post(f"{self.API_URL}/change_handraise_settings", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
     def update_skintone(self, skintone=1):
         """ (Clubhouse, int) -> dict
 
@@ -523,10 +806,23 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
+    def invite_speaker(self, channel, user_id):
+        """ (Clubhouse, str, int) -> dict
+
+        Move audience to speaker. Requires moderator privilege.
+        """
+        data = {
+            "channel": channel,
+            "user_id": int(user_id)
+        }
+        req = requests.post(f"{self.API_URL}/invite_speaker", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
     def uninvite_speaker(self, channel, user_id):
         """ (Clubhouse, str, int) -> dict
 
-        Move speaker to audience
+        Move speaker to audience. Requires moderator privilege.
         """
         data = {
             "channel": channel,
@@ -661,6 +957,18 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
+    def get_topic(self, topic_id):
+        """ (Clubhouse, int) -> dict
+
+        Get topic's information based on the given topic id.
+        """
+        data = {
+            "topic_id": int(topic_id)
+        }
+        req = requests.post(f"{self.API_URL}/get_topic", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
     def get_clubs_for_topic(self, topic_id, page_size=25, page=1):
         """ (Clubhouse, int, int, int) -> dict
 
@@ -672,6 +980,18 @@ class Clubhouse:
             page
         )
         req = requests.get(f"{self.API_URL}/get_clubs_for_topic?{query}", headers=self.HEADERS)
+        return req.json()
+
+    @require_authentication
+    def get_clubs(self, is_startable_only):
+        """ (Clubhouse, bool) -> dict
+
+        Get list of clubs the user's in.
+        """
+        data = {
+            "is_startable_only": is_startable_only
+        }
+        req = requests.post(f"{self.API_URL}/get_clubs", headers=self.HEADERS, json=data)
         return req.json()
 
     @require_authentication
@@ -715,6 +1035,30 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
+    def update_name(self, name):
+        """ (Clubhouse, str) -> dict
+
+        Change your name. YOU CAN ONLY DO THIS ONCE.
+        """
+        data = {
+            "name": name,
+        }
+        req = requests.post(f"{self.API_URL}/update_name", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def update_displayname(self, name):
+        """ (Clubhouse, str) -> dict
+
+        Change your nickname. YOU CAN ONLY DO THIS ONCE.
+        """
+        data = {
+            "name": name,
+        }
+        req = requests.post(f"{self.API_URL}/update_name", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
     def refresh_token(self, refresh_token):
         """ (Clubhouse, str) -> dict
 
@@ -738,10 +1082,25 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/update_bio", headers=self.HEADERS, json=data)
         return req.json()
 
+    @require_authentication
+    def record_action_trails(self, action_trails=()):
+        """ (Clubhouse, list of dict) -> dict
+
+        Recording actions of the user interactions while using the app.
+
+        action_trails: [{"blob_data":{}, "trail_type": "...", ...}, ...]
+        """
+        data = {
+            "action_trails": action_trails
+        }
+        req = requests.post(f"{self.API_URL}/update_bio", headers=self.HEADERS, json=data)
+        return req.json()
+
+
+
 
 ###      Standalone CLI Client (Example Code) starts from here.   ###
 ### This is a dummy client. the code is bad, this is just for PoC ###
-
 
 def set_interval(interval):
     """ (int) -> decorator
@@ -781,7 +1140,7 @@ def write_config(user_id, user_token, user_device, filename='setting.ini'):
 def read_config(filename='setting.ini'):
     """ (str) -> dict of str
 
-    Read Config.
+    Read Config
     """
     config = configparser.ConfigParser()
     config.read(filename)
@@ -808,7 +1167,7 @@ if __name__ == "__main__":
     USER_TOKEN = USER_CONFIG.get('user_token')
     USER_DEVICE = USER_CONFIG.get('user_device')
 
-    # Sorry Mate I didn't realise this was going to be added for testing
+    # Sorry Mate I didn't realise this was going to be added
     IS_VOICECHAT = False
 
     if USER_ID and USER_TOKEN and USER_DEVICE:
@@ -826,7 +1185,7 @@ if __name__ == "__main__":
             rtc.initEventHandler(eventHandler)
             rtc.initialize(CLUBHOUSE.AGORA_KEY, None, agorartc.AREA_CODE_GLOB & 0xFFFFFFFF)
 
-        @set_interval(60)
+        @set_interval(10)
         def start_ping_alive(channel):
             """ (str) -> bool
 
@@ -850,7 +1209,6 @@ if __name__ == "__main__":
                         if _user['user_id'] != USER_ID:
                             user_id = _user['user_id']
                             break
-
                     # Check if the moderator allowed your request.
                     res_inv = CLUBHOUSE.accept_speaker_invite(channel, user_id)
                     if res_inv['success']:
@@ -864,7 +1222,7 @@ if __name__ == "__main__":
         def request_speaker_permission(channel_name):
             """ (str) -> bool
 
-            Raise hands for permissions.
+            Raise hands for permissions
             """
             if not IS_VOICECHAT:
                 CLUBHOUSE.audience_reply(channel_name, True, False)
