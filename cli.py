@@ -20,7 +20,8 @@ try:
     RTC = agorartc.createRtcEngineBridge()
     eventHandler = agorartc.RtcEngineEventHandlerBase()
     RTC.initEventHandler(eventHandler)
-    RTC.initialize(Clubhouse.AGORA_KEY, None, agorartc.AREA_CODE_GLOB & 0xFFFFFFFF)
+    # 0xFFFFFFFE will exclude Chinese servers from Agora's servers.
+    RTC.initialize(Clubhouse.AGORA_KEY, None, agorartc.AREA_CODE_GLOB & 0xFFFFFFFE)
 except ImportError:
     RTC = None
 
