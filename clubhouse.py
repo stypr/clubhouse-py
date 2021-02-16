@@ -3,10 +3,10 @@
 
 """
 clubhouse.py
-API for Clubhouse (v297 / 0.1.27)
+
 Developed for education purposes only.
-Please know what you're doing!
-Modifying a bit of header could result a permanent block on your account.
+Please make sure to know what you're trying to do!
+Sending an odd API request could result in a permanent ban on your account.
 """
 
 import uuid
@@ -24,9 +24,9 @@ class Clubhouse:
 
     # App/API Information
     API_URL = "https://www.clubhouseapi.com/api"
-    API_BUILD_ID = "297"
-    API_BUILD_VERSION = "0.1.27"
-    API_UA = "clubhouse/297 (iPhone; iOS 13.5.1; Scale/3.00)"
+    API_BUILD_ID = "304"
+    API_BUILD_VERSION = "0.1.28"
+    API_UA = f"clubhouse/{APP_BUILD_ID} (iPhone; iOS 13.5.1; Scale/3.00)"
 
     # Some useful information for commmunication
     PUBNUB_PUB_KEY = "pub-c-6878d382-5ae6-4494-9099-f930f938868b"
@@ -110,6 +110,34 @@ class Clubhouse:
             "phone_number": phone_number
         }
         req = requests.post(f"{self.API_URL}/start_phone_number_auth", headers=self.HEADERS, json=data)
+        return req.json()
+
+    def call_phone_number_auth(self, phone_number):
+        """ (Clubhouse, str) -> dict
+
+        Call the person and send verification message.
+        Note: THIS CODE MAY NOT BE STABLE (Static Analysis)
+        """
+        if self.HEADERS.get("Authorization"):
+            raise Exception('Already Authenticatied')
+        data = {
+            "phone_number": phone_number
+        }
+        req = requests.post(f"{self.API_URL}/call_phone_number_auth", headers=self.HEADERS, json=data)
+        return req.json()
+
+    def resend_phone_number_auth(self, phone_number):
+        """ (Clubhouse, str) -> dict
+
+        Resend the verification message
+        Note: THIS CODE MAY NOT BE STABLE (Static Analysis)
+        """
+        if self.HEADERS.get("Authorization"):
+            raise Exception('Already Authenticatied')
+        data = {
+            "phone_number": phone_number
+        }
+        req = requests.post(f"{self.API_URL}/resend_phone_number_auth", headers=self.HEADERS, json=data)
         return req.json()
 
     def complete_phone_number_auth(self, phone_number, verification_code):
@@ -806,6 +834,19 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
+    def reject_speaker_invite(self, channel, user_id):
+        """ (Clubhouse, str, int) -> dict
+
+        Reject speaker's invitation.
+        """
+        data = {
+            "channel": channel,
+            "user_id": int(user_id)
+        }
+        req = requests.post(f"{self.API_URL}/reject_speaker_invite", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
     def invite_speaker(self, channel, user_id):
         """ (Clubhouse, str, int) -> dict
 
@@ -1057,6 +1098,34 @@ class Clubhouse:
             "name": name,
         }
         req = requests.post(f"{self.API_URL}/update_name", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def update_twitter_username(self, username, twitter_token, twitter_secret):
+        """ (Clubhouse, str, str, str) -> dict
+
+        Change Twitter username based on Twitter Token.
+        Note: THIS CODE MAY NOT BE STABLE (Static Analysis)
+        """
+        data = {
+            "username": username,
+            "twitter_token": twitter_token,
+            "twitter_secret": twitter_secret
+        }
+        req = requests.post(f"{self.API_URL}/update_twitter_username", headers=self.HEADERS, json=data)
+        return req.json()
+
+    @require_authentication
+    def update_instagram_username(self, code):
+        """ (Clubhouse, str) -> dict
+
+        Change Twitter username based on Instagram token.
+        Note: THIS CODE MAY NOT BE STABLE (Static Analysis)
+        """
+        data = {
+            "code": code
+        }
+        req = requests.post(f"{self.API_URL}/update_instagram_username", headers=self.HEADERS, json=data)
         return req.json()
 
     @require_authentication

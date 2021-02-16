@@ -53,6 +53,8 @@ $ python3 clubhouse.py
 ### Pre-authentication
 
 * def start_phone_number_auth(self, phone_number):
+* def call_phone_number_auth(self, phone_number):
+* def resend_phone_number_auth(self, phone_number):
 * def complete_phone_number_auth(self, phone_number, verification_code):
 * def check_for_update(self, is_testflight=False):
 
@@ -107,6 +109,7 @@ $ python3 clubhouse.py
 * def get_actionable_notifications(self):
 * def get_online_friends(self):
 * def accept_speaker_invite(self, channel, user_id):
+* def reject_speaker_invite(self, channel, user_id):
 * def invite_speaker(self, channel, user_id):
 * def uninvite_speaker(self, channel, user_id):
 * def mute_speaker(self, channel, user_id):
@@ -127,6 +130,8 @@ $ python3 clubhouse.py
 * def update_username(self, username):
 * def update_name(self, name):
 * def update_displayname(self, name):
+* def update_twitter_username(self, username, twitter_token, twitter_secret):
+* def update_instagram_username(self, code):
 * def refresh_token(self, refresh_token):
 * def update_bio(self, bio):
 * def record_action_trails(self, action_trails=()):
@@ -135,16 +140,13 @@ $ python3 clubhouse.py
 
 ### Endpoints
 
-There are still some remaining (legacy|unreachable) endpoints, however these endpoints does not seem to be very important for building an unofficial build.
+There are still some remaining endpoints, however these endpoints does not seem to be very important for building an unofficial build.
 
-* call_phone_number_auth
-* resend_phone_number_auth
-* update_twitter_username
-* update_instagram_username
+I'll try to add the remaining endpoints in my free time.
+
 * add_user_topic
 * remove_user_topic
 * report_incident
-* reject_speaker_invite
 * invite_to_existing_channel
 * reject_welcome_channel
 * get_create_channel_targets
@@ -186,6 +188,5 @@ Please note that these repositories were not used to develop this repository.
 
 Most of things were tested and handcrafted from scratch.
 
-* https://github.com/zhuowei/ClubhouseAPI
-* https://github.com/Seia-Soto/clubhouse-api
+* https://github.com/Seia-Soto/clubhouse-api (NodeJS build)
 * https://theori.io/research/korean/analyzing-clubhouse/ (Written in Korean)
