@@ -14,8 +14,6 @@ import uuid
 import random
 import secrets
 import functools
-import threading
-import configparser
 import requests
 
 class Clubhouse:

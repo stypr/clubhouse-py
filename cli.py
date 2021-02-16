@@ -285,11 +285,16 @@ def user_authentication(client):
             client.update_name(user_realname)
             result = client.update_username(user_username)
             if not result['success']:
-                print(f"[-] You failed to update your username ({result})")
+                print(f"[-] You failed to update your username. ({result})")
+                continue
+
+            result = client.check_waitlist_status()
+            if not result['success']:
+                print(f"[-] Your registration failed. It is better to sign up from a real device. ({result})")
                 continue
 
             print("[-] Registration Complete!")
-            print("    Try registering by real device if this process comes again")
+            print("    Try registering by real device if this process pops again.")
             break
     return
 
@@ -315,6 +320,7 @@ def main():
     else:
         client = Clubhouse()
         user_authentication(client)
+        main()
 
 if __name__ == "__main__":
     main()
