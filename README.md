@@ -115,3 +115,4 @@ Most of things were tested and handcrafted from scratch.
 
 * https://github.com/zhuowei/ClubhouseAPI
 * https://github.com/Seia-Soto/clubhouse-api
+* https://theori.io/research/korean/analyzing-clubhouse/ (Korean)
