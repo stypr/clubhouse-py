@@ -26,7 +26,7 @@ class Clubhouse:
     API_URL = "https://www.clubhouseapi.com/api"
     API_BUILD_ID = "304"
     API_BUILD_VERSION = "0.1.28"
-    API_UA = f"clubhouse/{APP_BUILD_ID} (iPhone; iOS 13.5.1; Scale/3.00)"
+    API_UA = f"clubhouse/{API_BUILD_ID} (iPhone; iOS 13.5.1; Scale/3.00)"
 
     # Some useful information for commmunication
     PUBNUB_PUB_KEY = "pub-c-6878d382-5ae6-4494-9099-f930f938868b"
