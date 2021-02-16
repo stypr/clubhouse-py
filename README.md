@@ -105,6 +105,74 @@ if __name__ == "__main__":
 * def refresh_token(self, refresh_token):
 * def update_bio(self, bio):
 
+## Unsupported features
+
+### Endpoints
+
+* record_action_trails
+* call_phone_number_auth
+* resend_phone_number_auth
+* check_waitlist_status
+* get_release_notes
+* get_topic
+* update_name
+* update_displayname
+* update_twitter_username
+* update_instagram_username
+* add_user_topic
+* remove_user_topic
+* get_followers
+* report_incident
+* get_mutual_follows
+* ignore_suggested_follow
+* follow_multiple
+* block
+* unblock
+* end_channel
+* invite_speaker
+* mute_speaker
+* make_moderator
+* reject_speaker_invite
+* invite_to_existing_channel
+* make_channel_public
+* make_channel_social
+* block_from_channel
+* reject_welcome_channel
+* change_handraise_settings
+* get_create_channel_targets
+* update_channel_flags
+* hide_channel
+* ignore_actionable_notification
+* invite_to_new_channel
+* accept_new_channel_invite
+* reject_new_channel_invite
+* cancel_new_channel_invite
+* add_club_admin
+* add_club_member
+* remove_club_admin
+* remove_club_member
+* accept_club_member_invite
+* get_club_nominations
+* approve_club_nomination
+* reject_club_nomination
+* get_clubs
+* update_is_follow_allowed
+* update_is_membership_private
+* update_is_community
+* update_club_description
+* update_club_rules
+* update_club_topics
+* add_club_topic
+* remove_club_topic
+* get_events_for_user
+* get_events_to_start
+* delete_event
+* create_event
+* edit_event
+* get_event
+
+### PubNub
+
 ## Reference
 
 You may also add more endpoints and features based on the following repositories.
