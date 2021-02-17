@@ -2,6 +2,8 @@
 
 ___FOR REFERENCE AND EDUCATION PURPOSES ONLY. THIS DOES NOT COME WITH ANY KINDS OF WARRANTY.___
 
+___PLEASE DO NOT CREATE BOTS OR DO ANY HARMFUL THINGS TO THE SERVICE. DON'T BREAK THINGS. DON'T BE EVIL.___
+
 `clubhouse-py` is originally developed for the sake of interoperability.
 
 Standalone client is also created with very basic features, including but not limited to the audio-chat.
