@@ -1009,7 +1009,7 @@ class Clubhouse:
         Change username
         """
         data = {
-            "usrename": username,
+            "username": username,
         }
         req = requests.post(f"{self.API_URL}/update_username", headers=self.HEADERS, json=data)
         return req.json()
