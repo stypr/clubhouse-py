@@ -365,7 +365,7 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
-    def get_event(self, event_id, user_ids=None, club_id=None, is_member_only=False, event_hashid=None, description=None, time_start_epoch=None, name=None):
+    def get_event(self, event_id=None, user_ids=None, club_id=None, is_member_only=False, event_hashid=None, description=None, time_start_epoch=None, name=None):
         """ (Clubhouse, int, list, int, bool, int, str, int, str) -> dict
         Get details about the event
         """
