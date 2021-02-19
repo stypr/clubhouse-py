@@ -1,0 +1,9 @@
+*_orig.py
+*.pyc
+*.ini
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+build/
+dist/
