@@ -68,6 +68,10 @@ def read_config(filename='setting.ini'):
     return dict()
 
 def process_onboarding(client):
+    """ (Clubhouse) -> NoneType
+
+    This is to process the initial setup for the first time user.
+    """
     print("=" * 30)
     print("Welcome to Clubhouse!\n")
     print("The registration is not yet complete.")
@@ -107,7 +111,8 @@ def process_onboarding(client):
 
         result = client.check_waitlist_status()
         if not result['success']:
-            print(f"[-] Your registration failed. It is better to sign up from a real device. ({result})")
+            print("[-] Your registration failed.")
+            print(f"    It's better to sign up from a real device. ({result})")
             continue
 
         print("[-] Registration Complete!")
@@ -346,4 +351,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
