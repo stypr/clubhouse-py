@@ -19,6 +19,14 @@ import requests
 class Clubhouse:
     """
     Clubhouse Class
+
+    Decorators:
+        @require_authentication:
+            - this means that the endpoint requires authentication to access.
+
+        @unstable_endpoint
+            - This means that the endpoint is never tested.
+            - Likely to be endpoints that were taken from a static analysis
     """
 
     # App/API Information
@@ -66,7 +74,7 @@ class Clubhouse:
         return wrap
 
     def unstable_endpoint(func):
-        """ Simple decorator to check for the authentication """
+        """ Simple decorator to warn that this endpoint is never tested at all. """
         @functools.wraps(func)
         def wrap(self, *args, **kwargs):
             print("[!] This endpoint is NEVER TESTED and MAY BE UNSTABLE. BE CAREFUL!")
@@ -1009,7 +1017,7 @@ class Clubhouse:
         Change username
         """
         data = {
-            "usrename": username,
+            "username": username,
         }
         req = requests.post(f"{self.API_URL}/update_username", headers=self.HEADERS, json=data)
         return req.json()
