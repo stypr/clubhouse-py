@@ -4,7 +4,6 @@ cli.py
 Sample CLI Clubhouse Client
 
 RTC: For voice communication
-CLIENT: Clubhouse Class
 """
 
 import threading
@@ -67,6 +66,53 @@ def read_config(filename='setting.ini'):
     if "Account" in config:
         return dict(config['Account'])
     return dict()
+
+def process_onboarding(client):
+    print("=" * 30)
+    print("Welcome to Clubhouse!\n")
+    print("The registration is not yet complete.")
+    print("Finish the process by entering your legal name and your username.")
+    print("WARNING: THIS FEATURE IS PURELY EXPERIMENTAL.")
+    print("         YOU CAN GET BANNED FOR REGISTERING FROM THE CLI ACCOUNT.")
+    print("=" * 30)
+
+    while True:
+        user_realname = input("[.] Enter your legal name (John Smith): ")
+        user_username = input("[.] Enter your username (elonmusk1234): ")
+
+        user_realname_split = user_realname.split(" ")
+
+        if len(user_realname_split) != 2:
+            print("[-] Please enter your legal name properly.")
+            continue
+
+        if not (user_realname_split[0].isalpha() and
+                user_realname_split[1].isalpha()):
+            print("[-] Your legal name is supposed to be written in alphabets only.")
+            continue
+
+        if len(user_username) > 16:
+            print("[-] Your username exceeds above 16 characters.")
+            continue
+
+        if not user_username.isalnum():
+            print("[-] Your username is supposed to be in alphanumerics only.")
+            continue
+
+        client.update_name(user_realname)
+        result = client.update_username(user_username)
+        if not result['success']:
+            print(f"[-] You failed to update your username. ({result})")
+            continue
+
+        result = client.check_waitlist_status()
+        if not result['success']:
+            print(f"[-] Your registration failed. It is better to sign up from a real device. ({result})")
+            continue
+
+        print("[-] Registration Complete!")
+        print("    Try registering by real device if this process pops again.")
+        break
 
 def print_channel_list(client, max_limit=20):
     """ (Clubhouse) -> NoneType
@@ -154,7 +200,7 @@ def chat_main(client):
             print(f"[-] Error while joining the channel ({channel_info['error_message']})")
             continue
 
-        # List currently available users (TOPP 20 only.)
+        # List currently available users (TOP 20 only.)
         # Also, check for the current user's speaker permission.
         channel_speaker_permission = False
         console = Console()
@@ -244,58 +290,22 @@ def user_authentication(client):
     user_token = result['auth_token']
     user_device = client.HEADERS.get("CH-DeviceId")
     write_config(user_id, user_token, user_device)
+
     print("[.] Writing configuration file complete.")
 
     if result['is_waitlisted']:
         print("[!] You're still on the waitlist. Find your friends to get yourself in.")
         return
 
+    # Authenticate user first and start doing something
+    client = Clubhouse(
+        user_id=user_id,
+        user_token=user_token,
+        user_device=user_device
+    )
     if result['is_onboarding']:
-        print("=" * 30)
-        print("Welcome to Clubhouse!\n")
-        print("The registration is not yet complete.")
-        print("Finish the process by entering your legal name and your username.")
-        print("WARNING: THIS FEATURE IS PURELY EXPERIMENTAL.")
-        print("         YOU CAN GET BANNED FOR REGISTERING FROM THE CLI ACCOUNT.")
-        print("=" * 30)
+        process_onboarding(client)
 
-        while True:
-            user_realname = input("[.] Enter your legal name (John Smith): ")
-            user_username = input("[.] Enter your username (elonmusk1234): ")
-
-            user_realname_split = user_realname.split(" ")
-
-            if len(user_realname_split) != 2:
-                print("[-] Please enter your legal name properly.")
-                continue
-
-            if not (user_realname_split[0].isalpha() and
-                    user_realname_split[1].isalpha()):
-                print("[-] Your legal name is supposed to be written in alphabets only.")
-                continue
-
-            if len(user_username) > 16:
-                print("[-] Your username exceeds above 16 characters.")
-                continue
-
-            if not user_username.isalnum():
-                print("[-] Your username is supposed to be in alphanumerics only.")
-                continue
-
-            client.update_name(user_realname)
-            result = client.update_username(user_username)
-            if not result['success']:
-                print(f"[-] You failed to update your username. ({result})")
-                continue
-
-            result = client.check_waitlist_status()
-            if not result['success']:
-                print(f"[-] Your registration failed. It is better to sign up from a real device. ({result})")
-                continue
-
-            print("[-] Registration Complete!")
-            print("    Try registering by real device if this process pops again.")
-            break
     return
 
 def main():
@@ -316,6 +326,18 @@ def main():
             user_token=user_token,
             user_device=user_device
         )
+
+        # Check if user is still on the waitlist
+        _check = client.check_waitlist_status()
+        if _check['is_waitlisted']:
+            print("[!] You're still on the waitlist. Find your friends to get yourself in.")
+            return
+
+        # Check if user has not signed up yet.
+        _check = client.me()
+        if not _check['user_profile'].get("username"):
+            process_onboarding(client)
+
         chat_main(client)
     else:
         client = Clubhouse()
@@ -324,3 +346,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
