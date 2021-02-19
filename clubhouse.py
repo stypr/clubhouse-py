@@ -366,14 +366,14 @@ class Clubhouse:
 
     @require_authentication
     def get_event(self, event_id, user_ids=None, club_id=None, is_member_only=False, event_hashid=None, description=None, time_start_epoch=None, name=None):
-        """ (Clubhouse, str, list, int, bool, int, str, int, str) -> dict
+        """ (Clubhouse, int, list, int, bool, int, str, int, str) -> dict
         Get details about the event
         """
         data = {
             "user_ids": user_ids,
             "club_id": club_id,
             "is_member_only": is_member_only,
-            "event_id": event_id,
+            "event_id": int(event_id),
             "event_hashid": event_hashid,
             "description": description,
             "time_start_epoch": time_start_epoch,
