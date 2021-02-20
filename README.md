@@ -198,7 +198,7 @@ $ python3 cli.py
 PubNub is used for the notification while being in a conversation.
 This has not been implemented yet. However, you may utilize the PubSub keys provided in the sourcecode to implement this.
 
-## Reference
+## Reference / Recommended to read
 
 You may also add more endpoints and features based on the following repositories.
 
@@ -207,4 +207,5 @@ Please note that these repositories were partially referenced to create this pro
 Most of things were tested and handcrafted from scratch.
 
 * https://github.com/Seia-Soto/clubhouse-api (NodeJS build)
+* https://github.com/grishka/Houseclub (Android build)
 * https://theori.io/research/korean/analyzing-clubhouse/ (Written in Korean)
