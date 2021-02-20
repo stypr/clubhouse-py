@@ -34,6 +34,7 @@ except ImportError:
 
 def set_interval(interval):
     """ (int) -> decorator
+
     set_interval decorator
     """
     def decorator(func):
@@ -52,7 +53,8 @@ def set_interval(interval):
     return decorator
 
 def write_config(user_id, user_token, user_device, filename='setting.ini'):
-    """ (str, str, str, str) -> bool.
+    """ (str, str, str, str) -> bool
+
     Write Config. return True on successful file write
     """
     config = configparser.ConfigParser()
@@ -67,6 +69,7 @@ def write_config(user_id, user_token, user_device, filename='setting.ini'):
 
 def read_config(filename='setting.ini'):
     """ (str) -> dict of str
+
     Read Config
     """
     config = configparser.ConfigParser()
@@ -167,6 +170,7 @@ def chat_main(client):
 
     def _request_speaker_permission(client, channel_name, user_id):
         """ (str) -> bool
+
         Raise hands for permissions
         """
         if not channel_speaker_permission:
@@ -177,6 +181,7 @@ def chat_main(client):
     @set_interval(30)
     def _ping_keep_alive(client, channel_name):
         """ (str) -> bool
+
         Continue to ping alive every 30 seconds.
         """
         client.active_ping(channel_name)
@@ -185,6 +190,7 @@ def chat_main(client):
     @set_interval(10)
     def _wait_speaker_permission(client, channel_name, user_id):
         """ (str) -> bool
+
         Function that runs when you've requested for a voice permission.
         """
         # Get some random users from the channel.
@@ -284,6 +290,7 @@ def chat_main(client):
 
 def user_authentication(client):
     """ (Clubhouse) -> NoneType
+
     Just for authenticating the user.
     """
 

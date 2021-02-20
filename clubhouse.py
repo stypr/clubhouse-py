@@ -107,8 +107,10 @@ class Clubhouse:
 
     def start_phone_number_auth(self, phone_number):
         """ (Clubhouse, str) -> dict
+
         Begin phone number authentication.
         Some examples for the phone number.
+
         >>> clubhouse = Clubhouse()
         >>> clubhouse.start_phone_number_auth("+821012341337")
         ...
@@ -126,6 +128,7 @@ class Clubhouse:
     @unstable_endpoint
     def call_phone_number_auth(self, phone_number):
         """ (Clubhouse, str) -> dict
+
         Call the person and send verification message.
         """
         if self.HEADERS.get("Authorization"):
@@ -139,6 +142,7 @@ class Clubhouse:
     @unstable_endpoint
     def resend_phone_number_auth(self, phone_number):
         """ (Clubhouse, str) -> dict
+
         Resend the verification message
         """
         if self.HEADERS.get("Authorization"):
@@ -151,6 +155,7 @@ class Clubhouse:
 
     def complete_phone_number_auth(self, phone_number, verification_code):
         """ (Clubhouse, str, str) -> dict
+
         Complete phone number authentication.
         This should return `auth_token`, `access_token`, `refresh_token`, is_waitlisted, ...
         Please note that output may be different depending on the status of the authenticated user
@@ -166,7 +171,9 @@ class Clubhouse:
 
     def check_for_update(self, is_testflight=False):
         """ (Clubhouse, bool) -> dict
+
         Check for app updates.
+
         >>> clubhouse = Clubhouse()
         >>> clubhouse.check_for_update(False)
         {'has_update': False, 'success': True}
@@ -178,6 +185,7 @@ class Clubhouse:
     @require_authentication
     def get_release_notes(self):
         """ (Clubhouse) -> dict
+
         Get release notes.
         """
         req = requests.post(f"{self.API_URL}/get_release_notes", headers=self.HEADERS)
@@ -186,6 +194,7 @@ class Clubhouse:
     @require_authentication
     def check_waitlist_status(self):
         """ (Clubhouse) -> dict
+
         Check whether you're still on a waitlist or not.
         """
         req = requests.post(f"{self.API_URL}/check_waitlist_status", headers=self.HEADERS)
@@ -194,6 +203,7 @@ class Clubhouse:
     @require_authentication
     def add_email(self, email):
         """ (Clubhouse, str) -> dict
+
         Request for email verification.
         You only need to do this once.
         """
@@ -206,6 +216,7 @@ class Clubhouse:
     @require_authentication
     def update_photo(self, photo_filename):
         """ (Clubhouse, str) -> dict
+
         Update photo. Please make sure to upload a JPG format.
         """
         files = {
@@ -220,6 +231,7 @@ class Clubhouse:
     @require_authentication
     def follow(self, user_id, user_ids=None, source=4, source_topic_id=None):
         """ (Clubhouse, int, list, int, int) -> dict
+
         Follow a user.
         Different value for `source` may require different parameters to be set
         """
@@ -235,6 +247,7 @@ class Clubhouse:
     @require_authentication
     def unfollow(self, user_id):
         """ (Clubhouse, int) -> dict
+
         Unfollow a user.
         """
         data = {
@@ -246,6 +259,7 @@ class Clubhouse:
     @require_authentication
     def block(self, user_id):
         """ (Clubhouse, int) -> dict
+
         Block a user.
         """
         data = {
@@ -257,6 +271,7 @@ class Clubhouse:
     @require_authentication
     def unblock(self, user_id):
         """ (Clubhouse, int) -> dict
+
         Unfollow a user.
         """
         data = {
@@ -268,6 +283,7 @@ class Clubhouse:
     @require_authentication
     def follow_multiple(self, user_ids, user_id=None, source=7, source_topic_id=None):
         """ (Clubhouse, list, int, int, int) -> dict
+
         Follow multiple users at once.
         Different value for `source` may require different parameters to be set
         """
@@ -283,6 +299,7 @@ class Clubhouse:
     @require_authentication
     def follow_club(self, club_id, source_topic_id=None):
         """ (Clubhouse, int, int) -> dict
+
         Follow a club
         """
         data = {
@@ -295,6 +312,7 @@ class Clubhouse:
     @require_authentication
     def unfollow_club(self, club_id, source_topic_id=None):
         """ (Clubhouse, int, int) -> dict
+
         Unfollow a club
         """
         data = {
@@ -307,6 +325,7 @@ class Clubhouse:
     @require_authentication
     def update_follow_notifications(self, user_id, notification_type=2):
         """ (Clubhouse, str, int) -> dict
+
         Update notification frequency for the given user.
         1 = Always notify, 2 = Sometimes, 3 = Never
         """
@@ -320,6 +339,7 @@ class Clubhouse:
     @require_authentication
     def get_suggested_follows_similar(self, user_id):
         """ (Clubhouse, int) -> dict
+
         Get similar users based on the given user.
         """
         data = {
@@ -331,6 +351,7 @@ class Clubhouse:
     @require_authentication
     def get_suggested_follows_friends_only(self, club_id=None, upload_contacts=True, contacts=()):
         """ (Clubhouse, int, int, list of dict) -> dict
+
         Get users based on the phone number.
         Only seems to be used upon signup.
         """
@@ -345,6 +366,7 @@ class Clubhouse:
     @require_authentication
     def get_suggested_follows_all(self, in_onboarding=True, page_size=50, page=1):
         """ (Clubhouse, bool, int, int) -> dict
+
         Get all suggested follows.
         """
         query = "in_onboarding={}&page_size={}&page={}".format(
@@ -358,6 +380,7 @@ class Clubhouse:
     @require_authentication
     def ignore_suggested_follow(self, user_id):
         """ (Clubhouse, str) -> dict
+
         Remove user_id from the suggested follow list.
         """
         data = {
@@ -369,6 +392,7 @@ class Clubhouse:
     @require_authentication
     def get_event(self, event_id=None, user_ids=None, club_id=None, is_member_only=False, event_hashid=None, description=None, time_start_epoch=None, name=None):
         """ (Clubhouse, int, list, int, bool, int, str, int, str) -> dict
+
         Get details about the event
         """
         data = {
@@ -387,6 +411,7 @@ class Clubhouse:
     @require_authentication
     def create_event(self, name, time_start_epoch, description, event_id=None, user_ids=(), club_id=None, is_member_only=False, event_hashid=None):
         """ (Clubhouse, str, int, str, int, list, int, bool, int) -> dict
+
         Create a new event
         """
         data = {
@@ -405,6 +430,7 @@ class Clubhouse:
     @require_authentication
     def edit_event(self, name, time_start_epoch, description, event_id=None, user_ids=(), club_id=None, is_member_only=False, event_hashid=None):
         """ (Clubhouse, str, int, str, int, list, int, bool, int) -> dict
+
         Edit an event.
         """
         data = {
@@ -423,6 +449,7 @@ class Clubhouse:
     @require_authentication
     def delete_event(self, event_id, user_ids=None, club_id=None, is_member_only=False, event_hashid=None, description=None, time_start_epoch=None, name=None):
         """ (Clubhouse, str, list, int, bool, int, str, int, str) -> dict
+
         Delete event.
         """
         data = {
@@ -441,6 +468,7 @@ class Clubhouse:
     @require_authentication
     def get_events(self, is_filtered=True, page_size=25, page=1):
         """ (Clubhouse, bool, int, int) -> dict
+
         Get list of upcoming events with details.
         """
         _is_filtered = "true" if is_filtered else "false"
@@ -455,6 +483,7 @@ class Clubhouse:
     @require_authentication
     def get_club(self, club_id, source_topic_id=None):
         """ (Clubhouse, int, int) -> dict
+
         Get the information about the given club_id.
         """
         data = {
@@ -467,6 +496,7 @@ class Clubhouse:
     @require_authentication
     def get_club_members(self, club_id, return_followers=False, return_members=True, page_size=50, page=1):
         """ (Clubhouse, int, bool, bool, int, int) -> dict
+
         Get list of members on the given club_id.
         """
         query = "club_id={}&return_followers={}&return_members={}&page_size={}&page={}".format(
@@ -482,6 +512,7 @@ class Clubhouse:
     @require_authentication
     def get_settings(self):
         """ (Clubhouse) -> dict
+
         Receive user's settings.
         """
         req = requests.get(f"{self.API_URL}/get_settings", headers=self.HEADERS)
@@ -490,6 +521,7 @@ class Clubhouse:
     @require_authentication
     def get_welcome_channel(self):
         """ (Clubhouse) -> dict
+
         Seems to be called upon sign up. Does not seem to return much data.
         """
         req = requests.get(f"{self.API_URL}/get_welcome_channel", headers=self.HEADERS)
@@ -498,6 +530,7 @@ class Clubhouse:
     @require_authentication
     def hide_channel(self, channel, hide=True):
         """ (Clubhouse, str, bool) -> dict
+
         Hide/unhide the channel from the channel list.
         """
         # Join channel
@@ -511,9 +544,9 @@ class Clubhouse:
     @require_authentication
     def join_channel(self, channel, attribution_source="feed"):
         """ (Clubhouse, str, str) -> dict
+
         Join the given channel
         """
-        # Join channel
         data = {
             "channel": channel,
             "attribution_source": attribution_source,
@@ -525,6 +558,7 @@ class Clubhouse:
     @require_authentication
     def leave_channel(self, channel):
         """ (Clubhouse, str) -> dict
+
         Leave the given channel
         """
         data = {
@@ -537,6 +571,7 @@ class Clubhouse:
     @require_authentication
     def make_channel_public(self, channel, channel_id=None):
         """ (Clubhouse, str, int) -> dict
+
         Make the current channel open to public.
         Everyone can join the channel.
         """
@@ -550,6 +585,7 @@ class Clubhouse:
     @require_authentication
     def make_channel_social(self, channel, channel_id=None):
         """ (Clubhouse, str, int) -> dict
+
         Make the current channel open to public.
         Only people who user follows can join the channel.
         """
@@ -563,6 +599,7 @@ class Clubhouse:
     @require_authentication
     def end_channel(self, channel, channel_id=None):
         """ (Clubhouse, str, int) -> dict
+
         Kick everyone and close the channel. Requires moderator privilege.
         """
         data = {
@@ -575,6 +612,7 @@ class Clubhouse:
     @require_authentication
     def make_moderator(self, channel, user_id):
         """ (Clubhouse, str, int) -> dict
+
         Make the given user moderator. Requires moderator privilege.
         """
         data = {
@@ -587,6 +625,7 @@ class Clubhouse:
     @require_authentication
     def block_from_channel(self, channel, user_id):
         """ (Clubhouse, str, int) -> dict
+
         Remove the user from the channel. The user will not be able to re-join.
         """
         data = {
@@ -599,6 +638,7 @@ class Clubhouse:
     @require_authentication
     def get_profile(self, user_id):
         """ (Clubhouse, str) -> dict
+
         Lookup someone else's profile. It is OK to one's own profile with this method.
         """
         data = {
@@ -610,6 +650,7 @@ class Clubhouse:
     @require_authentication
     def me(self, return_blocked_ids=False, timezone_identifier="Asia/Tokyo", return_following_ids=False):
         """ (Clubhouse, bool, str, bool) -> dict
+
         Get my information
         """
         data = {
@@ -623,6 +664,7 @@ class Clubhouse:
     @require_authentication
     def get_following(self, user_id, page_size=50, page=1):
         """ (Clubhouse, str, int, int) -> dict
+
         Get following users type2
         """
         query = "user_id={}&page_size={}&page={}".format(
@@ -636,6 +678,7 @@ class Clubhouse:
     @require_authentication
     def get_followers(self, user_id, page_size=50, page=1):
         """ (Clubhouse, str, int, int) -> dict
+
         Get followers of the given user_id.
         """
         query = "user_id={}&page_size={}&page={}".format(
@@ -649,6 +692,7 @@ class Clubhouse:
     @require_authentication
     def get_mutual_follows(self, user_id, page_size=50, page=1):
         """ (Clubhouse, str, int, int) -> dict
+
         Get mutual followers between the current user and the given user_id.
         """
         query = "user_id={}&page_size={}&page={}".format(
@@ -662,6 +706,7 @@ class Clubhouse:
     @require_authentication
     def get_all_topics(self):
         """ (Clubhouse) -> dict
+
         Get list of topics, based on the server's channel selection algorithm
         """
         req = requests.get(f"{self.API_URL}/get_all_topics", headers=self.HEADERS)
@@ -670,6 +715,7 @@ class Clubhouse:
     @require_authentication
     def get_channels(self):
         """ (Clubhouse) -> dict
+
         Get list of channels, based on the server's channel selection algorithm
         """
         req = requests.get(f"{self.API_URL}/get_channels", headers=self.HEADERS)
@@ -678,6 +724,7 @@ class Clubhouse:
     @require_authentication
     def get_channel(self, channel, channel_id=None):
         """ (Clubhouse, str, int) -> dict
+
         Get information of the given channel
         """
         data = {
@@ -690,6 +737,7 @@ class Clubhouse:
     @require_authentication
     def active_ping(self, channel):
         """ (Clubhouse, str) -> dict
+
         Keeping the user active while being in a chatroom
         """
         data = {
@@ -702,6 +750,7 @@ class Clubhouse:
     @require_authentication
     def audience_reply(self, channel, raise_hands=True, unraise_hands=False):
         """ (Clubhouse, str, bool, bool) -> bool
+
         Request for raise_hands.
         """
         data = {
@@ -715,13 +764,15 @@ class Clubhouse:
     @require_authentication
     def change_handraise_settings(self, channel, is_enabled=True, handraise_permission=1):
         """ (Clubhouse, bool, int) -> dict
+
         Change handraise settings. Requires moderator privilege
-        handraise_permission
-            1: Everyone
-            2: Followed by the speakers
-        is_enabled
-            True: Enable handraise
-            False: Disable handraise
+
+        * handraise_permission(int)
+           - 1: Everyone
+           - 2: Followed by the speakers
+        * is_enabled(bool)
+           - True: Enable handraise
+           - False: Disable handraise
         """
         handraise_permission = int(handraise_permission)
         if not 1 <= handraise_permission <= 2:
@@ -753,6 +804,7 @@ class Clubhouse:
     @require_authentication
     def get_notifications(self, page_size=20, page=1):
         """ (Clubhouse, int, int) -> dict
+
         Get my notifications.
         """
         query = f"page_size={page_size}&page={page}"
@@ -762,6 +814,7 @@ class Clubhouse:
     @require_authentication
     def get_actionable_notifications(self):
         """ (Clubhouse, int, int) -> dict
+
         Get notifications. This may return some notifications that require some actions
         """
         req = requests.get(f"{self.API_URL}/get_actionable_notifications", headers=self.HEADERS)
@@ -770,6 +823,7 @@ class Clubhouse:
     @require_authentication
     def get_online_friends(self):
         """ (Clubhouse) -> dict
+
         List all online friends.
         """
         req = requests.post(f"{self.API_URL}/get_online_friends", headers=self.HEADERS, json={})
@@ -778,6 +832,7 @@ class Clubhouse:
     @require_authentication
     def accept_speaker_invite(self, channel, user_id):
         """ (Clubhouse, str, int) -> dict
+
         Accept speaker's invitation, based on the (channel, invited_moderator)
         `raise_hands` needs to be called first, prior to the invitation.
         """
@@ -791,6 +846,7 @@ class Clubhouse:
     @require_authentication
     def reject_speaker_invite(self, channel, user_id):
         """ (Clubhouse, str, int) -> dict
+
         Reject speaker's invitation.
         """
         data = {
@@ -803,6 +859,7 @@ class Clubhouse:
     @require_authentication
     def invite_speaker(self, channel, user_id):
         """ (Clubhouse, str, int) -> dict
+
         Move audience to speaker. Requires moderator privilege.
         """
         data = {
@@ -815,6 +872,7 @@ class Clubhouse:
     @require_authentication
     def uninvite_speaker(self, channel, user_id):
         """ (Clubhouse, str, int) -> dict
+
         Move speaker to audience. Requires moderator privilege.
         """
         data = {
@@ -827,6 +885,7 @@ class Clubhouse:
     @require_authentication
     def mute_speaker(self, channel, user_id):
         """ (Clubhouse, str, int) -> dict
+
         Mute speaker. Requires moderator privilege
         """
         data = {
@@ -839,6 +898,7 @@ class Clubhouse:
     @require_authentication
     def get_suggested_speakers(self, channel):
         """ (Clubhouse, str) -> dict
+
         Get suggested speakers from the given channel
         """
         data = {
@@ -850,7 +910,8 @@ class Clubhouse:
     @require_authentication
     def create_channel(self, topic="", user_ids=(), is_private=False, is_social_mode=False):
         """ (Clubhouse, str, list, bool, bool) -> dict
-        Create a new channel. Type of the room can be changed.
+
+        Create a new channel. Type of the room can be changed
         """
         data = {
             "is_social_mode": is_social_mode,
@@ -866,7 +927,8 @@ class Clubhouse:
     @require_authentication
     def get_create_channel_targets(self):
         """ (Clubhouse) -> dict
-        Not sure what this does. Triggered during channel creation
+
+        Not sure what this does. Triggered upon channel creation
         """
         data = {}
         req = requests.post(f"{self.API_URL}/get_create_channel_targets", headers=self.HEADERS, json=data)
@@ -875,8 +937,11 @@ class Clubhouse:
     @require_authentication
     def get_suggested_invites(self, club_id=None, upload_contacts=True, contacts=()):
         """ (Clubhouse, int, bool, list of dict) -> dict
+
         Get invitations and user lists based on phone number.
-        contacts: [{"name": "Test Name", "phone_number": "+821043219876"}, ...]
+
+        contacts(dict)
+            - example: [{"name": "Test Name", "phone_number": "+821043219876"}, ...]
         """
         data = {
             "club_id": club_id,
@@ -889,8 +954,11 @@ class Clubhouse:
     @require_authentication
     def get_suggested_club_invites(self, upload_contacts=True, contacts=()):
         """ (Clubhouse, int, bool, list of dict) -> dict
+
         Get user lists based on phone number. For inviting clubs.
-        contacts: [{"name": "Test Name", "phone_number": "+821043219876"}, ...]
+
+        contacts(dict)
+            - example: [{"name": "Test Name", "phone_number": "+821043219876"}, ...]
         """
         data = {
             "upload_contacts": upload_contacts,
@@ -902,6 +970,7 @@ class Clubhouse:
     @require_authentication
     def invite_to_app(self, name, phone_number, message=None):
         """ (Clubhouse, str, str, str) -> dict
+
         Invite users to app. but this only works when you have a leftover invitation.
         """
         data = {
@@ -915,6 +984,7 @@ class Clubhouse:
     @require_authentication
     def invite_from_waitlist(self, user_id):
         """ (Clubhouse, str, str, str) -> dict
+
         Invite someone from the waitlist.
         This is much more reliable than inviting someone by invite_to_app
         """
@@ -927,6 +997,7 @@ class Clubhouse:
     @require_authentication
     def search_users(self, query, followers_only=False, following_only=False, cofollows_only=False):
         """ (Clubhouse, str, bool, bool, bool) -> dict
+
         Search users based on the given query.
         """
         data = {
@@ -941,6 +1012,7 @@ class Clubhouse:
     @require_authentication
     def search_clubs(self, query, followers_only=False, following_only=False, cofollows_only=False):
         """ (Clubhouse, str, bool, bool, bool) -> dict
+
         Search clubs based on the given query.
         """
         data = {
@@ -955,6 +1027,7 @@ class Clubhouse:
     @require_authentication
     def get_topic(self, topic_id):
         """ (Clubhouse, int) -> dict
+
         Get topic's information based on the given topic id.
         """
         data = {
@@ -966,6 +1039,7 @@ class Clubhouse:
     @require_authentication
     def get_clubs_for_topic(self, topic_id, page_size=25, page=1):
         """ (Clubhouse, int, int, int) -> dict
+
         Get list of clubs based on the given topic id.
         """
         query = "topic_id={}&page_size={}&page={}".format(
@@ -979,6 +1053,7 @@ class Clubhouse:
     @require_authentication
     def get_clubs(self, is_startable_only):
         """ (Clubhouse, bool) -> dict
+
         Get list of clubs the user's in.
         """
         data = {
@@ -990,6 +1065,7 @@ class Clubhouse:
     @require_authentication
     def get_users_for_topic(self, topic_id, page_size=25, page=1):
         """ (Clubhouse, int, int, int) -> dict
+
         Get list of users based on the given topic id.
         """
         query = "topic_id={}&page_size={}&page={}".format(
@@ -1003,6 +1079,7 @@ class Clubhouse:
     @require_authentication
     def invite_to_existing_channel(self, channel, user_id):
         """ (Clubhouse, str, int) -> dict
+
         Invite someone to a currently joined channel.
         It will send a ping notification to the given user_id.
         """
@@ -1016,7 +1093,8 @@ class Clubhouse:
     @require_authentication
     def update_username(self, username):
         """ (Clubhouse, str) -> dict
-        Change username
+
+        Change username. YOU HAVE LIMITED NUMBER OF TRIALS TO CHANGE YOUR USERNAME.
         """
         data = {
             "username": username,
@@ -1027,7 +1105,10 @@ class Clubhouse:
     @require_authentication
     def update_name(self, name):
         """ (Clubhouse, str) -> dict
-        Change your name. YOU CAN ONLY DO THIS ONCE.
+
+        Change your legal name. Be careful of what you're trying to enter.
+            (1) Upon registration
+            (2) Changing your legal name. YOU CAN ONLY DO THIS ONCE.
         """
         data = {
             "name": name,
@@ -1039,7 +1120,11 @@ class Clubhouse:
     @require_authentication
     def update_twitter_username(self, username, twitter_token, twitter_secret):
         """ (Clubhouse, str, str, str) -> dict
+
         Change Twitter username based on Twitter Token.
+
+        >>> client.update_twitter_username(None, None, None) # Clear username
+        >>> client.update_twitter_username("stereotype32", "...", "...") # Set username
         """
         data = {
             "username": username,
@@ -1053,7 +1138,11 @@ class Clubhouse:
     @require_authentication
     def update_instagram_username(self, code):
         """ (Clubhouse, str) -> dict
+
         Change Twitter username based on Instagram token.
+
+        >>> client.update_instagram_username(None) # Clear username
+        >>> client.update_instagram_username("...") # Set username
         """
         data = {
             "code": code
@@ -1064,6 +1153,7 @@ class Clubhouse:
     @require_authentication
     def update_displayname(self, name):
         """ (Clubhouse, str) -> dict
+
         Change your nickname. YOU CAN ONLY DO THIS ONCE.
         """
         data = {
@@ -1075,6 +1165,7 @@ class Clubhouse:
     @require_authentication
     def refresh_token(self, refresh_token):
         """ (Clubhouse, str) -> dict
+
         Refresh the JWT token. returns both access and refresh token.
         """
         data = {
@@ -1086,6 +1177,7 @@ class Clubhouse:
     @require_authentication
     def update_bio(self, bio):
         """ (Clubhouse, str) -> dict
+
         Update bio on your profile
         """
         data = {
@@ -1097,6 +1189,7 @@ class Clubhouse:
     @require_authentication
     def record_action_trails(self, action_trails=()):
         """ (Clubhouse, list of dict) -> dict
+
         Recording actions of the user interactions while using the app.
         action_trails: [{"blob_data":{}, "trail_type": "...", ...}, ...]
         """
@@ -1106,28 +1199,31 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/update_bio", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
-    def add_user_topic(self, club_id, topic_id):
+    def add_user_topic(self, club_id=None, topic_id=None):
         """ (Clubhouse, int, int) -> dict
-        Add user topic
+
+        Add user's interest.
+
+        Some interesting flags for Language has been shared in the following link.
+        Reference: https://github.com/grishka/Houseclub/issues/24
         """
         data = {
-            "club_id": club_id,
-            "topic_id": topic_id
+            "club_id": int(club_id) if club_id else None,
+            "topic_id": int(topic_id) if topic_id else None
         }
         req = requests.post(f"{self.API_URL}/add_user_topic", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
     def remove_user_topic(self, club_id, topic_id):
         """ (Clubhouse, int, int) -> dict
-        Remove user topic
+
+        Remove user's interest
         """
         data = {
-            "club_id": club_id,
-            "topic_id": topic_id
+            "club_id": int(club_id) if club_id else None,
+            "topic_id": int(topic_id) if topic_id else None
         }
         req = requests.post(f"{self.API_URL}/remove_user_topic", headers=self.HEADERS, json=data)
         return req.json()
@@ -1138,7 +1234,6 @@ class Clubhouse:
         """ (Clubhouse, int, str, unknown, str, str) -> dict
 
         Report incident
-
         There seemed to be a field for attachment, need to trace this later
         """
         data = {
@@ -1155,6 +1250,7 @@ class Clubhouse:
     @require_authentication
     def reject_welcome_channel(self):
         """ (Clubhouse) -> dict
+
         Unknown
         """
         req = requests.get(f"{self.API_URL}/reject_welcome_channel", headers=self.HEADERS)
@@ -1164,6 +1260,7 @@ class Clubhouse:
     @require_authentication
     def update_channel_flags(self, channel, visibility, flag_title, unflag_title):
         """ (Clubhouse, str, bool, unknown, unknown) -> dict
+
         Unknown
         """
         data = {
@@ -1179,6 +1276,7 @@ class Clubhouse:
     @require_authentication
     def ignore_actionable_notification(self, actionable_notification_id):
         """ (Clubhouse, int) -> dict
+
         Ignore the actionable notification.
         """
         data = {
@@ -1191,6 +1289,7 @@ class Clubhouse:
     @require_authentication
     def invite_to_new_channel(self, user_id, channel):
         """ (Clubhouse, int, str) -> dict
+
         Invite someone to the channel
         """
         data = {
@@ -1204,6 +1303,7 @@ class Clubhouse:
     @require_authentication
     def accept_new_channel_invite(self, channel_invite_id):
         """ (Clubhouse, int) -> dict
+
         Accept Channel Invitation
         """
         data = {
@@ -1216,6 +1316,7 @@ class Clubhouse:
     @require_authentication
     def reject_new_channel_invite(self, channel_invite_id):
         """ (Clubhouse, int) -> dict
+
         Reject Channel Invitation
         """
         data = {
@@ -1228,6 +1329,7 @@ class Clubhouse:
     @require_authentication
     def cancel_new_channel_invite(self, channel_invite_id):
         """ (Clubhouse, int) -> dict
+
         Cancel Channel Invitation
         """
         data = {
@@ -1240,6 +1342,7 @@ class Clubhouse:
     @require_authentication
     def add_club_admin(self, club_id, user_id):
         """ (Clubhouse, int, int) -> dict
+
         Add Club Admin. Requires privilege.
         """
         data = {
@@ -1253,10 +1356,11 @@ class Clubhouse:
     @require_authentication
     def remove_club_admin(self, club_id, user_id):
         """ (Clubhouse, int, int) -> dict
+
         Remove Club admin. Requires privilege.
         """
         data = {
-            "club_id": int(club_id),
+            "club_id": int(club_id) if club_id else None,
             "user_id": int(user_id)
         }
         req = requests.post(f"{self.API_URL}/remove_club_admin", headers=self.HEADERS, json=data)
@@ -1266,10 +1370,11 @@ class Clubhouse:
     @require_authentication
     def remove_club_member(self, club_id, user_id):
         """ (Clubhouse, int, int) -> dict
+
         Remove Club member. Requires privilege.
         """
         data = {
-            "club_id": int(club_id),
+            "club_id": int(club_id) if club_id else None,
             "user_id": int(user_id)
         }
         req = requests.post(f"{self.API_URL}/remove_club_member", headers=self.HEADERS, json=data)
@@ -1279,10 +1384,11 @@ class Clubhouse:
     @require_authentication
     def accept_club_member_invite(self, club_id, source_topic_id=None):
         """ (Clubhouse, int, int) -> dict
+
         Accept Club member invite.
         """
         data = {
-            "club_id": int(club_id),
+            "club_id": int(club_id) if club_id else None,
             "source_topic_id": source_topic_id
         }
         req = requests.post(f"{self.API_URL}/accept_club_member_invite", headers=self.HEADERS, json=data)
@@ -1292,6 +1398,7 @@ class Clubhouse:
     @require_authentication
     def add_club_member(self, club_id, user_id, name, phone_number, message, reason):
         """ (Clubhouse, int, int, str, str, str, unknown) -> dict
+
         Add club member
         """
         data = {
@@ -1309,6 +1416,7 @@ class Clubhouse:
     @require_authentication
     def get_club_nominations(self, club_id, source_topic_id):
         """ (Club, int, int) -> dict
+
         Get club nomination list
         """
         data = {
@@ -1322,6 +1430,7 @@ class Clubhouse:
     @require_authentication
     def approve_club_nomination(self, club_id, source_topic_id, invite_nomination_id):
         """ (Club, int, int) -> dict
+
         Approve club nomination
         """
         data = {
@@ -1336,6 +1445,7 @@ class Clubhouse:
     @require_authentication
     def reject_club_nomination(self, club_id, source_topic_id, invite_nomination_id):
         """ (Club, int, int) -> dict
+
         Reject club nomination
         """
         data = {
@@ -1350,6 +1460,7 @@ class Clubhouse:
     @require_authentication
     def add_club_topic(self, club_id, topic_id):
         """ (Club, int, int) -> dict
+
         Add club topic
         """
         data = {
@@ -1363,6 +1474,7 @@ class Clubhouse:
     @require_authentication
     def remove_club_topic(self, club_id, topic_id):
         """ (Club, int, int) -> dict
+
         Remove club topic
         """
         data = {
@@ -1376,6 +1488,7 @@ class Clubhouse:
     @require_authentication
     def get_events_to_start(self):
         """ (Clubhouse) -> dict
+
         Get events to start
         """
         req = requests.get(f"{self.API_URL}/get_events_to_start", headers=self.HEADERS)
@@ -1385,6 +1498,7 @@ class Clubhouse:
     @require_authentication
     def update_is_follow_allowed(self, club_id, is_follow_allowed=True):
         """ (Clubhouse, int, bool) -> dict
+
         Update follow button of the given Club
         """
         data = {
@@ -1398,6 +1512,7 @@ class Clubhouse:
     @require_authentication
     def update_is_membership_private(self, club_id, is_membership_private):
         """ (Clubhouse, int, bool) -> dict
+
         Update membership status of the given Club
         """
         data = {
@@ -1411,6 +1526,7 @@ class Clubhouse:
     @require_authentication
     def update_is_community(self, club_id, is_community):
         """ (Clubhouse, int, bool) -> dict
+
         Update community stat of the given Club
         """
         data = {
@@ -1424,6 +1540,7 @@ class Clubhouse:
     @require_authentication
     def update_club_description(self, club_id, description):
         """ (Clubhouse, int, str) -> dict
+
         Update description of the given Club
         """
         data = {
@@ -1437,6 +1554,7 @@ class Clubhouse:
     @require_authentication
     def update_club_rules(self):
         """ (Clubhouse) -> dict
+
         Not implemented method
         """
         raise NotImplementedError("Not Implemented!")
@@ -1445,6 +1563,7 @@ class Clubhouse:
     @require_authentication
     def update_club_topics(self):
         """ (Clubhouse) -> dict
+
         Not implemented method
         """
         raise NotImplementedError("Not Implemented!")
@@ -1453,6 +1572,7 @@ class Clubhouse:
     @require_authentication
     def get_events_for_user(self):
         """ (Clubhouse) -> dict
+
         Not implemented method
         """
         raise NotImplementedError("Not Implemented!")
