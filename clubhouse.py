@@ -5,6 +5,7 @@
 
 """
 clubhouse.py
+
 Developed for education purposes only.
 Please make sure to know what you're trying to do!
 Sending an odd API request could result in a permanent ban on your account.
@@ -33,7 +34,8 @@ class Clubhouse:
     API_URL = "https://www.clubhouseapi.com/api"
     API_BUILD_ID = "304"
     API_BUILD_VERSION = "0.1.28"
-    API_UA = f"clubhouse/{API_BUILD_ID} (iPhone; iOS 13.5.1; Scale/3.00)"
+    API_UA = f"clubhouse/{API_BUILD_ID} (iPhone; iOS 14.4; Scale/2.00)"
+    API_UA_STATIC = f"Clubhouse/{API_BUILD_ID} CFNetwork/1220.1 Darwin/20.3.0"
 
     # Some useful information for commmunication
     PUBNUB_PUB_KEY = "pub-c-6878d382-5ae6-4494-9099-f930f938868b"

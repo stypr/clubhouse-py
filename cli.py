@@ -7,6 +7,7 @@ RTC: For voice communication
 """
 
 import os
+import sys
 import threading
 import configparser
 import keyboard
@@ -256,9 +257,15 @@ def chat_main(client):
         # Add raise_hands key bindings for speaker permission
         # Sorry for the bad quality
         if not channel_speaker_permission:
-            print("[*] Press [Ctrl+Shift+H] to raise your hands for the speaker permission.")
+
+            if sys.platform == "darwin": # OSX
+                _hotkey = "9"
+            elif sys.platform == "win32": # Windows
+                _hotkey = "ctrl+shift+h"
+
+            print(f"[*] Press [{_hotkey}] to raise your hands for the speaker permission.")
             keyboard.add_hotkey(
-                "ctrl+shift+h",
+                _hotkey,
                 _request_speaker_permission,
                 args=(client, channel_name, user_id)
             )
@@ -359,10 +366,9 @@ def main():
 if __name__ == "__main__":
     try:
         main()
-    except:
+    except Exception:
         # Remove dump files on exit.
         file_list = os.listdir(".")
         for _file in file_list:
             if _file.endswith(".dmp"):
                 os.remove(_file)
-
