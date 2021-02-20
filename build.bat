@@ -1,3 +1,3 @@
 @ECHO OFF
 
-python -m PyInstaller --onefile .\cli.py --onefile --icon=icon.ico
+python -m PyInstaller --onefile .\cli.py --icon=icon.ico

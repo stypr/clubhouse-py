@@ -1,6 +1,8 @@
 *_orig.py
 *.pyc
 *.ini
+*.spec
+__pycache__/
 .DS_Store
 Thumbs.db
 .idea
