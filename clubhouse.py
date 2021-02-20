@@ -371,11 +371,13 @@ class Clubhouse:
         """ (Clubhouse, int, list, int, bool, int, str, int, str) -> dict
         Get details about the event
         """
+        if event_id:
+            event_id = int(event_id)
         data = {
             "user_ids": user_ids,
             "club_id": club_id,
             "is_member_only": is_member_only,
-            "event_id": int(event_id),
+            "event_id": event_id,
             "event_hashid": event_hashid,
             "description": description,
             "time_start_epoch": time_start_epoch,
