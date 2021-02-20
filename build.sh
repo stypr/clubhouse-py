@@ -1,3 +1,5 @@
 #!/bin/sh
 
-python3 -m PyInstaller --onefile ./cli.py
+rm -rf build/ dist/
+rm *.pyc
+python3 -OO -m PyInstaller --onefile ./cli.py

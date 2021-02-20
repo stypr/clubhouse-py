@@ -20,6 +20,10 @@ Standalone client is also created with very basic features, including but not li
 
 Please note that you may get a permanent ban for sending invalid API requests. Server's ratelimit and security mechanisms are quite strict.
 
+## Downloads
+
+Check [Releases](https://github.com/stypr/clubhouse-py/releases). OSX(x86_64) may not be stable for use yet.
+
 ## Demo
 
 Please click the image to open a Youtube video demo.
