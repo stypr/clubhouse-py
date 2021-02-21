@@ -13,7 +13,7 @@ import configparser
 import keyboard
 from rich.table import Table
 from rich.console import Console
-from clubhouse import Clubhouse
+from clubhouse.clubhouse import Clubhouse
 
 # Set some global variables
 try:
