@@ -15,7 +15,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="clubhouse-py",
-    packages=["clubhouse-py"],
+    packages=["clubhouse"],
     version="304.0.0",
     license="MIT",
     description=("Clubhouse API written in Python. Standalone client included." +
