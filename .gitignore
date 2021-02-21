@@ -9,3 +9,4 @@ Thumbs.db
 .vscode
 build/
 dist/
+clubhouse_py.egg-info/
