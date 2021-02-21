@@ -75,7 +75,7 @@ $ pip3 install -r requirements.txt
 * For calling APIs from other script
 
 ```python
-from clubhouse import Clubhouse
+from clubhouse.clubhouse import Clubhouse
 
 ...
 
