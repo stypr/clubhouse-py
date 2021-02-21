@@ -38,6 +38,22 @@ Please click the image to open a Youtube video demo.
 
 ## Installation
 
+### By pip 
+
+1. Install by pip
+
+```sh
+$ pip3 install clubhouse-py
+...
+Successfully built clubhouse-py
+Installing collected packages: clubhouse-py
+Successfully installed clubhouse-py-304.0.1
+```
+
+2. You need to install Agora SDK for voice communication. Refer to [Agora-Python-SDK#installation](https://github.com/AgoraIO-Community/Agora-Python-SDK#installation).
+
+### Manual Installation
+
 1. Clone project
 
 ```sh
