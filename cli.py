@@ -216,8 +216,11 @@ def chat_main(client):
         channel_name = input("[.] Enter channel_name: ")
         channel_info = client.join_channel(channel_name)
         if not channel_info['success']:
-            print(f"[-] Error while joining the channel ({channel_info['error_message']})")
-            continue
+            # Check if this channel_name was taken from the link
+            channel_info = client.join_channel(channel_name, "link", "e30=")
+            if not channel_info['success']:
+                print(f"[-] Error while joining the channel ({channel_info['error_message']})")
+                continue
 
         # List currently available users (TOP 20 only.)
         # Also, check for the current user's speaker permission.
