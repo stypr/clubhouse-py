@@ -4,14 +4,19 @@
     setup.py
     For pypi
 """
-from distutils.core import setup
-with open("README.md", "r", encoding="utf-8") as fh:
+from setuptools import setup
+
+def _requires_from_file(filename):
+    return open(filename).read().splitlines()
+
+
+with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
     name="clubhouse-py",
     packages=["clubhouse-py"],
-    version="304",
+    version="304.0.0",
     license="MIT",
     description=("Clubhouse API written in Python. Standalone client included." +
         "For reference and education purposes only."),
@@ -28,11 +33,7 @@ setup(
         "clubhouse-api",
         "clubhouse-lib",
     ],
-    install_requires=[
-        "keyboard",
-        "requests",
-        "rich",
-    ],
+    install_requires=_requires_from_file("requirements.txt"),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
