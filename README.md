@@ -9,9 +9,9 @@
 
 ## Pull Requests / Issues
 
-1. Please DO NOT request PR for minor (documentation|typo|paragraph) changes. All of them will be rejected and closed.
-2. Check closed [issues](https://github.com/stypr/clubhouse-py/issues?q=is%3Aissue+is%3Aclosed) before asking a question / feature request.
-3. There is no need to add Dockerfile, change .gitignore, etc. What kind of PR we need is adding endpoints that are actually working
+I have disabled PRs and issues temporarily. I may/may not continue on development.
+
+[closed PRs](https://github.com/stypr/clubhouse-py/pulls?q=is%3Apr+is%3Aclosed) / [closed issues](https://github.com/stypr/clubhouse-py/issues?q=is%3Aissue+is%3Aclosed) 
 
 ## Clubhouse API written in Python
 
