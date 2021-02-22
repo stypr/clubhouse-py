@@ -18,7 +18,11 @@ I have disabled PRs and issues temporarily. I may/may not continue on developmen
 > Are you affiliated with those guys who built the website that streamed Clubhouse rooms?
 
 No.
-I am not affiliated with anyone or any company.
+
+I am not affiliated with anyone or any company. 
+
+This is just a personal project.
+
 
 > Why did you develop this? what is your whole intention about releasing this to public?
 
