@@ -15,6 +15,11 @@ I have disabled PRs and issues temporarily. I may/may not continue on developmen
 
 ## QnA
 
+> Are you affiliated with those guys who built the website that streamed Clubhouse rooms?
+
+No.
+I am not affiliated with anyone or any company.
+
 > Why did you develop this? what is your whole intention about releasing this to public?
 
 1. There has been a lot of articles about security concerns of Clubhouse when I joined Clubhouse.
@@ -33,6 +38,8 @@ I have disabled PRs and issues temporarily. I may/may not continue on developmen
 5. Clubhouse has a straightforward API with some unknown security mechanisms; They have implemented things to ban you for excessive usage.
 6. DO NOT even try anything if you don't really know what you'r trying to do. I have been mentioning the same message over here and there.
 7. I am not liable for anything you do with this application. I already warned about this as well.
+
+> 
 
 > You've released API keys and secret keys. Wouldn't that severely impact the server?
 
