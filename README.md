@@ -61,7 +61,7 @@ I think issues I found seem to be already reported by other researchers as well 
 
 I've already sent a twitter DM to one of Clubhouse employees as of 2021/Feb/24, but I haven't received any messages yet.
 
-> Then, can you explain a bit on that myth about Chinese IP thing?
+> Then, can you explain a bit on that myth about the Chinese IP thing?
 
 1. It's fixed in the latest version. You don't have to worry about this anymore.
 2. Worth reading [this technical post](https://theori.io/research/korean/analyzing-clubhouse) for more detailed information.
@@ -73,12 +73,12 @@ I've already sent a twitter DM to one of Clubhouse employees as of 2021/Feb/24, 
 2. Moreover, there is no way to even catch or block the user when someone records and shares your voice record anonymously.
 3. I think there are much more serious risks/problems that CH developers need to take a look at. There seem to be more high priority issues than this one. (in which I assume they're already working on atm)
 
-> What do you think about the Clubhouse app? Is the app secure enough? Can you rate their security levels?
+> What do you think about the Clubhouse app? Is the app secure enough? Can you rate their security quality?
 
 From my very personal perspective as a security engineer:
 
-1. API: Well-made. I see developers are trying to fix some security issues here, but they still haven't fixed it, yet.
-2. Notifications: LGTM. but sometimes the server goes down. I haven't looked deep into it.
+1. API: Well-made, and I see developers are trying to fix some security issues here. although they still haven't fixed it, yet.
+2. Notifications: LGTM. but sometimes the server goes down pretty frequently. I haven't looked deep into it.
 3. Interaction with voice protocol: meh, but it looks like they're trying to work on it. I think it is more fun to dig more in but doing so will go out of the scope.
 
 > Don't you think your actions were ethically wrong?
@@ -96,6 +96,30 @@ As of 2021/Feb/24,
 4. Also, ny looking at those documentations and my codes, you have now noticed that the `enableEncryption` is never used in my code.
 5. In the latest version, they seem to add the encryption but it is not yet used. It should be fixed in upcoming releases.
 
+> I heard that the app is also using Camera permissions. I am really worried right now.
+
+You don't have to worry.
+
+There are some things to know here.
+
+1. It may have been turned on because you tried to take a photo of yourself to put a profile image.
+2. ... or the voice SDK is trying to secretly access your camera. But from my analysis, I don't see anything like that happening from the App to take photos or videos. Although they have feature to communicate with video stuff, the app does not use that part of the feature. (Confirmed safe as of Feb 2021)
+
+> I heard that the app is also taking your information while adding your Instagram/Twitter accounts.  did you check that?
+
+Yes. You don't have to worry about this as well.
+
+Clubhouse only takes very basic part of your information just to verify that you are the owner of the given account.
+
+* For Instagram: You're allowing Clubhouse to just take your username. That's all.
+* For Twitter: You're allowing Clubhouse to read your profile, timeline and tweets. However, Clubhouse CANNOT read your personal DMs. This is the least permission they can ask to a user. 
+
+The permission setting can also change, but in that case you will be asked again to re-authorize the application with additional permission. Don't worry so much about this part.
+
+If you're still worried about this, You can also revoke the access by doing the following action.
+
+* For Instagram: `Settings` -> `Security` -> `Apps and Websites` -> `Active` -> `Clubhouse` -> revoke access.
+* For Twitter: `Settings` -> `Security and account access` -> `Apps and sessions` -> `Connected apps` -> `Clubhouse` -> revoke acccess.
 
 > Do you have any plans to do further analysis if Clubhouse opens up a bug bounty programme?
 
