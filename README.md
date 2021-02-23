@@ -38,7 +38,7 @@ This is just my personal project.
 > What if someone uses your code to do malicious activities? Wouldn't that be an issue?
 
 1. Evil people with evil intentions will do bad things even if the sourcecode wasn't released.
-2. There has been already numerous reports of trollers doing bad things around here and there. ([Reference](https://github.com/ai-eks/OpenClubhouse)) These trollers have also disclosed their sourcecode, so please have some time to check their source code. They did their own stuff without even referencing my source code. This already implies that evil people will always try to break stuff and do bad things.
+2. There has been already numerous reports of trollers doing bad things around here and there. ([Reference](https://github.com/ai-eks/OpenClubhouse)) These trollers have also disclosed their sourcecode, so please have some time to check their source code. These guys did their stuff without even referencing other's source code. This already shows that evil people will always try to break stuff and do bad things regardless of any other helpful factors.
 4. What I shared on GitHub is a very basic thing that a reverse engineer can do. It's technically not difficult to get these information snatched from the binary.
 5. Clubhouse has a straightforward API with some unknown security mechanisms; They have implemented things to ban you for excessive usage.
 6. DO NOT even try anything if you don't really know what you're trying to do. I have been mentioning the same message over here and there.
@@ -49,12 +49,17 @@ This is just my personal project.
 1. Let me make things clear first. Those keys are NOT confidential secrets.
 2. These are just identifiers for third-party services to declare that your actions are coming from the Clubhouse app.
 3. These keys are used for communication, adding your instagram/twitter accounts, chat notifications, etc.
+4. I wouldn't have disclosed keys if these keys were actual secrets/confidentials.
 
 > Can you disclose what you've found during an analysis?
 
 No.
 
-But I'm planning to send DMs / mails to Clubhouse employees in the near future.
+I will only disclose these issues to the vendor. 
+
+I think issues I found seem to be already reported by other researchers as well and they might be already aware of these issues and circumstances.
+
+I've already sent a twitter DM to one of Clubhouse employees as of 2021/Feb/24, but I haven't received any messages yet.
 
 > Then, can you explain a bit on that myth about Chinese IP thing?
 
@@ -66,20 +71,31 @@ But I'm planning to send DMs / mails to Clubhouse employees in the near future.
 
 1. There is literally no way to disallow users from recording the voice. Imagine some people having a "physical" recording device next to them. How will you or the Clubhouse app detect such actions?
 2. Moreover, there is no way to even catch or block the user when someone records and shares your voice record anonymously.
-3. I think there are much more serious risks/problems that CH developers need to take a look at. 
+3. I think there are much more serious risks/problems that CH developers need to take a look at. There seem to be more high priority issues than this one. (in which I assume they're already working on atm)
 
-> What do you think about the Clubhouse app? Is it secure enough? Can you rate their security levels?
+> What do you think about the Clubhouse app? Is the app secure enough? Can you rate their security levels?
 
-From my personal perspective:
+From my very personal perspective as a security engineer:
 
-1. API: well-made
-2. Notifications: LGTM.
-3. Interaction with voice protocol: meh, but it looks like they're trying to work on it.
+1. API: Well-made. I see developers are trying to fix some security issues here, but they still haven't fixed it, yet.
+2. Notifications: LGTM. but sometimes the server goes down. I haven't looked deep into it.
+3. Interaction with voice protocol: meh, but it looks like they're trying to work on it. I think it is more fun to dig more in but doing so will go out of the scope.
 
 > Don't you think your actions were ethically wrong?
 
-1. I also heard that these issues were raised and discussed over several months in an open Clubhouse chatroom, and I guess I've clarified a lot of questions people had over for several months.
+1. I also heard that these issues were raised and discussed over several months in an open Clubhouse chatroom, and I guess I've clarified a lot of questions people had over for several months. I guess this already helped some of engineers who were pretty much concerned about things here.
 2. I am pretty sure that somemone would've done this if it wasn't me anyways. At least I gave some initiative to try with good wills and share details with you guys.
+
+> I heard that the voice communication is not encrypted. is this true?
+
+As of 2021/Feb/24,
+
+1. [This technical post](https://theori.io/research/korean/analyzing-clubhouse) already explains things really well about the current situation.
+2. I was also curious and read some documentations in Agora.io ([Reference](https://docs.agora.io/en/Voice/channel_encryption_android))
+3. As mentioned in the technical post, it looks like the communication is never done. 
+4. Also, ny looking at those documentations and my codes, you have now noticed that the `enableEncryption` is never used in my code.
+5. In the latest version, they seem to add the encryption but it is not yet used. It should be fixed in upcoming releases.
+
 
 > Do you have any plans to do further analysis if Clubhouse opens up a bug bounty programme?
 
