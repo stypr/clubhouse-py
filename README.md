@@ -13,6 +13,7 @@ I have disabled PRs and issues temporarily. I may/may not continue on developmen
 
 [Closed PRs](https://github.com/stypr/clubhouse-py/pulls?q=is%3Apr+is%3Aclosed) / [Closed Issues](https://github.com/stypr/clubhouse-py/issues?q=is%3Aissue+is%3Aclosed) 
 
+
 ## QnA
 
 > Are you affiliated with those guys who built the website that streamed Clubhouse rooms?
@@ -21,7 +22,7 @@ No.
 
 I am not affiliated with anyone or any company. 
 
-This is just a personal project.
+This is just my personal project.
 
 
 > Why did you develop this? what is your whole intention about releasing this to public?
@@ -30,55 +31,55 @@ This is just a personal project.
     * [Clubhouse And Its Privacy & Security Risk](https://medium.com/technology-hits/clubhouse-and-its-security-risk-201526fd06d1)
     * [Clubhouse says it will improve security after researchers raise China spying concerns](https://www.theverge.com/2021/2/14/22282772/clubhouse-improve-security-stanford-researchers-china-security)
     * [Clubhouse: Security and privacy in the new social media app](https://blog.avast.com/clubhouse-security-and-privacy-avast)
-2. I decided to take a closer look at the application by reverse engineering the app. With this I can possibly know what is the truth and what isn't.
+2. I decided to take a closer look at the application by reverse engineering the app. With this I can find out what is the truth and what isn't.
 3. I found some possible security risks during the analysis. However, I will not disclose this information until things are properly and safely mitigated.
-4. I was planning to destroy my work, but I've decided to share the code as (i) I found out that the whole authentication flow and API base may change in the future, so this src will be priceless at some point of time (ii) I think it would be better off for Android phone users to interact with others. (iii) I wanted more people to join into conversations and have fun.
+4. I was planning to destroy my work after doing the analysis, but I've decided to share the code as (i) I found out that the whole authentication flow and API base may change in the future, so this src will be priceless at some point of time (ii) I think it would be better off for Android phone users to interact with others. (iii) I wanted more people to join into conversations and have fun.
 
 > What if someone uses your code to do malicious activities? Wouldn't that be an issue?
 
-1. Evil people with evil intentions will do bad things even if the sourcecode wasn't released. 
-2. There has been already numerous reports of trollers doing bad things around here and there. ([Reference](https://github.com/ai-eks/OpenClubhouse)) These trollers have also disclosed their sourcecode so please have some time to check their source code. They did their own stuff without even referencing my source code. This already implies that evil people will always try to break stuff and do bad things.
-4. What I shared on GitHub is a very basic thing a reverse engineer could do. It's technically not difficult to get these information snatched from the binary.
+1. Evil people with evil intentions will do bad things even if the sourcecode wasn't released.
+2. There has been already numerous reports of trollers doing bad things around here and there. ([Reference](https://github.com/ai-eks/OpenClubhouse)) These trollers have also disclosed their sourcecode, so please have some time to check their source code. They did their own stuff without even referencing my source code. This already implies that evil people will always try to break stuff and do bad things.
+4. What I shared on GitHub is a very basic thing that a reverse engineer can do. It's technically not difficult to get these information snatched from the binary.
 5. Clubhouse has a straightforward API with some unknown security mechanisms; They have implemented things to ban you for excessive usage.
-6. DO NOT even try anything if you don't really know what you'r trying to do. I have been mentioning the same message over here and there.
+6. DO NOT even try anything if you don't really know what you're trying to do. I have been mentioning the same message over here and there.
 7. I am not liable for anything you do with this application. I already warned about this as well.
-
-> 
 
 > You've released API keys and secret keys. Wouldn't that severely impact the server?
 
 1. Let me make things clear first. Those keys are NOT confidential secrets.
-2. These are just identifiers for third-party services to declare that your request is coming from the Clubhouse app.
+2. These are just identifiers for third-party services to declare that your actions are coming from the Clubhouse app.
 3. These keys are used for communication, adding your instagram/twitter accounts, chat notifications, etc.
 
 > Can you disclose what you've found during an analysis?
 
-No. But I'm planning to send DMs / mails to Clubhouse employees in near future.
+No.
+
+But I'm planning to send DMs / mails to Clubhouse employees in the near future.
 
 > Then, can you explain a bit on that myth about Chinese IP thing?
 
 1. It's fixed in the latest version. You don't have to worry about this anymore.
 2. Worth reading [this technical post](https://theori.io/research/korean/analyzing-clubhouse) for more detailed information.
-3. The blog post is written in Korean so you should probably translate the page.
+3. The blog post is written in Korean so please translate the page.
 
 > I heard that the app is using iOS just to prevent the voice recording. Releasing these kinds of code can possibly make it 'easier' to make voice recording. I want to hear your opinions.
 
-1. if you have a "physical" recording device next to your mobile phone, there is literally no way to disallow users from recording the voice.
-2. If someone records and shares your voice record anonymously, there is no way to even catch or block the user.
-3. I think there are much more serious risks or problems that CH developers need to take a look at. 
+1. There is literally no way to disallow users from recording the voice. Imagine some people having a "physical" recording device next to them. How will you or the Clubhouse app detect such actions?
+2. Moreover, there is no way to even catch or block the user when someone records and shares your voice record anonymously.
+3. I think there are much more serious risks/problems that CH developers need to take a look at. 
 
 > What do you think about the Clubhouse app? Is it secure enough? Can you rate their security levels?
 
 From my personal perspective:
 
 1. API: well-made
-2. Notifications: lgtm.
+2. Notifications: LGTM.
 3. Interaction with voice protocol: meh, but it looks like they're trying to work on it.
 
 > Don't you think your actions were ethically wrong?
 
-1. I also heard that these issues were raised and discussed over several months in an open Clubhouse chatroom, and I guess I've clarified a lot of questions people had over the Clubhouse app.
-2. Somemone would've already done this if it wasn't me anyways. At least I gave some initiative to try with good wills and share details with you guys.
+1. I also heard that these issues were raised and discussed over several months in an open Clubhouse chatroom, and I guess I've clarified a lot of questions people had over for several months.
+2. I am pretty sure that somemone would've done this if it wasn't me anyways. At least I gave some initiative to try with good wills and share details with you guys.
 
 > Do you have any plans to do further analysis if Clubhouse opens up a bug bounty programme?
 
@@ -89,14 +90,16 @@ Very unlikely.
 Yes, but there are some reasons why developers are taking some time.
 
 1. They probably don't want to break things while updating. Developers also need time to fix and test their own code.
-2. It may take a few days to get their updates reviewed by Apple.
-3. They also need to some time to make "best moves" in order to efficiently fix issues.
+2. Clubhouse is a small company with ~10 employees. You also need to consider the manpower to fix issues.
+3. It may take a few days to get their updates reviewed by Apple.
+4. They also need to have some time to make "best moves" in order to efficiently fix issues.
 
 > What would you do if Clubhouse tries to hire you?
 
-This doesn't make sense.
+This doesn't make sense in the first place.
 1. I don't think Clubhouse team likes me. (Assumption)
-2. I see some people who were very uncomfortable about me speaking about these issues in the first place. One guy even kicked me out of his channel for talking about this topic. 3. I'm not an American citizen. It is always difficult to get US visas for foreigners. Also, I don't really prefer to work in US. (no offense here, just my preferences)
+2. I see some people who were very uncomfortable about me speaking about these issues in the first place. One guy even kicked me out of his channel for talking about this topic.
+3. I'm not an American citizen. It has been always difficult to get US visas for foreigners. Also, I don't really prefer to work in US. (no offense here, it's just my preferences)
 
 > As a typical user, what do I need to be very careful about when using Clubhouse?
 
