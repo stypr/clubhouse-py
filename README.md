@@ -92,18 +92,16 @@ As of 2021/Feb/24,
 
 1. [This technical post](https://theori.io/research/korean/analyzing-clubhouse) already explains things really well about the current situation.
 2. I was also curious and read some documentations in Agora.io ([Reference](https://docs.agora.io/en/Voice/channel_encryption_android))
-3. As mentioned in the technical post, it looks like the communication is never done. 
-4. Also, ny looking at those documentations and my codes, you have now noticed that the `enableEncryption` is never used in my code.
-5. In the latest version, they seem to add the encryption but it is not yet used. It should be fixed in upcoming releases.
+3. As mentioned in the technical post, it looks like the communication encryption is never done. 
+4. Also, ny looking at those documentations and my codes, you may have already noticed that the `enableEncryption` is never used here.
+5. In the latest version, they have added the encryption routine but it is not yet used. It should be fixed in the upcoming releases.
 
 > I heard that the app is also using Camera permissions. I am really worried right now.
 
-You don't have to worry.
-
-There are some things to know here.
+You don't have to worry about this as well. There are some things to share here.
 
 1. It may have been turned on because you tried to take a photo of yourself to put a profile image.
-2. ... or the voice SDK is trying to secretly access your camera. But from my analysis, I don't see anything like that happening from the App to take photos or videos. Although they have feature to communicate with video stuff, the app does not use that part of the feature. (Confirmed safe as of Feb 2021)
+2. ... or the voice SDK is trying to secretly access your camera. But from my analysis, I don't see anything like that happening from the App to take photos or videos. Although they have the feature to communicate with your camera, the app does not use that part of the feature atm. (Confirmed safe as of Feb 2021)
 
 > I heard that the app is also taking your information while adding your Instagram/Twitter accounts.  did you check that?
 
@@ -145,6 +143,21 @@ This doesn't make sense in the first place.
 
 1. As a speaker: Always assume that someone is recording your voice. Always think multiple times before you speak. Don't speak out confidential/personal stuff. I am not saying that the Clubhouse is recording your voice. There are chances that some trolls or reporters are trying to record multiple chatrooms. 
 2. As a moderator: You need to be alert and make quick decisions to make your channel healthy. If someone says something weird or does something crazy, you need to make quick decisions. Move that speaker to audience or just kick the user out of the channel. Simple as that. Also, be aware that you have a lot of privileges. Do not give moderators to unknown people. Any moderator can destroy the channel.
+
+> Why did you block issues / PRs?
+
+Mainly two reasons:
+
+1. There are some people sending me some issues without actually looking into sourcecodes and testing codes.
+2. There are some people wasting their time to send worthless PRs. 
+
+I will not open these for the time being.
+
+> Where can I contact you?
+
+* Instagram: [@brokenpacifist](https://www.instagram.com/brokenpacifist/)
+* Twitter: [@stereotype32](https://twitter.com/stereotype32)
+* Clubhouse: @stypr
 
 
 ## Clubhouse API written in Python
