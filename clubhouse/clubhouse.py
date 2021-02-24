@@ -44,6 +44,9 @@ class Clubhouse:
     TWITTER_ID = "NyJhARWVYU1X3qJZtC2154xSI"
     TWITTER_SECRET = "ylFImLBFaOE362uwr4jut8S8gXGWh93S1TUKbkfh7jDIPse02o"
 
+    INSTAGRAM_ID = "1352866981588597"
+    INSTAGRAM_CALLBACK = "https://www.joinclubhouse.com/callback/instagram"
+
     AGORA_KEY = "938de3e8055e42b281bb8c6f69c21f78"
     SENTRY_KEY = "5374a416cd2d4009a781b49d1bd9ef44@o325556.ingest.sentry.io/5245095"
     INSTABUG_KEY = "4e53155da9b00728caa5249f2e35d6b3"
