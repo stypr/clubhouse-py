@@ -151,9 +151,9 @@ Mainly two reasons:
 1. There are some people sending me some issues without actually looking into sourcecodes and testing codes.
 2. There are some people wasting their time to send worthless PRs. 
 
-I will not open these for the time being.
+I will not open these for the time being. You can send me a message or make your own fork, and I will take a look whenever I'm free
 
-> Where can I contact you?
+> How can I contact you?
 
 * Instagram: [@brokenpacifist](https://www.instagram.com/brokenpacifist/)
 * Twitter: [@stereotype32](https://twitter.com/stereotype32)
