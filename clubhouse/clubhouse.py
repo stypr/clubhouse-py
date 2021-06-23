@@ -32,14 +32,15 @@ class Clubhouse:
 
     # App/API Information
     API_URL = "https://www.clubhouseapi.com/api"
-    API_BUILD_ID = "304"
-    API_BUILD_VERSION = "0.1.28"
+    API_BUILD_ID = "434"
+    API_BUILD_VERSION = "0.1.40"
     API_UA = f"clubhouse/{API_BUILD_ID} (iPhone; iOS 14.4; Scale/2.00)"
     API_UA_STATIC = f"Clubhouse/{API_BUILD_ID} CFNetwork/1220.1 Darwin/20.3.0"
 
     # Some useful information for commmunication
     PUBNUB_PUB_KEY = "pub-c-6878d382-5ae6-4494-9099-f930f938868b"
     PUBNUB_SUB_KEY = "sub-c-a4abea84-9ca3-11ea-8e71-f2b83ac9263d"
+    PUBNUB_API_URL = "https://clubhouse.pubnubapi.com/v2"
 
     TWITTER_ID = "NyJhARWVYU1X3qJZtC2154xSI"
     TWITTER_SECRET = "ylFImLBFaOE362uwr4jut8S8gXGWh93S1TUKbkfh7jDIPse02o"
@@ -340,13 +341,16 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
-    def get_suggested_follows_similar(self, user_id):
-        """ (Clubhouse, int) -> dict
+    def get_suggested_follows_similar(self, user_id='', username=''):
+        """ (Clubhouse, str, str) -> dict
 
         Get similar users based on the given user.
         """
         data = {
-            "user_id": int(user_id),
+            "user_id": int(user_id) if user_id else None,
+            "username": username if username else None,
+            "query_id": None,
+            "query_result_position": None,
         }
         req = requests.post(f"{self.API_URL}/get_suggested_follows_similar", headers=self.HEADERS, json=data)
         return req.json()
@@ -491,7 +495,10 @@ class Clubhouse:
         """
         data = {
             "club_id": int(club_id),
-            "source_topic_id": source_topic_id
+            "source_topic_id": source_topic_id,
+            "query_id": None,
+            "query_result_position": None,
+            "slug": None,
         }
         req = requests.post(f"{self.API_URL}/get_club", headers=self.HEADERS, json=data)
         return req.json()
@@ -554,6 +561,7 @@ class Clubhouse:
             "channel": channel,
             "attribution_source": attribution_source,
             "attribution_details": attribution_details, # base64_json
+            # logging_context (json of some details)
         }
         req = requests.post(f"{self.API_URL}/join_channel", headers=self.HEADERS, json=data)
         return req.json()
@@ -565,8 +573,7 @@ class Clubhouse:
         Leave the given channel
         """
         data = {
-            "channel": channel,
-            "channel_id": None
+            "channel": channel
         }
         req = requests.post(f"{self.API_URL}/leave_channel", headers=self.HEADERS, json=data)
         return req.json()
@@ -639,13 +646,16 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
-    def get_profile(self, user_id):
-        """ (Clubhouse, str) -> dict
+    def get_profile(self, user_id='', username=''):
+        """ (Clubhouse, str, str) -> dict
 
         Lookup someone else's profile. It is OK to one's own profile with this method.
         """
         data = {
-            "user_id": int(user_id)
+            "query_id": None,
+            "query_result_position": 0,
+            "user_id": int(user_id) if user_id else None,
+            "username": username if username else None
         }
         req = requests.post(f"{self.API_URL}/get_profile", headers=self.HEADERS, json=data)
         return req.json()
@@ -713,6 +723,15 @@ class Clubhouse:
         Get list of topics, based on the server's channel selection algorithm
         """
         req = requests.get(f"{self.API_URL}/get_all_topics", headers=self.HEADERS)
+        return req.json()
+
+    @require_authentication
+    def get_feed(self):
+        """ (Clubhouse) -> dict
+
+        Get list of channels, current invite status, etc.
+        """
+        req = requests.get(f"{self.API_URL}/get_feed?", headers=self.HEADERS)
         return req.json()
 
     @require_authentication
@@ -1341,7 +1360,6 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/cancel_new_channel_invite", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
     def add_club_admin(self, club_id, user_id):
         """ (Clubhouse, int, int) -> dict
@@ -1355,7 +1373,6 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/add_club_admin", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
     def remove_club_admin(self, club_id, user_id):
         """ (Clubhouse, int, int) -> dict
@@ -1369,7 +1386,6 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/remove_club_admin", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
     def remove_club_member(self, club_id, user_id):
         """ (Clubhouse, int, int) -> dict
@@ -1383,21 +1399,23 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/remove_club_member", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
-    def accept_club_member_invite(self, club_id, source_topic_id=None):
-        """ (Clubhouse, int, int) -> dict
+    def accept_club_member_invite(self, club_id, source_topic_id=None, invite_code=None):
+        """ (Clubhouse, int, int, str) -> dict
 
         Accept Club member invite.
         """
         data = {
             "club_id": int(club_id) if club_id else None,
+            "invite_code": invite_code,
+            "query_id": None,
+            "query_result_position": None,
+            "slug": None,
             "source_topic_id": source_topic_id
         }
         req = requests.post(f"{self.API_URL}/accept_club_member_invite", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
     def add_club_member(self, club_id, user_id, name, phone_number, message, reason):
         """ (Clubhouse, int, int, str, str, str, unknown) -> dict
@@ -1415,7 +1433,6 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/add_club_member", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
     def get_club_nominations(self, club_id, source_topic_id):
         """ (Club, int, int) -> dict
@@ -1429,7 +1446,6 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/get_club_nominations", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
     def approve_club_nomination(self, club_id, source_topic_id, invite_nomination_id):
         """ (Club, int, int) -> dict
@@ -1444,7 +1460,6 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/approve_club_nomination", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
     def reject_club_nomination(self, club_id, source_topic_id, invite_nomination_id):
         """ (Club, int, int) -> dict
@@ -1459,7 +1474,6 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/approve_club_nomination", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
     def add_club_topic(self, club_id, topic_id):
         """ (Club, int, int) -> dict
@@ -1473,7 +1487,6 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/add_club_topic", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
     def remove_club_topic(self, club_id, topic_id):
         """ (Club, int, int) -> dict
@@ -1487,7 +1500,6 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/remove_club_topic", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
     def get_events_to_start(self):
         """ (Clubhouse) -> dict
@@ -1497,7 +1509,6 @@ class Clubhouse:
         req = requests.get(f"{self.API_URL}/get_events_to_start", headers=self.HEADERS)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
     def update_is_follow_allowed(self, club_id, is_follow_allowed=True):
         """ (Clubhouse, int, bool) -> dict
@@ -1511,12 +1522,12 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/update_is_follow_allowed", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
-    def update_is_membership_private(self, club_id, is_membership_private):
+    def update_is_membership_private(self, club_id, is_membership_private=False):
         """ (Clubhouse, int, bool) -> dict
 
-        Update membership status of the given Club
+        Update club membership status of the given Club
+        If True, member list will not be shown to public.
         """
         data = {
             "club_id": int(club_id),
@@ -1525,12 +1536,11 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/update_is_membership_private", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
-    def update_is_community(self, club_id, is_community):
+    def update_is_community(self, club_id, is_community=False):
         """ (Clubhouse, int, bool) -> dict
 
-        Update community stat of the given Club
+        Change room start permission. If set False, Admins can only start club rooms.
         """
         data = {
             "club_id": int(club_id),
@@ -1539,7 +1549,6 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/update_is_community", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
     def update_club_description(self, club_id, description):
         """ (Clubhouse, int, str) -> dict
@@ -1553,29 +1562,26 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/update_club_description", headers=self.HEADERS, json=data)
         return req.json()
 
-    @unstable_endpoint
     @require_authentication
-    def update_club_rules(self):
-        """ (Clubhouse) -> dict
+    def update_club_rules(self, club_id='', rules=None):
+        """ (Clubhouse, str, list) -> dict
 
-        Not implemented method
+        Update Club's rules (Maximum upto 3 rules)
+        rules: [{'desc': "text", "title": "text"}, ...]
         """
-        raise NotImplementedError("Not Implemented!")
+        data = {
+            "club_id": int(club_id),
+            "rules": rules if rules else [],
+        }
+        req = requests.post(f"{self.API_URL}/update_club_rules", headers=self.HEADERS, json=data)
+        return req.json()
 
-    @unstable_endpoint
     @require_authentication
-    def update_club_topics(self):
-        """ (Clubhouse) -> dict
+    def get_events_for_user(self, user_id='', page_size=25, page=1):
+        """ (Clubhouse, str, int, int) -> dict
 
-        Not implemented method
+        Get events for the specific user.
         """
-        raise NotImplementedError("Not Implemented!")
-
-    @unstable_endpoint
-    @require_authentication
-    def get_events_for_user(self):
-        """ (Clubhouse) -> dict
-
-        Not implemented method
-        """
-        raise NotImplementedError("Not Implemented!")
+        query = f"user_id={user_id}&page_size={page_size}&page={page}"
+        req = requests.get(f"{self.API_URL}/get_events_for_user?{query}", headers=self.HEADERS)
+        return req.json()

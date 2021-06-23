@@ -16,7 +16,7 @@ with open("README.md", "r") as fh:
 setup(
     name="clubhouse-py",
     packages=["clubhouse"],
-    version="304.0.1",
+    version="434",
     license="MIT",
     description=("Clubhouse API written in Python. Standalone client included." +
         "For reference and education purposes only."),
@@ -25,7 +25,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/stypr/clubhouse-py",
-    download_url="https://github.com/stypr/clubhouse-py/archive/304.0.1.tar.gz",
+    download_url="https://github.com/stypr/clubhouse-py/archive/434.tar.gz",
     keywords=[
         "clubhouse",
         "voice-chat",
