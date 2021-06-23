@@ -13,6 +13,7 @@ I have disabled PRs and issues temporarily. I may/may not continue on developmen
 
 [Closed PRs](https://github.com/stypr/clubhouse-py/pulls?q=is%3Apr+is%3Aclosed) / [Closed Issues](https://github.com/stypr/clubhouse-py/issues?q=is%3Aissue+is%3Aclosed) 
 
+Please contact by DMs through [@stereotype32](https://twitter.com/stereotype32) for any questions.
 
 ## QnA
 
@@ -20,10 +21,7 @@ I have disabled PRs and issues temporarily. I may/may not continue on developmen
 
 No.
 
-I am not affiliated with anyone or any company. 
-
-This is just my personal project.
-
+I am not affiliated with anyone or any company with regards to Clubhouse issues.
 
 > Why did you develop this? what is your whole intention about releasing this to public?
 
@@ -132,13 +130,6 @@ Yes, but there are some reasons why developers are taking some time.
 3. It may take a few days to get their updates reviewed by Apple.
 4. They also need to have some time to make "best moves" in order to efficiently fix issues.
 
-> What would you do if Clubhouse tries to hire you?
-
-This doesn't make sense in the first place.
-1. I don't think Clubhouse team likes me. (Assumption)
-2. I see some people who were very uncomfortable about me speaking about these issues in the first place. One guy even kicked me out of his channel for talking about this topic.
-3. I'm not an American citizen. It has been always difficult to get US visas for foreigners. Also, I don't really prefer to work in US. (no offense here, it's just my preferences)
-
 > As a typical user, what do I need to be very careful about when using Clubhouse?
 
 1. As a speaker: Always assume that someone is recording your voice. Always think multiple times before you speak. Don't speak out confidential/personal stuff. I am not saying that the Clubhouse is recording your voice. There are chances that some trolls or reporters are trying to record multiple chatrooms. 
@@ -152,13 +143,6 @@ Mainly two reasons:
 2. There are some people wasting their time to send worthless PRs. 
 
 I will not open these for the time being. You can send me a message or make your own fork, and I will take a look whenever I'm free
-
-> How can I contact you?
-
-* Instagram: [@brokenpacifist](https://www.instagram.com/brokenpacifist/)
-* Twitter: [@stereotype32](https://twitter.com/stereotype32)
-* Clubhouse: @stypr
-
 
 ## Clubhouse API written in Python
 
@@ -348,14 +332,8 @@ $ python3 cli.py
 * def update_is_membership_private(self, club_id, is_membership_private):
 * def update_is_community(self, club_id, is_community):
 * def update_club_description(self, club_id, description):
-
-## Unsupported features
-
-### Endpoints
-
-* def update_club_rules(self):
-* def update_club_topics(self):
-* def get_events_for_user(self):
+* def get_events_for_user(self, user_id='', page_size=25, page=1):
+* def update_club_rules(self, club_id='', rules=()):
 
 ### PubNub
 
