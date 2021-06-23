@@ -135,16 +135,17 @@ def print_channel_list(client, max_limit=20):
 
     Print list of channels
     """
-    # Get channels and print out
+    # Get channels and print
     console = Console()
     table = Table(show_header=True, header_style="bold magenta")
     table.add_column("")
     table.add_column("channel_name", style="cyan", justify="right")
     table.add_column("topic")
     table.add_column("speaker_count")
-    channels = client.get_channels()['channels']
+    channels = client.get_feed()['items'] # ['channel']
     i = 0
     for channel in channels:
+        channel = channel['channel']
         i += 1
         if i > max_limit:
             break
@@ -240,8 +241,8 @@ def chat_main(client):
                 break
             table.add_row(
                 str(user['user_id']),
+                "@" + str(user['username']),
                 str(user['name']),
-                str(user['username']),
                 str(user['is_speaker']),
                 str(user['is_moderator']),
             )

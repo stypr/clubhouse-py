@@ -2,6 +2,7 @@
 *.pyc
 *.ini
 *.spec
+*.dmp
 __pycache__/
 .DS_Store
 Thumbs.db
