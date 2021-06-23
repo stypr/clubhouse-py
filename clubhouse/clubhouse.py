@@ -1563,7 +1563,7 @@ class Clubhouse:
         return req.json()
 
     @require_authentication
-    def update_club_rules(self, club_id='', rules=None):
+    def update_club_rules(self, club_id='', rules=()):
         """ (Clubhouse, str, list) -> dict
 
         Update Club's rules (Maximum upto 3 rules)
