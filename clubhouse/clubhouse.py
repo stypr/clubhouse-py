@@ -87,11 +87,11 @@ class Clubhouse:
             return func(self, *args, **kwargs)
         return wrap
 
-    def __init__(self, user_id='', user_token='', user_device=''):
+    def __init__(self, user_id='', user_token='', user_device='', headers=None):
         """ (Clubhouse, str, str, str) -> NoneType
         Set authenticated information
         """
-        self.HEADERS = dict(self.HEADERS)
+        self.HEADERS = dict(headers) if isinstance(headers, dict) else dict(self.HEADERS)
         self.HEADERS['CH-UserID'] = user_id if user_id else "(null)"
         if user_token:
             self.HEADERS['Authorization'] = f"Token {user_token}"
