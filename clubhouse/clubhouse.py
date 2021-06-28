@@ -103,7 +103,7 @@ class Clubhouse:
         >>> str(clubhouse)
         Clubhouse(user_id=(null), user_token=None, user_device=31525f52-6b67-40de-83c0-8f9fe0f6f409)
         """
-        return "Clubhouse(user_Id={}, user_token={}, user_device={}".format(
+        return "Clubhouse(user_Id={}, user_token={}, user_device={})".format(
             self.HEADERS.get('CH-UserID'),
             self.HEADERS.get('Authorization'),
             self.HEADERS.get('CH-DeviceId')
@@ -157,16 +157,19 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/resend_phone_number_auth", headers=self.HEADERS, json=data)
         return req.json()
 
-    def complete_phone_number_auth(self, phone_number, verification_code):
-        """ (Clubhouse, str, str) -> dict
+    def complete_phone_number_auth(self, phone_number, rc_token, verification_code):
+        """ (Clubhouse, str, rc_token, str) -> dict
 
         Complete phone number authentication.
+        IMPORTANT NOTE: As of June 2021, ReCAPTCHA v3 has been introduced so you need to get that token ready...
         This should return `auth_token`, `access_token`, `refresh_token`, is_waitlisted, ...
         Please note that output may be different depending on the status of the authenticated user
         """
         if self.HEADERS.get("Authorization"):
             raise Exception('Already Authenticatied')
         data = {
+            "device_token": None,
+            "rc_token": rc_token,
             "phone_number": phone_number,
             "verification_code": verification_code
         }
@@ -184,6 +187,16 @@ class Clubhouse:
         """
         query = f"is_testflight={int(is_testflight)}"
         req = requests.get(f"{self.API_URL}/check_for_update?{query}", headers=self.HEADERS)
+        return req.json()
+
+    @require_authentication
+    def logout(self):
+        """ (Clubhouse) -> dict
+
+        Logout from the app.
+        """
+        data = {}
+        req = requests.post(f"{self.API_URL}/logout", headers=self.HEADERS, json=data)
         return req.json()
 
     @require_authentication
