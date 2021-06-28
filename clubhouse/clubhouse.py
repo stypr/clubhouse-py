@@ -161,10 +161,10 @@ class Clubhouse:
         return req.json()
 
     def complete_phone_number_auth(self, phone_number, rc_token, verification_code):
-        """ (Clubhouse, str, rc_token, str) -> dict
+        """ (Clubhouse, str, str, str) -> dict
 
         Complete phone number authentication.
-        IMPORTANT NOTE: As of June 2021, ReCAPTCHA v3 has been introduced so you need to get that token ready...
+        NOTE: As of June 2021, ReCAPTCHA v3 has been introduced so you need to get that token ready...
         This should return `auth_token`, `access_token`, `refresh_token`, is_waitlisted, ...
         Please note that output may be different depending on the status of the authenticated user
         """
