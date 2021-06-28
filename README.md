@@ -9,7 +9,7 @@
 
 ## Pull Requests / Issues
 
-I have disabled PRs and issues temporarily. I may/may not continue on development.
+I disabled PRs and issues temporarily. I will only accept requests when it is worth fixing.
 
 [Closed PRs](https://github.com/stypr/clubhouse-py/pulls?q=is%3Apr+is%3Aclosed) / [Closed Issues](https://github.com/stypr/clubhouse-py/issues?q=is%3Aissue+is%3Aclosed) 
 
