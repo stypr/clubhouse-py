@@ -43,6 +43,9 @@ class Clubhouse:
     PUBNUB_API_URL = "https://clubhouse.pubnubapi.com/v2"
     SENTRY_URL = "63d2d71e7f424c41a2ede9ad3d703960@o325556.ingest.sentry.io/5245095"
     
+    # co.alphaexploration.clubhouse / 16.0.3
+    # co.alphaexploration.clubhouse/0.1.41 iPhone/13.5.1 hw/iPhone8_2
+
     TWITTER_ID = "NyJhARWVYU1X3qJZtC2154xSI"
     TWITTER_SECRET = "ylFImLBFaOE362uwr4jut8S8gXGWh93S1TUKbkfh7jDIPse02o"
 
@@ -52,8 +55,16 @@ class Clubhouse:
     AGORA_KEY = "938de3e8055e42b281bb8c6f69c21f78"
     INSTABUG_KEY = "4e53155da9b00728caa5249f2e35d6b3"
     AMPLITUDE_KEY = "9098a21a950e7cb0933fb5b30affe5be"
-    RECAPTCHA_KEY = "6LeWyKUaAAAAAA7XsHRe-JWuI1qLwoZn5p3seyoW"
     STRIPE_PUBLISH_KEY = "63d2d71e7f424c41a2ede9ad3d703960@o325556.ingest.sentry.io/5245095"
+
+    # SafetyNetClient, recaptchaClient.init(recaptchaKey)
+    ANDROID_API_KEY = "AIzaSyDGJ877BvgHAg2Bed1sgFjZ4wJmh2RfEfU"
+    ANDROID_API_ID = "1:1096237342636:android:c800b1b9e5ee70d1f8a409"
+    ANDROID_RECAPTCHA_KEY = "LcNAMYaAAAAAKDxm-jPPMrJvh_VTiWyWy4D9jp3"
+
+    # https://www.recaptcha.net/recaptcha/api3/iosc & iose
+    IOS_API_ID = "co.alphaexploration.clubhouse:16.0.3"
+    IOS_RECAPTCHA_KEY = "6LeWyKUaAAAAAA7XsHRe-JWuI1qLwoZn5p3seyoW"
 
     # Useful header information
     HEADERS = {
@@ -166,9 +177,10 @@ class Clubhouse:
         """ (Clubhouse, str, str, str) -> dict
 
         Complete phone number authentication.
-        NOTE: As of June 2021, ReCAPTCHA v3 has been introduced so you need to get that token ready...
-        This should return `auth_token`, `access_token`, `refresh_token`, is_waitlisted, ...
-        Please note that output may be different depending on the status of the authenticated user
+        
+        IMPORTANT NOTE
+        As of June 2021, ReCAPTCHA v3 has been introduced so you need to retrieve the token.
+        Please utilize the `RECAPTCHA_KEY` to authenticate as a user.
         """
         if self.HEADERS.get("Authorization"):
             raise Exception('Already Authenticatied')
