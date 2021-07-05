@@ -41,7 +41,8 @@ class Clubhouse:
     PUBNUB_PUB_KEY = "pub-c-6878d382-5ae6-4494-9099-f930f938868b"
     PUBNUB_SUB_KEY = "sub-c-a4abea84-9ca3-11ea-8e71-f2b83ac9263d"
     PUBNUB_API_URL = "https://clubhouse.pubnubapi.com/v2"
-
+    SENTRY_URL = "63d2d71e7f424c41a2ede9ad3d703960@o325556.ingest.sentry.io/5245095"
+    
     TWITTER_ID = "NyJhARWVYU1X3qJZtC2154xSI"
     TWITTER_SECRET = "ylFImLBFaOE362uwr4jut8S8gXGWh93S1TUKbkfh7jDIPse02o"
 
@@ -49,9 +50,10 @@ class Clubhouse:
     INSTAGRAM_CALLBACK = "https://www.joinclubhouse.com/callback/instagram"
 
     AGORA_KEY = "938de3e8055e42b281bb8c6f69c21f78"
-    SENTRY_KEY = "5374a416cd2d4009a781b49d1bd9ef44@o325556.ingest.sentry.io/5245095"
     INSTABUG_KEY = "4e53155da9b00728caa5249f2e35d6b3"
     AMPLITUDE_KEY = "9098a21a950e7cb0933fb5b30affe5be"
+    RECAPTCHA_KEY = "6LeWyKUaAAAAAA7XsHRe-JWuI1qLwoZn5p3seyoW"
+    STRIPE_PUBLISH_KEY = "63d2d71e7f424c41a2ede9ad3d703960@o325556.ingest.sentry.io/5245095"
 
     # Useful header information
     HEADERS = {
