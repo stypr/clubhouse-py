@@ -1,11 +1,10 @@
-## WARNING
+## WARNING / NOTES
 
 * ___FOR REFERENCE AND EDUCATION PURPOSES ONLY. THIS DOES NOT COME WITH ANY KINDS OF WARRANTY.___
 
 * ___PLEASE DO NOT CREATE BOTS OR DO ANY HARMFUL THINGS TO THE SERVICE. DON'T BREAK THINGS. DON'T BE EVIL.___
 
-* ___THIS PROJECT WILL DISCONTINUE DEVELOPMENT ONCE DEVELOPERS RELEASE AN ANDROID BUILD.___
-
+* ___ANDROID OFFICIAL BUILD IS OUT. THERE WILL BE NO MORE UPDATES ON THIS PROJECT.___
 
 ## Pull Requests / Issues
 
@@ -15,7 +14,7 @@ I disabled PRs and issues temporarily. I will only accept requests when it is wo
 
 Please contact by DMs through [@stereotype32](https://twitter.com/stereotype32) for any questions. Please do not spam e-mails for a request.
 
-All `rc_token` related requests will be rejected. (See closed issues)
+___All `rc_token` related requests will be rejected. (See closed issues)___
 
 ## QnA
 
