@@ -13,7 +13,9 @@ I disabled PRs and issues temporarily. I will only accept requests when it is wo
 
 [Closed PRs](https://github.com/stypr/clubhouse-py/pulls?q=is%3Apr+is%3Aclosed) / [Closed Issues](https://github.com/stypr/clubhouse-py/issues?q=is%3Aissue+is%3Aclosed) 
 
-Please contact by DMs through [@stereotype32](https://twitter.com/stereotype32) for any questions.
+Please contact by DMs through [@stereotype32](https://twitter.com/stereotype32) for any questions. Please do not spam e-mails for a request.
+
+All `rc_token` related requests will be rejected. (See closed issues)
 
 ## QnA
 
@@ -219,121 +221,6 @@ if __name__ == "__main__":
 ```sh
 $ python3 cli.py
 ```
-
-## Supported features
-
-### Pre-authentication
-
-* def start_phone_number_auth(self, phone_number):
-* def call_phone_number_auth(self, phone_number):
-* def resend_phone_number_auth(self, phone_number):
-* def complete_phone_number_auth(self, phone_number, verification_code):
-* def check_for_update(self, is_testflight=False):
-
-### Post-authentication
-
-* def get_release_notes(self):
-* def check_waitlist_status(self):
-* def add_email(self, email):
-* def update_photo(self, photo_filename):
-* def follow(self, user_id, user_ids=None, source=4, source_topic_id=None):
-* def unfollow(self, user_id):
-* def block(self, user_id):
-* def unblock(self, user_id):
-* def follow_multiple(self, user_ids, user_id=None, source=7, source_topic_id=None):
-* def follow_club(self, club_id, source_topic_id=None):
-* def unfollow_club(self, club_id, source_topic_id=None):
-* def update_follow_notifications(self, user_id, notification_type=2):
-* def get_suggested_follows_similar(self, user_id):
-* def get_suggested_follows_friends_only(self, club_id=None, upload_contacts=True, contacts=()):
-* def get_suggested_follows_all(self, in_onboarding=True, page_size=50, page=1):
-* def ignore_suggested_follow(self, user_id):
-* def get_event(self, event_id, user_ids=None, club_id=None, is_member_only=False, event_hashid=None, description=None, time_start_epoch=None, name=None):
-* def create_event(self, name, time_start_epoch, description, event_id=None, user_ids=(), club_id=None, is_member_only=False, event_hashid=None):
-* def edit_event(self, name, time_start_epoch, description, event_id=None, user_ids=(), club_id=None, is_member_only=False, event_hashid=None):
-* def delete_event(self, event_id, user_ids=None, club_id=None, is_member_only=False, event_hashid=None, description=None, time_start_epoch=None, name=None):
-* def get_events(self, is_filtered=True, page_size=25, page=1):
-* def get_club(self, club_id, source_topic_id=None):
-* def get_club_members(self, club_id, return_followers=False, return_members=True, page_size=50, page=1):
-* def get_settings(self):
-* def get_welcome_channel(self):
-* def hide_channel(self, channel, hide=True):
-* def join_channel(self, channel, attribution_source="feed"):
-* def leave_channel(self, channel):
-* def make_channel_public(self, channel, channel_id=None):
-* def make_channel_social(self, channel, channel_id=None):
-* def end_channel(self, channel, channel_id=None):
-* def make_moderator(self, channel, user_id):
-* def block_from_channel(self, channel, user_id):
-* def get_profile(self, user_id):
-* def me(self, return_blocked_ids=False, timezone_identifier="Asia/Tokyo", return_following_ids=False):
-* def get_following(self, user_id, page_size=50, page=1):
-* def get_followers(self, user_id, page_size=50, page=1):
-* def get_mutual_follows(self, user_id, page_size=50, page=1):
-* def get_all_topics(self):
-* def get_channels(self):
-* def get_channel(self, channel, channel_id=None):
-* def active_ping(self, channel):
-* def audience_reply(self, channel, raise_hands=True, unraise_hands=False):
-* def change_handraise_settings(self, channel, is_enabled=True, handraise_permission=1):
-* def update_skintone(self, skintone=1):
-* def get_notifications(self, page_size=20, page=1):
-* def get_actionable_notifications(self):
-* def get_online_friends(self):
-* def accept_speaker_invite(self, channel, user_id):
-* def reject_speaker_invite(self, channel, user_id):
-* def invite_speaker(self, channel, user_id):
-* def uninvite_speaker(self, channel, user_id):
-* def mute_speaker(self, channel, user_id):
-* def get_suggested_speakers(self, channel):
-* def create_channel(self, topic="", user_ids=(), is_private=False, is_social_mode=False):
-* def get_create_channel_targets(self):
-* def get_suggested_invites(self, club_id=None, upload_contacts=True, contacts=()):
-* def get_suggested_club_invites(self, upload_contacts=True, contacts=()):
-* def invite_to_app(self, name, phone_number, message=None):
-* def invite_from_waitlist(self, user_id):
-* def search_users(self, query, followers_only=False, following_only=False, cofollows_only=False):
-* def search_clubs(self, query, followers_only=False, following_only=False, cofollows_only=False):
-* def get_topic(self, topic_id):
-* def get_clubs_for_topic(self, topic_id, page_size=25, page=1):
-* def get_clubs(self, is_startable_only):
-* def get_users_for_topic(self, topic_id, page_size=25, page=1):
-* def invite_to_existing_channel(self, channel, user_id):
-* def update_username(self, username):
-* def update_name(self, name):
-* def update_twitter_username(self, username, twitter_token, twitter_secret):
-* def update_instagram_username(self, code):
-* def update_displayname(self, name):
-* def refresh_token(self, refresh_token):
-* def update_bio(self, bio):
-* def record_action_trails(self, action_trails=()):
-* def add_user_topic(self, club_id, topic_id):
-* def remove_user_topic(self, club_id, topic_id):
-* def report_incident(self, user_id, channel, incident_type, incident_description, email):
-* def reject_welcome_channel(self):
-* def update_channel_flags(self, channel, visibility, flag_title, unflag_title):
-* def ignore_actionable_notification(self, actionable_notification_id):
-* def invite_to_new_channel(self, user_id, channel):
-* def accept_new_channel_invite(self, channel_invite_id):
-* def reject_new_channel_invite(self, channel_invite_id):
-* def cancel_new_channel_invite(self, channel_invite_id):
-* def add_club_admin(self, club_id, user_id):
-* def remove_club_admin(self, club_id, user_id):
-* def remove_club_member(self, club_id, user_id):
-* def accept_club_member_invite(self, club_id, source_topic_id=None):
-* def add_club_member(self, club_id, user_id, name, phone_number, message, reason):
-* def get_club_nominations(self, club_id, source_topic_id):
-* def approve_club_nomination(self, club_id, source_topic_id, invite_nomination_id):
-* def reject_club_nomination(self, club_id, source_topic_id, invite_nomination_id):
-* def add_club_topic(self, club_id, topic_id):
-* def remove_club_topic(self, club_id, topic_id):
-* def get_events_to_start(self):
-* def update_is_follow_allowed(self, club_id, is_follow_allowed=True):
-* def update_is_membership_private(self, club_id, is_membership_private):
-* def update_is_community(self, club_id, is_community):
-* def update_club_description(self, club_id, description):
-* def get_events_for_user(self, user_id='', page_size=25, page=1):
-* def update_club_rules(self, club_id='', rules=()):
 
 ### PubNub
 

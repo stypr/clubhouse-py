@@ -32,10 +32,15 @@ class Clubhouse:
 
     # App/API Information
     API_URL = "https://www.clubhouseapi.com/api"
-    API_BUILD_ID = "434"
+    
+    API_BUILD_ID_IOS = "434"
     API_BUILD_VERSION = "0.1.40"
-    API_UA = f"clubhouse/{API_BUILD_ID} (iPhone; iOS 14.4; Scale/2.00)"
-    API_UA_STATIC = f"Clubhouse/{API_BUILD_ID} CFNetwork/1220.1 Darwin/20.3.0"
+    API_BUILD_ID_ANDROID = "3389"
+    API_BUILD_VERSION_ANDROID= "1.0.1"
+
+    API_UA_IOS = f"clubhouse/{API_BUILD_ID_IOS} (iPhone; iOS 14.4; Scale/2.00)"
+    API_UA_ANDROID = f"clubhouse/android/{API_BUILD_ID_ANDROID}"
+    API_UA_STATIC = f"Clubhouse/{API_BUILD_ID_IOS} CFNetwork/1220.1 Darwin/20.3.0"
 
     # Some useful information for commmunication
     PUBNUB_PUB_KEY = "pub-c-6878d382-5ae6-4494-9099-f930f938868b"
@@ -67,15 +72,17 @@ class Clubhouse:
     IOS_RECAPTCHA_KEY = "6LeWyKUaAAAAAA7XsHRe-JWuI1qLwoZn5p3seyoW"
 
     # Useful header information
+    # flip headers if to use iOS
     HEADERS = {
         "CH-Languages": "en-JP,ja-JP",
         "CH-Locale": "en_JP",
         "Accept": "application/json",
         "Accept-Language": "en-JP;q=1, ja-JP;q=0.9",
         "Accept-Encoding": "gzip, deflate",
-        "CH-AppBuild": f"{API_BUILD_ID}",
-        "CH-AppVersion": f"{API_BUILD_VERSION}",
-        "User-Agent": f"{API_UA}",
+        "ch-keyboards": "en_US",
+        "CH-AppBuild": f"{API_BUILD_ID_ANDROID}",
+        "CH-AppVersion": f"{API_BUILD_VERSION_ANDROID}",
+        "User-Agent": f"{API_UA_ANDROID}",
         "Connection": "close",
         "Content-Type": "application/json; charset=utf-8",
         "Cookie": f"__cfduid={secrets.token_hex(21)}{random.randint(1, 9)}"
@@ -173,20 +180,24 @@ class Clubhouse:
         req = requests.post(f"{self.API_URL}/resend_phone_number_auth", headers=self.HEADERS, json=data)
         return req.json()
 
-    def complete_phone_number_auth(self, phone_number, rc_token, verification_code):
-        """ (Clubhouse, str, str, str) -> dict
+    def complete_phone_number_auth(self, phone_number, verification_code, rc_token=None, safety_net_nonce=None, safety_net_response=None):
+        """ (Clubhouse, str, str, str, str, str) -> dict
 
         Complete phone number authentication.
         
         IMPORTANT NOTE
-        As of June 2021, ReCAPTCHA v3 has been introduced so you need to retrieve the token.
-        Please utilize the `RECAPTCHA_KEY` to authenticate as a user.
+        You need to also provide `rc_token`, `safety_net_nonce` and `safety_net_response`
+        depending on the platform type. Please do not send messages for the usage of these
+        options. Some of these features may not have a Python implementations.
         """
         if self.HEADERS.get("Authorization"):
             raise Exception('Already Authenticatied')
+        
         data = {
             "device_token": None,
             "rc_token": rc_token,
+            "safety_net_nonce": safety_net_nonce,
+            "safety_net_response": safety_net_response,
             "phone_number": phone_number,
             "verification_code": verification_code
         }
